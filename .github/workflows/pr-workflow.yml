@@ -1,0 +1,35 @@
+name: Node.js CI
+
+on:
+  push:
+    branches: [master, develop]
+  pull_request:
+    types: [opened, reopened, ready_for_review, synchronize]
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+
+    strategy:
+      matrix:
+        node-version: [14.x, 16.x]
+        # See supported Node.js release schedule at https://nodejs.org/en/about/releases/
+
+    steps:
+      - uses: actions/checkout@v2
+      - name: Use Node.js ${{ matrix.node-version }}
+        uses: actions/setup-node@v2
+        with:
+          node-version: ${{ matrix.node-version }}
+      - name: 'cache'
+        uses: actions/cache@v2
+        with:
+          path: |
+            ~/.yarn
+            ~/node_modules
+          key: ${{ runner.os }}-yarn-${{ hashFiles('**/yarn.lock') }}
+          restore-keys: |
+            ${{ runner.os }}-yarn-
+      - run: yarn install --frozen-lockfile
+      - run: yarn run build
+    # - run: npm test # enable later
