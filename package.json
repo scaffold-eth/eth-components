@@ -16,5 +16,8 @@
   "bugs": {
     "url": "https://github.com/scaffold-eth/eth-components/issues"
   },
-  "homepage": "https://github.com/scaffold-eth/eth-components#readme"
+  "homepage": "https://github.com/scaffold-eth/eth-components#readme",
+  "dependencies": {
+    "eth-hooks": "^2.3.9"
+  }
 }
