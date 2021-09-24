@@ -2,7 +2,17 @@
   "name": "@eth-components/app",
   "version": "1.0.0",
   "description": "📦 React library of commonly used Ethereum components",
-  "main": "index.ts",
+  "main": "index.js",
+  "contributors": [
+    {
+      "name": "Jason Romero",
+      "email": "jason@pharo.tech"
+    },
+    {
+      "name": "Bliss",
+      "email": "_@email.com"
+    }
+  ],
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
     "build": ""
@@ -11,9 +21,14 @@
     "type": "git",
     "url": "git+https://github.com/scaffold-eth/eth-components.git"
   },
-  "keywords": [],
+  "keywords": [
+    "blockchain",
+    "ethereum",
+    "react",
+    "create-react-app"
+  ],
   "author": "",
-  "license": "GPC",
+  "license": "MIT",
   "bugs": {
     "url": "https://github.com/scaffold-eth/eth-components/issues"
   },
