@@ -2,7 +2,7 @@ import { AbstractConnector } from '@web3-react/abstract-connector';
 import { ConnectorUpdate } from '@web3-react/types';
 import { MockProvider } from 'ethereum-waffle';
 
-import { TEthersProvider } from '~~/models';
+import { TEthersProvider } from 'eth-hooks/models';
 
 export class MockConnector extends AbstractConnector {
   private readonly provider: MockProvider | TEthersProvider;

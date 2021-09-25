@@ -8,7 +8,7 @@ import Blockies from 'react-blockies';
 
 import { Wallet } from '.';
 
-import { transactor } from '~~/helpers';
+import { transactor } from '~~/functions';
 
 // improved a bit by converting address to ens if it exists
 // added option to directly input ens name
@@ -78,16 +78,16 @@ export const Faucet: FC<IFaucetProps> = (props) => {
         prefix={blockie}
         // value={address}
         value={ens || address}
-        onChange={(e) => {
+        onChange={(e): void => {
           // setAddress(e.target.value);
-          updateAddress(e.target.value);
+          void updateAddress(e.target.value);
         }}
         suffix={
           <Tooltip title="Faucet: Send local ether to an address.">
             <Button
-              onClick={() => {
+              onClick={(): void => {
                 if (tx) {
-                  tx({
+                  void tx({
                     to: address,
                     value: parseEther('0.01'),
                   });

@@ -6,11 +6,10 @@ import { useUserAddress } from 'eth-hooks';
 import { BytesLike, ethers, Signer } from 'ethers';
 import QR from 'qrcode.react';
 import React, { FC, useState } from 'react';
-import { providers } from 'web3modal';
 
 import { Address, AddressInput, Balance, EtherInput } from '.';
 
-import { transactor } from '~~/helpers';
+import { transactor } from '~~/functions';
 
 const { Text, Paragraph } = Typography;
 

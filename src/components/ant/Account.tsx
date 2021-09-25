@@ -1,5 +1,4 @@
 import { Signer } from '@ethersproject/abstract-signer';
-import { JsonRpcProvider, StaticJsonRpcProvider, Web3Provider } from '@ethersproject/providers';
 import { Button } from 'antd';
 import { TEthersProvider } from 'eth-hooks/models';
 import React, { FC } from 'react';

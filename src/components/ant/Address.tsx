@@ -1,6 +1,6 @@
-import { StaticJsonRpcProvider } from '@ethersproject/providers';
 import { Skeleton, Typography } from 'antd';
 import { useLookupAddress } from 'eth-hooks/dapps/ens';
+import { TEthersProvider } from 'eth-hooks/models';
 import React, { FC } from 'react';
 import Blockies from 'react-blockies';
 import { useThemeSwitcher } from 'react-css-theme-switcher';
@@ -11,12 +11,12 @@ import { PunkBlockie } from '.';
 
 const { Text } = Typography;
 
-const blockExplorerLink = (address: string, blockExplorer?: string) =>
+const blockExplorerLink = (address: string, blockExplorer?: string): string =>
   `${blockExplorer || 'https://etherscan.io/'}${'address/'}${address}`;
 
 interface IAddressProps {
   punkBlockie?: boolean;
-  ensProvider?: StaticJsonRpcProvider;
+  ensProvider?: TEthersProvider;
   blockExplorer?: string;
   address: string;
   fontSize?: number;
@@ -42,9 +42,13 @@ interface IAddressProps {
 export const Address: FC<IAddressProps> = ({ punkBlockie = false, size = 'short', ...rest }) => {
   const props = { ...rest, size, punkBlockie };
   const address = props.address;
-  const ens = useLookupAddress(props.ensProvider, address);
-
+  let ens: string = '';
   const { currentTheme } = useThemeSwitcher();
+
+  if (props.ensProvider) {
+    // eslint-disable-next-line react-hooks/rules-of-hooks
+    ens = useLookupAddress(props.ensProvider, address);
+  }
 
   if (!address) {
     return (

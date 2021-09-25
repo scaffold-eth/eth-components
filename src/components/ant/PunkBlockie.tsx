@@ -1,11 +1,43 @@
 import { message, Typography } from 'antd';
-import { addEventListener } from 'history/DOMUtils';
 import QR from 'qrcode.react';
 import React, { useState, useEffect, FC } from 'react';
 
-import { Blockie, Balance } from '.';
+import { Blockie } from '.';
 
 const { Text } = Typography;
+
+interface IWindowSize {
+  width: number | undefined;
+  height: number | undefined;
+}
+
+const useWindowSize = (): IWindowSize => {
+  const isClient = typeof window === 'object';
+
+  function getSize(): IWindowSize {
+    return {
+      width: isClient ? window.innerWidth : undefined,
+      height: isClient ? window.innerHeight : undefined,
+    };
+  }
+
+  const [windowSize, setWindowSize] = useState(getSize);
+
+  useEffect((): (() => void) => {
+    const handleResize = (): void => {
+      setWindowSize(getSize());
+    };
+
+    if (isClient) {
+      window.addEventListener('resize', handleResize);
+    }
+    return (): void => {
+      window.removeEventListener('resize', handleResize);
+    };
+  }, []); // Empty array ensures that effect is only run on mount and unmount
+
+  return windowSize;
+};
 
 interface IPunkBlockie {
   address: string;
@@ -45,22 +77,21 @@ export const PunkBlockie: FC<IPunkBlockie> = (props) => {
   return (
     <div
       style={{
-        transform: 'scale(' + (props.scale ? props.scale : '1') + ')',
+        transform: `scale(${props.scale ? props.scale : '1'})`,
         transformOrigin: '50% 50%',
         margin: 'auto',
         position: 'relative',
         width: hardcodedSizeForNow,
       }}
-      onClick={() => {
+      onClick={(): void => {
         const el = document.createElement('textarea');
         el.value = props.address;
         document.body.appendChild(el);
         el.select();
         document.execCommand('copy');
         document.body.removeChild(el);
-        const iconHardcodedSizeForNow = 380;
         const iconPunkSize = 40;
-        message.success(
+        void message.success(
           <span style={{ position: 'relative' }}>
             Copied Address
             <div style={{ position: 'absolute', left: -60, top: -14 }}>
@@ -122,31 +153,3 @@ export const PunkBlockie: FC<IPunkBlockie> = (props) => {
     </div>
   );
 };
-
-function useWindowSize() {
-  const isClient = typeof window === 'object';
-
-  function getSize() {
-    return {
-      width: isClient ? window.innerWidth : undefined,
-      height: isClient ? window.innerHeight : undefined,
-    };
-  }
-
-  const [windowSize, setWindowSize] = useState(getSize);
-
-  useEffect((): (() => void) => {
-    const handleResize = () => {
-      setWindowSize(getSize());
-    };
-
-    if (isClient) {
-      window.addEventListener('resize', handleResize);
-    }
-    return () => {
-      window.removeEventListener('resize', handleResize);
-    };
-  }, []); // Empty array ensures that effect is only run on mount and unmount
-
-  return windowSize;
-}

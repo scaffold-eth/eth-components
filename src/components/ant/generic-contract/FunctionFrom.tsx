@@ -8,7 +8,7 @@ import Blockies from 'react-blockies';
 
 import { tryToDisplay } from './displayUtils';
 
-import { transactor } from '~~/helpers';
+import { transactor } from '~~/functions';
 
 interface IFunctionForm {
   contractFunction: ContractFunction;
@@ -106,7 +106,7 @@ export const FunctionForm: FC<IFunctionForm> = (props) => {
           autoComplete="off"
           value={form[key]}
           name={key}
-          onChange={(event) => {
+          onChange={(event): void => {
             const formUpdate = { ...form };
             formUpdate[event.target.name] = event.target.value;
             setForm(formUpdate);
@@ -121,7 +121,7 @@ export const FunctionForm: FC<IFunctionForm> = (props) => {
     <div style={{ margin: 2 }} key="txValueInput">
       <Input
         placeholder="transaction value"
-        onChange={(e) => setTxValue(e.target.value)}
+        onChange={(e): void => setTxValue(e.target.value)}
         value={txValue}
         addonAfter={
           <div>

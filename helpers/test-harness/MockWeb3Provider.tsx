@@ -3,7 +3,7 @@ import { MockProvider } from 'ethereum-waffle';
 import React, { FC, useEffect, useState } from 'react';
 
 import { useEthersProvider } from '~helpers/hooks/useEthersProvider';
-import { TEthersProvider } from '~~/models';
+import { TEthersProvider } from 'eth-hooks/models';
 
 export interface IMockEthersWrapper {
   mockProvider: MockProvider | TEthersProvider;
