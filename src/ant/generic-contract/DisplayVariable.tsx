@@ -24,7 +24,7 @@ export const DisplayVariable: FC<IDisplayVariableProps> = (props) => {
     } catch (e) {
       console.log(e);
     }
-  }, [props]);
+  }, [props.contractFunction, setVariable, props.setTriggerRefresh]);
 
   useEffect((): void => {
     void refresh();

@@ -57,7 +57,10 @@ export const Address: FC<IAddressProps> = ({ punkBlockie = false, size = 'short'
 
   let displayAddress = address.substr(0, 6);
 
-  if (ens && ens.indexOf('0x') < 0) {
+  const ensSplit = ens && ens.split(".");
+  const validEnsCheck = ensSplit && ensSplit[ensSplit.length - 1] === "eth";
+
+  if (validEnsCheck) {
     displayAddress = ens;
   } else if (props.size === 'short') {
     displayAddress += '...' + address.substr(-4);

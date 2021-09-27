@@ -50,33 +50,38 @@ export const GenericContract: FC<IGenericContract> = (props) => {
 
   const [refreshRequired, setTriggerRefresh] = useState(false);
   const contractDisplay = displayedContractFunctions.map((fn) => {
-    if (isQueryable(fn)) {
-      // If there are no inputs, just display return value
+    // eslint-disable-next-line @typescript-eslint/no-unsafe-assignment
+    const contractFunc =
+      fn.stateMutability === 'view' || fn.stateMutability === 'pure'
+        ? contract?.[fn.name]
+        : contract?.connect(props.signer)?.[fn.name];
+
+    if (typeof contractFunc === 'function') {
+      if (isQueryable(fn)) {
+        // If there are no inputs, just display return value
+        return (
+          <DisplayVariable
+            key={fn.name}
+            contractFunction={contract?.[fn.name]}
+            functionInfo={fn}
+            refreshRequired={refreshRequired}
+            setTriggerRefresh={setTriggerRefresh}
+          />
+        );
+      }
+      // If there are inputs, display a form to allow users to provide these
       return (
-        <DisplayVariable
-          key={fn.name}
-          contractFunction={contract?.[fn.name]}
+        <FunctionForm
+          key={'FF' + fn.name}
+          contractFunction={contractFunc}
           functionInfo={fn}
-          refreshRequired={refreshRequired}
+          provider={props.provider}
+          gasPrice={props.gasPrice ?? 0}
           setTriggerRefresh={setTriggerRefresh}
         />
       );
     }
-    // If there are inputs, display a form to allow users to provide these
-    return (
-      <FunctionForm
-        key={'FF' + fn.name}
-        contractFunction={
-          fn.stateMutability === 'view' || fn.stateMutability === 'pure'
-            ? contract?.[fn.name]
-            : contract?.connect(props.signer)[fn.name]
-        }
-        functionInfo={fn}
-        provider={props.provider}
-        gasPrice={props.gasPrice ?? 0}
-        setTriggerRefresh={setTriggerRefresh}
-      />
-    );
+    return null;
   });
 
   return (

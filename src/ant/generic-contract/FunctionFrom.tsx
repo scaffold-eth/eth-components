@@ -11,6 +11,11 @@ import { tryToDisplay } from './displayUtils';
 import { transactor } from '~~/functions';
 import { EthComponentsContext } from '~~/models';
 
+const getFunctionInputKey = (functionInfo: FunctionFragment, input: utils.ParamType, inputIndex: number): string => {
+  const name = input?.name ? input.name : `input_${inputIndex}_`;
+  return functionInfo.name + '_' + name + '_' + input.type;
+};
+
 interface IFunctionForm {
   contractFunction: ContractFunction;
   functionInfo: FunctionFragment;
@@ -27,9 +32,8 @@ export const FunctionForm: FC<IFunctionForm> = (props) => {
   const context = useContext(EthComponentsContext);
   const tx = transactor(context, props.provider, props.gasPrice);
 
-  let inputIndex = 0;
-  const inputs = props.functionInfo.inputs.map((input) => {
-    const key = `${props.functionInfo.name}_${input.name}_${input.type}_${inputIndex++}`;
+  const inputs = props.functionInfo.inputs.map((input, inputIndex) => {
+    const key = getFunctionInputKey(props.functionInfo, input, inputIndex);
 
     let buttons: ReactElement | null = null;
     if (input.type === 'bytes32') {
@@ -184,9 +188,8 @@ export const FunctionForm: FC<IFunctionForm> = (props) => {
             style={{ width: 50, height: 30, margin: 0 }}
             // type="default"
             onClick={async (): Promise<any> => {
-              let innerIndex = 0;
-              const args = props.functionInfo.inputs.map((input) => {
-                const key = `${props.functionInfo.name}_${input.name}_${input.type}_${innerIndex++}`;
+              const args = props.functionInfo.inputs.map((input, inputIndex) => {
+                const key = getFunctionInputKey(props.functionInfo, input, inputIndex);
                 let value = form[key];
                 if (input.baseType === 'array') {
                   value = JSON.parse(value);
@@ -203,12 +206,19 @@ export const FunctionForm: FC<IFunctionForm> = (props) => {
 
               let result: string | ReactElement | number | undefined = undefined;
               if (props.functionInfo.stateMutability === 'view' || props.functionInfo.stateMutability === 'pure') {
-                const returned = await props.contractFunction(...args);
-                result = tryToDisplay(returned);
+                try {
+                  const returned = await props.contractFunction(...args);
+                  result = tryToDisplay(returned);
+                } catch (err) {
+                  console.error(err);
+                }
               } else {
                 const overrides: Record<string, any> = {};
                 if (txValue) {
                   overrides.value = txValue; // ethers.utils.parseEther()
+                }
+                if (props.gasPrice) {
+                  overrides.gasPrice = props.gasPrice;
                 }
                 // Uncomment this if you want to skip the gas estimation for each transaction
                 // overrides.gasLimit = hexlify(1200000);

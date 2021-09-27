@@ -2,10 +2,9 @@ import { KeyOutlined, QrcodeOutlined, SendOutlined, WalletOutlined } from '@ant-
 import { JsonRpcProvider, Web3Provider } from '@ethersproject/providers';
 import { parseEther } from '@ethersproject/units';
 import { Button, Modal, Spin, Tooltip, Typography } from 'antd';
-import { useUserAddress } from 'eth-hooks';
 import { BytesLike, ethers, Signer } from 'ethers';
 import QR from 'qrcode.react';
-import React, { FC, useContext, useState } from 'react';
+import React, { FC, useContext, useEffect, useState } from 'react';
 
 import { Address, AddressInput, Balance, EtherInput } from '.';
 
@@ -39,7 +38,17 @@ interface IWalletProps {
  * @returns (FC)
  */
 export const Wallet: FC<IWalletProps> = (props) => {
-  const signerAddress = useUserAddress(props.signer);
+  const [signerAddress, setSignerAddress] = useState<string>('');
+  useEffect(() => {
+    const getAddress = async (): Promise<void> => {
+      if (props.signer) {
+        const newAddress = await props.signer.getAddress();
+        setSignerAddress(newAddress);
+      }
+    };
+
+    void getAddress();
+  }, [props.signer]);
   const selectedAddress = props.address || signerAddress;
 
   const [open, setOpen] = useState(false);

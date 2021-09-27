@@ -137,11 +137,12 @@ export const transactor = (
 
         return result;
       } catch (e: any) {
-        console.log(e);
-        console.log('Transaction Error:', e.message);
+        if (DEBUG) console.log(e);
+        // Accounts for Metamask and default signer on all networks
+
         notification.error({
           message: 'Transaction Error',
-          description: e.message,
+          description: e?.message,
         });
       }
     };
