@@ -11,7 +11,7 @@ export interface IMockEthersWrapper {
 const ActivateWrapper: FC = (props) => {
   const { activate, library, deactivate } = useEthersProvider();
 
-  useEffect(() => {
+  useEffect((): void => {
     if (library && activate) {
       // const connector = new MockConnector(library);
       // void activate(connector, console.error);
@@ -19,11 +19,10 @@ const ActivateWrapper: FC = (props) => {
   }, [activate, library]);
 
   useEffect(() => {
-    () => {
-      return (): void => {
-        deactivate && deactivate();
-      };
+    return (): void => {
+      deactivate && deactivate();
     };
+
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
@@ -32,7 +31,7 @@ const ActivateWrapper: FC = (props) => {
 
 export const MockEthersWrapper: FC<IMockEthersWrapper> = (props) => {
   const [setupMock, setSetupMock] = useState<() => MockProvider | TEthersProvider>();
-  useEffect(() => {
+  useEffect((): void => {
     setSetupMock((): MockProvider | TEthersProvider => {
       return props.mockProvider;
     });

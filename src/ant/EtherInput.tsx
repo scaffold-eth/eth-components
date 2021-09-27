@@ -61,7 +61,7 @@ export const EtherInput: FC<IEtherInputProps> = (props) => {
     return (
       <div
         style={{ cursor: 'pointer' }}
-        onClick={() => {
+        onClick={(): void => {
           if (mode === 'USD') {
             setMode('ETH');
             setDisplay(currentValue);
@@ -90,7 +90,7 @@ export const EtherInput: FC<IEtherInputProps> = (props) => {
     addonAfter = option('ETH 🔀');
   }
 
-  useEffect(() => {
+  useEffect((): void => {
     if (!currentValue) {
       setDisplay('');
     }

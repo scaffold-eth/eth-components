@@ -5,9 +5,8 @@ import { parseProviderOrSigner } from 'eth-hooks/functions';
 import { TEthersProviderOrSigner } from 'eth-hooks/models';
 import { BigNumber, ethers } from 'ethers';
 import { Deferrable } from 'ethers/lib/utils';
-import { useContext } from 'react';
 
-import { checkBlocknativeAppId, EthComponentsContext } from '~~/models/EthComponentsContext';
+import { checkBlocknativeAppId, IEthComponentsContext } from '~~/models/EthComponentsContext';
 
 const callbacks: Record<string, any> = {};
 const DEBUG = true;
@@ -20,12 +19,14 @@ type TTransactor = (
  * this should probably just be renamed to "notifier"
  * it is basically just a wrapper around BlockNative's wonderful Notify.js
  * https://docs.blocknative.com/notify
+ * @param context (IEthComponentsContext)
  * @param provider
  * @param gasPrice
  * @param etherscan
  * @returns (transactor) a function to transact which calls a callback method parameter on completion
  */
 export const transactor = (
+  context: IEthComponentsContext,
   providerOrSigner: TEthersProviderOrSigner | undefined,
   gasPrice?: number,
   etherscan?: string
@@ -36,10 +37,9 @@ export const transactor = (
       tx: Deferrable<TransactionRequest> | Promise<TransactionResponse>,
       callback?: (_param: any) => void
     ): Promise<Record<string, any> | TransactionResponse | undefined> => {
-      const context = useContext(EthComponentsContext);
-      checkBlocknativeAppId(context);
-
       const { signer, provider, providerNetwork } = await parseProviderOrSigner(providerOrSigner);
+
+      checkBlocknativeAppId(context);
 
       let options: InitOptions | undefined;
       let notify: API | undefined;

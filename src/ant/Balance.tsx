@@ -58,7 +58,7 @@ export const Balance: FC<IBalanceProps> = ({ size = 'short', ...rest }) => {
         padding: 8,
         cursor: 'pointer',
       }}
-      onClick={() => {
+      onClick={(): void => {
         setDollarMode(!dollarMode);
       }}>
       {displayBalance}

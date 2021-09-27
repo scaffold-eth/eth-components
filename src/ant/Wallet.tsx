@@ -5,11 +5,12 @@ import { Button, Modal, Spin, Tooltip, Typography } from 'antd';
 import { useUserAddress } from 'eth-hooks';
 import { BytesLike, ethers, Signer } from 'ethers';
 import QR from 'qrcode.react';
-import React, { FC, useState } from 'react';
+import React, { FC, useContext, useState } from 'react';
 
 import { Address, AddressInput, Balance, EtherInput } from '.';
 
 import { transactor } from '~~/functions';
+import { EthComponentsContext } from '~~/models';
 
 const { Text, Paragraph } = Typography;
 
@@ -47,10 +48,12 @@ export const Wallet: FC<IWalletProps> = (props) => {
   const [toAddress, setToAddress] = useState<string>('');
   const [publicKey, setPublicKey] = useState<BytesLike>();
 
+  const context = useContext(EthComponentsContext);
+
   const providerSend = props.signer ? (
     <Tooltip title="Wallet">
       <WalletOutlined
-        onClick={() => {
+        onClick={(): void => {
           setOpen(!open);
         }}
         rotate={-90}
@@ -89,7 +92,7 @@ export const Wallet: FC<IWalletProps> = (props) => {
     receiveButton = (
       <Button
         key="hide"
-        onClick={() => {
+        onClick={(): void => {
           setQr('');
         }}>
         <QrcodeOutlined /> Hide
@@ -98,7 +101,7 @@ export const Wallet: FC<IWalletProps> = (props) => {
     privateKeyButton = (
       <Button
         key="hide"
-        onClick={() => {
+        onClick={(): void => {
           setPublicKey(selectedAddress);
           setQr('');
         }}>
@@ -180,7 +183,7 @@ export const Wallet: FC<IWalletProps> = (props) => {
               <h3>Known Private Keys:</h3>
               {extraPkDisplay}
               <Button
-                onClick={() => {
+                onClick={(): void => {
                   const currentPrivateKey = window.localStorage.getItem('metaPrivateKey');
                   if (currentPrivateKey) {
                     window.localStorage.setItem('metaPrivateKey_backup' + Date.now(), currentPrivateKey);
@@ -203,7 +206,7 @@ export const Wallet: FC<IWalletProps> = (props) => {
     receiveButton = (
       <Button
         key="receive"
-        onClick={() => {
+        onClick={(): void => {
           setQr(selectedAddress);
           setPublicKey('');
         }}>
@@ -213,7 +216,7 @@ export const Wallet: FC<IWalletProps> = (props) => {
     privateKeyButton = (
       <Button
         key="hide"
-        onClick={() => {
+        onClick={(): void => {
           setPublicKey('');
           setQr('');
         }}>
@@ -240,7 +243,7 @@ export const Wallet: FC<IWalletProps> = (props) => {
           <EtherInput
             price={props.price}
             value={amount}
-            onChange={(value: string) => {
+            onChange={(value: string): void => {
               setAmount(value);
             }}
           />
@@ -250,7 +253,7 @@ export const Wallet: FC<IWalletProps> = (props) => {
     receiveButton = (
       <Button
         key="receive"
-        onClick={() => {
+        onClick={(): void => {
           setQr(selectedAddress);
           setPublicKey('');
         }}>
@@ -260,7 +263,7 @@ export const Wallet: FC<IWalletProps> = (props) => {
     privateKeyButton = (
       <Button
         key="hide"
-        onClick={() => {
+        onClick={(): void => {
           setPublicKey(selectedAddress);
           setQr('');
         }}>
@@ -284,12 +287,12 @@ export const Wallet: FC<IWalletProps> = (props) => {
             </div>
           </div>
         }
-        onOk={() => {
+        onOk={(): void => {
           setQr('');
           setPublicKey('');
           setOpen(!open);
         }}
-        onCancel={() => {
+        onCancel={(): void => {
           setQr('');
           setPublicKey('');
           setOpen(!open);
@@ -302,8 +305,8 @@ export const Wallet: FC<IWalletProps> = (props) => {
             type="primary"
             disabled={disableSend}
             loading={false}
-            onClick={() => {
-              const tx = transactor(props.signer);
+            onClick={(): void => {
+              const tx = transactor(context, props.signer);
 
               let value;
               try {
@@ -314,7 +317,7 @@ export const Wallet: FC<IWalletProps> = (props) => {
               }
 
               if (tx) {
-                tx({
+                void tx({
                   to: toAddress,
                   value,
                 });

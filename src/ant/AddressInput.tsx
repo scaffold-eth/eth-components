@@ -36,7 +36,7 @@ export const AddressInput: FC<IAddressInputProps> = (props) => {
   const scannerButton = (
     <div
       style={{ marginTop: 4, cursor: 'pointer' }}
-      onClick={() => {
+      onClick={(): void => {
         setScan(!scan);
       }}>
       <Badge count={<CameraOutlined style={{ fontSize: 9 }} />}>
@@ -76,7 +76,7 @@ export const AddressInput: FC<IAddressInputProps> = (props) => {
         top: 0,
         width: '100%',
       }}
-      onClick={() => {
+      onClick={(): void => {
         setScan(false);
       }}>
       <QrReader

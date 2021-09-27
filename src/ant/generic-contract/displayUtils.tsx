@@ -3,7 +3,7 @@ import { formatUnits } from '@ethersproject/units';
 import { BigNumber } from 'ethers';
 import React, { ReactElement } from 'react';
 
-import { Address } from '~~/components/ant/Address';
+import { Address } from '~~/ant/Address';
 
 export const tryToDisplay = (
   thing: string | BigNumber | Record<string, any> | TransactionResponse | undefined

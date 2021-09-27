@@ -17,7 +17,7 @@ export const defaultContextValues = (): IEthComponentsContext => {
 export const EthComponentsContext = createContext<IEthComponentsContext>(defaultContextValues());
 export const checkBlocknativeAppId = (context: IEthComponentsContext): void => {
   if (!context.apiKeys.BlocknativeDappId)
-    throw Error(
-      'Blocknative DappId not give.  Please create EthComponentsContext provider before using eth-components'
+    throw new Error(
+      '🔺 Blocknative DappId not give.  Please create EthComponentsContext provider before using eth-components'
     );
 };

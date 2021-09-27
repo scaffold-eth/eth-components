@@ -45,10 +45,7 @@ export const Address: FC<IAddressProps> = ({ punkBlockie = false, size = 'short'
   let ens: string = '';
   const { currentTheme } = useThemeSwitcher();
 
-  if (props.ensProvider) {
-    // eslint-disable-next-line react-hooks/rules-of-hooks
-    ens = useLookupAddress(props.ensProvider, address);
-  }
+  ens = useLookupAddress(props.ensProvider, address);
 
   if (!address) {
     return (

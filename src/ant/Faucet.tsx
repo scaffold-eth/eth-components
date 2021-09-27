@@ -3,12 +3,13 @@ import { StaticJsonRpcProvider } from '@ethersproject/providers';
 import { parseEther } from '@ethersproject/units';
 import { Button, Input, Tooltip } from 'antd';
 import { useLookupAddress } from 'eth-hooks/dapps/ens';
-import React, { FC, useCallback, useState } from 'react';
+import React, { FC, useCallback, useContext, useState } from 'react';
 import Blockies from 'react-blockies';
 
 import { Wallet } from '.';
 
 import { transactor } from '~~/functions';
+import { EthComponentsContext } from '~~/models';
 
 // improved a bit by converting address to ens if it exists
 // added option to directly input ens name
@@ -48,6 +49,7 @@ export const Faucet: FC<IFaucetProps> = (props) => {
   }
 
   const ens = useLookupAddress(props.ensProvider, props.address ?? '');
+  const context = useContext(EthComponentsContext);
 
   const updateAddress = useCallback(
     async (newValue) => {
@@ -68,7 +70,7 @@ export const Faucet: FC<IFaucetProps> = (props) => {
     [props.ensProvider, props.onChange]
   );
 
-  const tx = transactor(props.localProvider);
+  const tx = transactor(context, props.localProvider);
 
   return (
     <span>
