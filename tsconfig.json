@@ -3,9 +3,10 @@
     "target": "es2017",
     "module": "esNext",
     "outDir": "lib",
-    "lib": ["DOM", "DOM.Iterable", "ESNext", ],
+    "lib": ["DOM", "DOM.Iterable", "ESNext"],
     "types": ["node", "ethers"],
     "sourceMap": false,
+    "jsx": "react-jsxdev",
     "allowJs": false,
     "declaration": true,
     "declarationDir": "lib",
@@ -23,13 +24,12 @@
     "strict": true,
     "rootDir": ".",
     "baseUrl": ".",
-    "typeRoots": ["node_modules/@types", "helpers/types"],
-    "jsx": "react-jsxdev",
+    "typeRoots": ["node_modules/@types", "test-utils/types"],
     "paths": {
       "~~": ["./src/"],
       "~~/*": ["./src/*"],
-      "~helpers": ["./helpers/"],
-      "~helpers/*": ["./helpers/*"]
+      "~test-utils": ["./test/test-utils/"],
+      "~test-utils/*": ["./test/test-utils/*"]
     },
     "plugins": [
       { "transform": "typescript-transform-paths" },
@@ -43,7 +43,8 @@
     "**/node_modules",
     "**/node_modules/**",
     "../../node_modules/**/*",
-     ".husky", "./tailwind.config.js",
+    ".husky",
+    "./tailwind.config.js"
   ],
   "files": ["hardhat.config.ts"]
 }

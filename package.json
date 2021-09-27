@@ -1,6 +1,6 @@
 {
   "name": "eth-components",
-  "version": "0.1.0beta02",
+  "version": "0.1.0beta03",
   "description": "A set of react components to turbocharge buidling",
   "author": "Austin Griffith <austin@ethereum.org>",
   "repository": "https://github.com/scaffold-eth/eth-components.git",
@@ -26,7 +26,7 @@
     "commit": "git-cz",
     "build": "ts-patch i && tsc -p tsconfig.json",
     "clean": "shx rm -rf ./lib",
-    "pre-publish": "yarn clean && yarn build && shx cp -R package.json ./lib && shx cp -R README.md ./lib",
+    "pre-publish": "yarn clean && yarn build && shx cp -R package.json ./lib && shx cp -R README.md ./lib && shx mv ./lib/src\\* ./lib/ && shx rm -rf ./lib/src && shx rm -rf ./lib/test",
     "publish:next": "yarn pre-publish && cd lib && npm publish --tag next",
     "publish:latest": "yarn pre-publish && cd lib && npm publish --tag latest",
     "docs": "yarn pre-publish && yarn jsdoc2md -t README.hsb.md ./lib/**/*.{js,jsx} > README.md",
