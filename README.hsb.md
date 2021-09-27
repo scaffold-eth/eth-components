@@ -17,6 +17,17 @@ yarn add eth-components
 [@austinGriffith](https://github.com/austintgriffith)
 [@shravansunder](https://github.com/ShravanSunder)
 
+## Peer Dependencies
+
+- react & general
+  - react
+  - react-dom
+  - react-css-theme-switcher
+  - web3modal
+- ant design
+  - antd
+  - @ant-design/icons
+
 # API
 
 {{>global-index-kinds kind="constant" title="Components & Helpers" ~}}

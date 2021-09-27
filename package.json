@@ -53,17 +53,18 @@
     "ethers": "^5.4.1",
     "qrcode.react": "^1.0.1",
     "react-blockies": "^1.4.1",
-    "react-qr-reader": "^2.2.1",
-    "web3modal": "^1.9.1"
+    "react-qr-reader": "^2.2.1"
   },
   "peerDependencies": {
     "@ant-design/icons": "^4.2.2",
     "antd": "^4.7.0",
     "react": ">=17.0.2",
     "react-dom": ">=17.0.2",
-    "react-css-theme-switcher": "^0.3.0"
+    "react-css-theme-switcher": "^0.3.0",
+    "web3modal": "^1.9.1"
   },
   "devDependencies": {
+    "web3modal": "^1.9.1",
     "react-css-theme-switcher": "^0.3.0",
     "@ant-design/icons": "^4.2.2",
     "antd": "^4.7.0",
