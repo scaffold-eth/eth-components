@@ -45,6 +45,11 @@ interface IPunkBlockie {
   scale?: number;
 }
 
+/**
+ * Show a punk blockie (crypto punk profile icon) component for an public address
+ * @param props
+ * @returns  (FC)
+ */
 export const PunkBlockie: FC<IPunkBlockie> = (props) => {
   const size = useWindowSize();
   if (!size.width) size.width = 100;

@@ -26,7 +26,7 @@ interface IAddressInputProps {
   - Control input change by onChange={setToAddress}
                           or onChange={address => { setToAddress(address);}}
  * @param props 
- * @returns 
+ * @returns  (FC)
  */
 export const AddressInput: FC<IAddressInputProps> = (props) => {
   const [scan, setScan] = useState(false);

@@ -10,12 +10,12 @@ interface IGasGaugeProps {
   ~ Features ~
   - Provide gasPrice={gasPrice} and get current gas gauge
  * @param props
- * @returns
+ * @returns (FC)
  */
 export const GasGauge: FC<IGasGaugeProps> = (props) => {
   return (
     <Button
-      onClick={() => {
+      onClick={(): void => {
         window.open('https://ethgasstation.info/');
       }}
       size="large"

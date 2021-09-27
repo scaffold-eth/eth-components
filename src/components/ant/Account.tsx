@@ -36,7 +36,7 @@ export interface IAccountProps {
   - Provide blockExplorer={blockExplorer}, click on address and get the link
               (ex. by default "https://etherscan.io/" or for xdai "https://blockscout.com/poa/xdai/")
  * @param props
- * @returns
+ * @returns (FC)
  */
 export const Account: FC<IAccountProps> = (props: IAccountProps) => {
   const {

@@ -1,5 +1,5 @@
 import { KeyOutlined, QrcodeOutlined, SendOutlined, WalletOutlined } from '@ant-design/icons';
-import { JsonRpcProvider, StaticJsonRpcProvider, Web3Provider } from '@ethersproject/providers';
+import { JsonRpcProvider, Web3Provider } from '@ethersproject/providers';
 import { parseEther } from '@ethersproject/units';
 import { Button, Modal, Spin, Tooltip, Typography } from 'antd';
 import { useUserAddress } from 'eth-hooks';
@@ -35,7 +35,7 @@ interface IWalletProps {
   - Provide price={price} of ether and easily convert between USD and ETH
   - Provide color to specify the color of wallet icon
  * @param props 
- * @returns 
+ * @returns (FC)
  */
 export const Wallet: FC<IWalletProps> = (props) => {
   const signerAddress = useUserAddress(props.signer);

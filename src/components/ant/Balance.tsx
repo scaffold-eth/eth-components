@@ -22,7 +22,7 @@ interface IBalanceProps {
   - Provide provider={mainnetProvider} to access balance on mainnet or any other network (ex. localProvider)
   - Provide price={price} of ether and get your balance converted to dollars
  * @param props
- * @returns
+ * @returns (FC)
  */
 export const Balance: FC<IBalanceProps> = ({ size = 'short', ...rest }) => {
   const props = { ...rest, size };

@@ -11,6 +11,11 @@ import { checkBlocknativeAppId, EthComponentsContext } from '~~/models/EthCompon
 
 const callbacks: Record<string, any> = {};
 const DEBUG = true;
+type TTransactor = (
+  tx: Deferrable<TransactionRequest> | Promise<TransactionResponse>,
+  callback?: ((_param: any) => void) | undefined
+) => Promise<Record<string, any> | TransactionResponse | undefined>;
+
 /**
  * this should probably just be renamed to "notifier"
  * it is basically just a wrapper around BlockNative's wonderful Notify.js
@@ -18,18 +23,13 @@ const DEBUG = true;
  * @param provider
  * @param gasPrice
  * @param etherscan
- * @returns
+ * @returns (transactor) a function to transact which calls a callback method parameter on completion
  */
 export const transactor = (
   providerOrSigner: TEthersProviderOrSigner | undefined,
   gasPrice?: number,
   etherscan?: string
-):
-  | ((
-      tx: Deferrable<TransactionRequest> | Promise<TransactionResponse>,
-      callback?: ((_param: any) => void) | undefined
-    ) => Promise<Record<string, any> | TransactionResponse | undefined>)
-  | undefined => {
+): TTransactor | undefined => {
   if (typeof providerOrSigner !== 'undefined') {
     // eslint-disable-next-line consistent-return
     return async (

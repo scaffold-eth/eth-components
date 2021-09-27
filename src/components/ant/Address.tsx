@@ -37,7 +37,7 @@ interface IAddressProps {
               (ex. by default "https://etherscan.io/" or for xdai "https://blockscout.com/poa/xdai/")
   - Provide fontSize={fontSize} to change the size of address text
  * @param props
- * @returns
+ * @returns (FC)
  */
 export const Address: FC<IAddressProps> = ({ punkBlockie = false, size = 'short', ...rest }) => {
   const props = { ...rest, size, punkBlockie };

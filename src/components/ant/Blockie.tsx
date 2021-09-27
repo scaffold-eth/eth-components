@@ -8,6 +8,11 @@ interface IBlockieProps {
   scale: number;
 }
 
+/**
+ * Show a blockie (bar code profile icon) component for an public address
+ * @param props
+ * @returns (FC)
+ */
 export const Blockie: FC<IBlockieProps> = (props) => {
   if (!props.address || typeof props.address.toLowerCase !== 'function') {
     return <span />;

@@ -35,7 +35,7 @@ interface IFaucetProps {
               works both in input field & wallet
   - Provide placeholder="Send local faucet" value for the input
  * @param props 
- * @returns 
+ * @returns (FC)
  */
 export const Faucet: FC<IFaucetProps> = (props) => {
   const [address, setAddress] = useState<string>();

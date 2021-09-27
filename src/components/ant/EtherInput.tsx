@@ -45,7 +45,7 @@ interface IEtherInputProps {
   - Provide placeholder="Enter amount" value for the input
   - Control input change by onChange={value => { setAmount(value);}}
  * @param props
- * @returns
+ * @returns (FC)
  */
 export const EtherInput: FC<IEtherInputProps> = (props) => {
   const [mode, setMode] = useState(props.price ? 'USD' : 'ETH');
