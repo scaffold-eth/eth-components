@@ -1,6 +1,6 @@
 {
   "name": "eth-components",
-  "version": "0.1.0-beta18",
+  "version": "0.1.0-beta23",
   "description": "A set of react components to turbocharge buidling",
   "author": "Austin Griffith <austin@ethereum.org>",
   "repository": "https://github.com/scaffold-eth/eth-components.git",
@@ -49,7 +49,7 @@
     "@uniswap/token-lists": "^1.0.0-beta.24",
     "axios": "^0.21.4",
     "bnc-notify": "^1.9.1",
-    "eth-hooks": "^2.4.0-beta15",
+    "eth-hooks": "^2.4.0-beta19",
     "ethers": "^5.4.1",
     "qrcode.react": "^1.0.1",
     "react-blockies": "^1.4.1",

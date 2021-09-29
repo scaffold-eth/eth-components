@@ -6,8 +6,8 @@ import { useThemeSwitcher } from 'react-css-theme-switcher';
 import { Address, Balance, Wallet } from '.';
 
 export interface IAccountProps {
-  currentProviderAndSinger: TProviderAndSigner;
-  mainnetProvider: TEthersProvider;
+  providerAndSigner: TProviderAndSigner | undefined;
+  mainnetProvider: TEthersProvider | undefined;
   price: number;
   minimized?: string;
   loadWeb3Modal?: () => void;
@@ -34,15 +34,8 @@ export interface IAccountProps {
  * @returns (FC)
  */
 export const Account: FC<IAccountProps> = (props: IAccountProps) => {
-  const {
-    currentProviderAndSinger,
-    mainnetProvider,
-    price,
-    minimized,
-    loadWeb3Modal,
-    logoutOfWeb3Modal,
-    blockExplorer,
-  } = props;
+  const { providerAndSigner, mainnetProvider, price, minimized, loadWeb3Modal, logoutOfWeb3Modal, blockExplorer } =
+    props;
 
   const modalButtons = [];
   if (loadWeb3Modal && logoutOfWeb3Modal) {
@@ -71,25 +64,27 @@ export const Account: FC<IAccountProps> = (props: IAccountProps) => {
   }
 
   const { currentTheme } = useThemeSwitcher();
-  const address = currentProviderAndSinger.address;
+  const address = providerAndSigner?.address ?? '';
 
   const display = minimized ? (
     ''
   ) : (
     <span>
-      {address ? (
+      {providerAndSigner?.address ? (
         <Address punkBlockie address={address} ensProvider={mainnetProvider} blockExplorer={blockExplorer} />
       ) : (
         'Connecting...'
       )}
-      <Balance address={address ?? ''} provider={currentProviderAndSinger.provider} price={price} />
-      <Wallet
-        address={address ?? ''}
-        signer={currentProviderAndSinger.signer}
-        ensProvider={mainnetProvider}
-        price={price}
-        color={currentTheme === 'light' ? '#1890ff' : '#2caad9'}
-      />
+      <Balance address={address} provider={providerAndSigner?.provider} price={price} />
+      {mainnetProvider && (
+        <Wallet
+          address={address}
+          signer={providerAndSigner?.signer}
+          ensProvider={mainnetProvider}
+          price={price}
+          color={currentTheme === 'light' ? '#1890ff' : '#2caad9'}
+        />
+      )}
     </span>
   );
 
