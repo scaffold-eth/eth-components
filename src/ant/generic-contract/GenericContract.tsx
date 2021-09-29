@@ -15,7 +15,7 @@ const isQueryable = (fn: FunctionFragment): boolean =>
   (fn.stateMutability === 'view' || fn.stateMutability === 'pure') && fn.inputs.length === 0;
 
 interface IGenericContract {
-  currentProviderAndSigner: TProviderAndSigner | undefined;
+  currentProviderAndSigner: TProviderAndSigner;
   mainnetProvider: TEthersProvider | undefined;
   customContract?: Contract;
   account?: ReactElement;
@@ -32,22 +32,22 @@ const parseProviderAndSignerForContract = (contract: Contract | undefined): TPro
     address: contract?.address,
     signer: contract?.signer,
     provider: contract?.provider as TEthersProvider,
-    providerNetwork: (contract?.provider as TEthersProvider).network,
+    providerNetwork: (contract?.provider as TEthersProvider)?.network,
   };
 };
 
 export const GenericContract: FC<IGenericContract> = (props) => {
   const contracts = useContractLoader(
-    props.currentProviderAndSigner?.provider as TEthersProvider,
+    props.currentProviderAndSigner.provider as TEthersProvider,
     props.contractConfig,
-    props.currentProviderAndSigner?.providerNetwork?.chainId
+    props.currentProviderAndSigner.providerNetwork?.chainId
   );
   let contract: Contract | undefined = props.customContract;
   if (!props.customContract) {
     contract = contracts ? contracts[props.contractName] : undefined;
   }
   const address = contract ? contract.address : '';
-  const contractIsDeployed = useContractExistsAtAddress(props.currentProviderAndSigner?.provider, address);
+  const contractIsDeployed = useContractExistsAtAddress(props.currentProviderAndSigner.provider, address);
 
   const displayedContractFunctions = useMemo(
     () =>
@@ -61,13 +61,13 @@ export const GenericContract: FC<IGenericContract> = (props) => {
 
   const [refreshRequired, setTriggerRefresh] = useState(false);
   const contractDisplay = displayedContractFunctions.map((fn) => {
-    if (!props.currentProviderAndSigner?.signer) return <></>;
+    if (!props.currentProviderAndSigner.signer) return <></>;
 
     // eslint-disable-next-line @typescript-eslint/no-unsafe-assignment
     const contractFunc =
       fn.stateMutability === 'view' || fn.stateMutability === 'pure'
         ? contract?.[fn.name]
-        : contract?.connect(props.currentProviderAndSigner?.signer)?.[fn.name];
+        : contract?.connect(props.currentProviderAndSigner.signer)?.[fn.name];
 
     if (typeof contractFunc === 'function') {
       if (isQueryable(fn)) {
@@ -88,7 +88,7 @@ export const GenericContract: FC<IGenericContract> = (props) => {
           key={'FF' + fn.name}
           contractFunction={contractFunc}
           functionInfo={fn}
-          provider={props.currentProviderAndSigner?.provider}
+          provider={props.currentProviderAndSigner.provider}
           gasPrice={props.gasPrice ?? 0}
           setTriggerRefresh={setTriggerRefresh}
         />

@@ -34,18 +34,15 @@ export interface IAccountProps {
  * @returns (FC)
  */
 export const Account: FC<IAccountProps> = (props: IAccountProps) => {
-  const { providerAndSigner, mainnetProvider, price, minimized, loadWeb3Modal, logoutOfWeb3Modal, blockExplorer } =
-    props;
-
   const modalButtons = [];
-  if (loadWeb3Modal && logoutOfWeb3Modal) {
+  if (props.loadWeb3Modal && props.logoutOfWeb3Modal) {
     modalButtons.push(
       <Button
         key="logoutbutton"
         style={{ verticalAlign: 'top', marginLeft: 8, marginTop: 4 }}
         shape="round"
         size="large"
-        onClick={logoutOfWeb3Modal}>
+        onClick={props.logoutOfWeb3Modal}>
         logout
       </Button>
     );
@@ -56,30 +53,29 @@ export const Account: FC<IAccountProps> = (props: IAccountProps) => {
         style={{ verticalAlign: 'top', marginLeft: 8, marginTop: 4 }}
         shape="round"
         size="large"
-        /* type={minimized ? "default" : "primary"}     too many people just defaulting to MM and having a bad time */
-        onClick={loadWeb3Modal}>
+        onClick={props.loadWeb3Modal}>
         connect
       </Button>
     );
   }
 
   const { currentTheme } = useThemeSwitcher();
-  const address = providerAndSigner?.address ?? '';
+  const address = currentProviderAndSigner?.address ?? '';
 
   const display = minimized ? (
     ''
   ) : (
     <span>
-      {providerAndSigner?.address ? (
+      {currentProviderAndSigner?.address ? (
         <Address punkBlockie address={address} ensProvider={mainnetProvider} blockExplorer={blockExplorer} />
       ) : (
         'Connecting...'
       )}
-      <Balance address={address} provider={providerAndSigner?.provider} price={price} />
+      <Balance address={address} provider={currentProviderAndSigner?.provider} price={price} />
       {mainnetProvider && (
         <Wallet
           address={address}
-          signer={providerAndSigner?.signer}
+          signer={currentProviderAndSigner?.signer}
           ensProvider={mainnetProvider}
           price={price}
           color={currentTheme === 'light' ? '#1890ff' : '#2caad9'}
