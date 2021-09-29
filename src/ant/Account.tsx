@@ -1,6 +1,5 @@
-import { Signer } from '@ethersproject/abstract-signer';
 import { Button } from 'antd';
-import { TEthersProvider } from 'eth-hooks/models';
+import { TEthersProvider, TProviderAndSigner } from 'eth-hooks/models';
 import React, { FC } from 'react';
 import { useThemeSwitcher } from 'react-css-theme-switcher';
 import Web3Modal from 'web3modal';
@@ -8,9 +7,7 @@ import Web3Modal from 'web3modal';
 import { Address, Balance, Wallet } from '.';
 
 export interface IAccountProps {
-  address: string;
-  userSigner?: Signer;
-  localProvider: TEthersProvider | undefined;
+  currentProviderAndSinger: TProviderAndSigner;
   mainnetProvider: TEthersProvider;
   price: number;
   minimized?: string;
@@ -40,9 +37,7 @@ export interface IAccountProps {
  */
 export const Account: FC<IAccountProps> = (props: IAccountProps) => {
   const {
-    address,
-    userSigner,
-    localProvider,
+    currentProviderAndSinger,
     mainnetProvider,
     price,
     minimized,
@@ -73,8 +68,7 @@ export const Account: FC<IAccountProps> = (props: IAccountProps) => {
           shape="round"
           size="large"
           /* type={minimized ? "default" : "primary"}     too many people just defaulting to MM and having a bad time */
-          onClick={loadWeb3Modal}
-        >
+          onClick={loadWeb3Modal}>
           connect
         </Button>
       );
@@ -82,6 +76,7 @@ export const Account: FC<IAccountProps> = (props: IAccountProps) => {
   }
 
   const { currentTheme } = useThemeSwitcher();
+  const address = currentProviderAndSinger.address;
 
   const display = minimized ? (
     ''
@@ -92,10 +87,10 @@ export const Account: FC<IAccountProps> = (props: IAccountProps) => {
       ) : (
         'Connecting...'
       )}
-      <Balance address={address} provider={localProvider} price={price} />
+      <Balance address={address ?? ''} provider={currentProviderAndSinger.provider} price={price} />
       <Wallet
-        address={address}
-        signer={userSigner}
+        address={address ?? ''}
+        signer={currentProviderAndSinger.signer}
         ensProvider={mainnetProvider}
         price={price}
         color={currentTheme === 'light' ? '#1890ff' : '#2caad9'}

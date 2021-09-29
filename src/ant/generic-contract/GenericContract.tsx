@@ -1,7 +1,7 @@
 import { Card } from 'antd';
 import { TContractConfig, useContractExistsAtAddress, useContractLoader } from 'eth-hooks';
-import { TEthersProvider } from 'eth-hooks/models';
-import { Contract, Signer } from 'ethers';
+import { TEthersProvider, TProviderAndSigner } from 'eth-hooks/models';
+import { Contract } from 'ethers';
 import { FunctionFragment } from 'ethers/lib/utils';
 import React, { FC, ReactElement, useMemo, useState } from 'react';
 
@@ -15,28 +15,30 @@ const isQueryable = (fn: FunctionFragment): boolean =>
   (fn.stateMutability === 'view' || fn.stateMutability === 'pure') && fn.inputs.length === 0;
 
 interface IGenericContract {
+  currentProviderAndSigner: TProviderAndSigner;
+  mainnetProvider: TEthersProvider;
   customContract?: Contract;
   account?: ReactElement;
   gasPrice?: number;
-  signer: Signer;
-  provider: TEthersProvider;
   contractName: string;
   show?: string[];
   tokenPrice?: number;
   blockExplorer: string;
-  address: string;
-  chainId?: number;
   contractConfig: TContractConfig;
 }
 
 export const GenericContract: FC<IGenericContract> = (props) => {
-  const contracts = useContractLoader(props.provider, props.contractConfig, props.chainId);
+  const contracts = useContractLoader(
+    props.currentProviderAndSigner.provider as TEthersProvider,
+    props.contractConfig,
+    props.currentProviderAndSigner?.providerNetwork?.chainId
+  );
   let contract: Contract | undefined = props.customContract;
   if (!props.customContract) {
     contract = contracts ? contracts[props.contractName] : undefined;
   }
   const address = contract ? contract.address : '';
-  const contractIsDeployed = useContractExistsAtAddress(props.provider, address);
+  const contractIsDeployed = useContractExistsAtAddress(props.currentProviderAndSigner.provider, address);
 
   const displayedContractFunctions = useMemo(
     () =>
@@ -50,11 +52,13 @@ export const GenericContract: FC<IGenericContract> = (props) => {
 
   const [refreshRequired, setTriggerRefresh] = useState(false);
   const contractDisplay = displayedContractFunctions.map((fn) => {
+    if (!props.currentProviderAndSigner.signer) return <></>;
+
     // eslint-disable-next-line @typescript-eslint/no-unsafe-assignment
     const contractFunc =
       fn.stateMutability === 'view' || fn.stateMutability === 'pure'
         ? contract?.[fn.name]
-        : contract?.connect(props.signer)?.[fn.name];
+        : contract?.connect(props.currentProviderAndSigner?.signer)?.[fn.name];
 
     if (typeof contractFunc === 'function') {
       if (isQueryable(fn)) {
@@ -75,7 +79,7 @@ export const GenericContract: FC<IGenericContract> = (props) => {
           key={'FF' + fn.name}
           contractFunction={contractFunc}
           functionInfo={fn}
-          provider={props.provider}
+          provider={props.currentProviderAndSigner.provider}
           gasPrice={props.gasPrice ?? 0}
           setTriggerRefresh={setTriggerRefresh}
         />
@@ -92,9 +96,8 @@ export const GenericContract: FC<IGenericContract> = (props) => {
             {props.contractName}
             <div style={{ float: 'right' }}>
               <Account
-                address={address}
-                localProvider={props.provider}
-                mainnetProvider={props.provider}
+                currentProviderAndSinger={props.currentProviderAndSigner}
+                mainnetProvider={props.mainnetProvider}
                 price={props.tokenPrice ?? 0}
                 blockExplorer={props.blockExplorer}
               />
