@@ -1,0 +1,50 @@
+{
+  "compilerOptions": {
+    "target": "es2017",
+    "module": "esNext",
+    "outDir": "lib",
+    "lib": ["DOM", "DOM.Iterable", "ESNext"],
+    "types": ["node", "ethers"],
+    "sourceMap": false,
+    "jsx": "react-jsxdev",
+    "allowJs": false,
+    "declaration": true,
+    "declarationDir": "lib",
+    "declarationMap": true,
+    "resolveJsonModule": true,
+    "moduleResolution": "node",
+    "forceConsistentCasingInFileNames": true,
+    "allowSyntheticDefaultImports": true,
+    "downlevelIteration": true,
+    "esModuleInterop": true,
+    "isolatedModules": false,
+    "noImplicitAny": true,
+    "skipLibCheck": true,
+    "skipDefaultLibCheck": true,
+    "strict": true,
+    "rootDir": ".",
+    "baseUrl": ".",
+    "typeRoots": ["node_modules/@types", "test-utils/types"],
+    "paths": {
+      "~~": ["./src/"],
+      "~~/*": ["./src/*"],
+      "~test-utils": ["./test/test-utils/"],
+      "~test-utils/*": ["./test/test-utils/*"]
+    },
+    "plugins": [
+      { "transform": "typescript-transform-paths" },
+      { "transform": "typescript-transform-paths", "afterDeclarations": true }
+    ]
+  },
+  "include": ["src", "helpers", "test"],
+  "exclude": [
+    "lib/**/*",
+    "node_modules",
+    "**/node_modules",
+    "**/node_modules/**",
+    "../../node_modules/**/*",
+    ".husky",
+    "./tailwind.config.js"
+  ],
+  "files": ["hardhat.config.ts"]
+}
