@@ -1,12 +1,13 @@
-import { Provider } from '@ethersproject/providers';
 import { formatEther } from '@ethersproject/units';
 import { useBalance } from 'eth-hooks';
 import { BigNumber } from 'ethers';
 import React, { FC, useState } from 'react';
 
+import { TEthersProvider } from '.yalc/eth-hooks/models';
+
 interface IBalanceProps {
   address: string;
-  provider: Provider | undefined;
+  provider: TEthersProvider | undefined;
   price?: number;
   balance?: BigNumber;
   dollarMultiplier?: number;

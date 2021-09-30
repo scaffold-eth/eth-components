@@ -1,5 +1,5 @@
 import { Skeleton, Typography } from 'antd';
-import { useLookupAddress } from 'eth-hooks/dapps/ens';
+import { useEnsAddress } from 'eth-hooks/dapps';
 import { TEthersProvider } from 'eth-hooks/models';
 import React, { FC } from 'react';
 import Blockies from 'react-blockies';
@@ -45,7 +45,7 @@ export const Address: FC<IAddressProps> = ({ punkBlockie = false, size = 'short'
   let ens: string = '';
   const { currentTheme } = useThemeSwitcher();
 
-  ens = useLookupAddress(props.ensProvider, address);
+  ens = useEnsAddress(props.ensProvider, address);
 
   if (!address) {
     return (
@@ -57,8 +57,8 @@ export const Address: FC<IAddressProps> = ({ punkBlockie = false, size = 'short'
 
   let displayAddress = address.substr(0, 6);
 
-  const ensSplit = ens && ens.split(".");
-  const validEnsCheck = ensSplit && ensSplit[ensSplit.length - 1] === "eth";
+  const ensSplit = ens && ens.split('.');
+  const validEnsCheck = ensSplit && ensSplit[ensSplit.length - 1] === 'eth';
 
   if (validEnsCheck) {
     displayAddress = ens;
