@@ -1,4 +1,4 @@
-import { Card } from 'antd';
+import { Card, Typography } from 'antd';
 import { TContractConfig, useContractExistsAtAddress, useContractLoader } from 'eth-hooks';
 import { TEthersProvider, TEthersUser } from 'eth-hooks/models';
 import { Contract } from 'ethers';
@@ -8,6 +8,8 @@ import React, { FC, ReactElement, useMemo, useState } from 'react';
 import { DisplayVariable } from './DisplayVariable';
 import { FunctionForm } from './FunctionFrom';
 import { NoContractDisplay } from './NoContractDisplay';
+
+const { Text } = Typography;
 
 import { Account } from '~~/ant';
 
@@ -98,13 +100,14 @@ export const GenericContract: FC<IGenericContract> = (props) => {
   });
 
   const contractEthersUser: TEthersUser = parseProviderAndSignerForContract(contract);
+  const fontSize = 24;
 
   return (
     <div style={{ margin: 'auto', width: '70vw' }}>
       <Card
         title={
           <div>
-            {props.contractName}
+            <Text style={{ fontSize: fontSize, verticalAlign: 'middle' }}>{props.contractName}</Text>
             <div style={{ float: 'right' }}>
               <Account
                 currentEthersUser={contractEthersUser}
@@ -112,6 +115,7 @@ export const GenericContract: FC<IGenericContract> = (props) => {
                 mainnetProvider={props.mainnetProvider}
                 price={props.tokenPrice ?? 0}
                 blockExplorer={props.blockExplorer}
+                fontSize={fontSize}
               />
               {props.account}
             </div>
@@ -120,7 +124,13 @@ export const GenericContract: FC<IGenericContract> = (props) => {
         size="default"
         style={{ marginTop: 25, width: '100%' }}
         loading={contractDisplay && contractDisplay.length <= 0}>
-        {contractIsDeployed ? contractDisplay : NoContractDisplay}
+        {contractIsDeployed ? (
+          contractDisplay
+        ) : (
+          <NoContractDisplay
+            showLoading={props.currentEthersUser.signer == null || props.contractConfig?.deployedContracts == null}
+          />
+        )}
       </Card>
     </div>
   );

@@ -9,8 +9,9 @@ export interface IAccountProps {
   currentEthersUser: TEthersUser | undefined;
   mainnetProvider: TEthersProvider | undefined;
   price: number;
-  minimized?: string;
+  minimized?: boolean;
   isWeb3ModalUser: boolean;
+  fontSize?: number;
   loadWeb3Modal?: () => void;
   logoutOfWeb3Modal?: () => void;
   blockExplorer: string;
@@ -79,8 +80,10 @@ export const Account: FC<IAccountProps> = (props: IAccountProps) => {
           <Address
             punkBlockie
             address={address}
+            fontSize={props.fontSize}
             ensProvider={props.mainnetProvider}
             blockExplorer={props.blockExplorer}
+            minimized={props.minimized}
           />
           <Balance address={address} provider={props.currentEthersUser?.provider} price={props.price} />
           {props.mainnetProvider && (
