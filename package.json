@@ -1,6 +1,6 @@
 {
   "name": "eth-components",
-  "version": "0.1.0-beta24",
+  "version": "0.1.0-beta25",
   "description": "A set of react components to turbocharge buidling",
   "author": "Austin Griffith <austin@ethereum.org>",
   "repository": "https://github.com/scaffold-eth/eth-components.git",

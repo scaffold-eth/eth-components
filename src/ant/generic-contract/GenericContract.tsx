@@ -107,7 +107,7 @@ export const GenericContract: FC<IGenericContract> = (props) => {
             {props.contractName}
             <div style={{ float: 'right' }}>
               <Account
-                providerAndSigner={contractProviderAndSigner}
+                currentProviderAndSigner={contractProviderAndSigner}
                 mainnetProvider={props.mainnetProvider}
                 price={props.tokenPrice ?? 0}
                 blockExplorer={props.blockExplorer}

@@ -6,7 +6,7 @@
     "lib": ["DOM", "DOM.Iterable", "ESNext"],
     "types": ["node", "ethers"],
     "sourceMap": false,
-    "jsx": "react-jsxdev",
+    "jsx": "preserve",
     "allowJs": false,
     "declaration": true,
     "declarationDir": "lib",

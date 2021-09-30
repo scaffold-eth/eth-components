@@ -6,7 +6,7 @@ import { useThemeSwitcher } from 'react-css-theme-switcher';
 import { Address, Balance, Wallet } from '.';
 
 export interface IAccountProps {
-  providerAndSigner: TProviderAndSigner | undefined;
+  currentProviderAndSigner: TProviderAndSigner | undefined;
   mainnetProvider: TEthersProvider | undefined;
   price: number;
   minimized?: string;
@@ -34,52 +34,62 @@ export interface IAccountProps {
  * @returns (FC)
  */
 export const Account: FC<IAccountProps> = (props: IAccountProps) => {
-  const modalButtons = [];
-  if (props.loadWeb3Modal && props.logoutOfWeb3Modal) {
-    modalButtons.push(
-      <Button
-        key="logoutbutton"
-        style={{ verticalAlign: 'top', marginLeft: 8, marginTop: 4 }}
-        shape="round"
-        size="large"
-        onClick={props.logoutOfWeb3Modal}>
-        logout
-      </Button>
-    );
-  } else {
-    modalButtons.push(
-      <Button
-        key="loginbutton"
-        style={{ verticalAlign: 'top', marginLeft: 8, marginTop: 4 }}
-        shape="round"
-        size="large"
-        onClick={props.loadWeb3Modal}>
-        connect
-      </Button>
-    );
-  }
+  const logoutButton = (
+    <>
+      {props.logoutOfWeb3Modal && props.currentProviderAndSigner?.signer != null && (
+        <Button
+          key="logoutbutton"
+          style={{ verticalAlign: 'top', marginLeft: 8, marginTop: 4 }}
+          shape="round"
+          size="large"
+          onClick={props.logoutOfWeb3Modal}>
+          logout
+        </Button>
+      )}
+    </>
+  );
+
+  const loadModalButton = (
+    <>
+      {props.loadWeb3Modal && props.currentProviderAndSigner?.signer == null && (
+        <Button
+          key="loginbutton"
+          style={{ verticalAlign: 'top', marginLeft: 8, marginTop: 4 }}
+          shape="round"
+          size="large"
+          onClick={props.loadWeb3Modal}>
+          connect
+        </Button>
+      )}
+    </>
+  );
 
   const { currentTheme } = useThemeSwitcher();
-  const address = currentProviderAndSigner?.address ?? '';
+  const address = props.currentProviderAndSigner?.address;
 
-  const display = minimized ? (
-    ''
+  const display = props.minimized ? (
+    <></>
   ) : (
     <span>
-      {currentProviderAndSigner?.address ? (
-        <Address punkBlockie address={address} ensProvider={mainnetProvider} blockExplorer={blockExplorer} />
-      ) : (
-        'Connecting...'
-      )}
-      <Balance address={address} provider={currentProviderAndSigner?.provider} price={price} />
-      {mainnetProvider && (
-        <Wallet
-          address={address}
-          signer={currentProviderAndSigner?.signer}
-          ensProvider={mainnetProvider}
-          price={price}
-          color={currentTheme === 'light' ? '#1890ff' : '#2caad9'}
-        />
+      {address != null && (
+        <>
+          <Address
+            punkBlockie
+            address={address}
+            ensProvider={props.mainnetProvider}
+            blockExplorer={props.blockExplorer}
+          />
+          <Balance address={address} provider={props.currentProviderAndSigner?.provider} price={props.price} />
+          {props.mainnetProvider && (
+            <Wallet
+              address={address}
+              signer={props.currentProviderAndSigner?.signer}
+              ensProvider={props.mainnetProvider}
+              price={props.price}
+              color={currentTheme === 'light' ? '#1890ff' : '#2caad9'}
+            />
+          )}
+        </>
       )}
     </span>
   );
@@ -87,7 +97,8 @@ export const Account: FC<IAccountProps> = (props: IAccountProps) => {
   return (
     <div>
       {display}
-      {modalButtons}
+      {loadModalButton}
+      {logoutButton}
     </div>
   );
 };
