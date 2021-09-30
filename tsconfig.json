@@ -44,7 +44,8 @@
     "**/node_modules/**",
     "../../node_modules/**/*",
     ".husky",
-    "./tailwind.config.js"
+    "./tailwind.config.js",
+    "./.yalc/**/*"
   ],
   "files": ["hardhat.config.ts"]
 }

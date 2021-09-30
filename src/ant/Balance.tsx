@@ -1,9 +1,8 @@
 import { formatEther } from '@ethersproject/units';
 import { useBalance } from 'eth-hooks';
+import { TEthersProvider } from 'eth-hooks/models';
 import { BigNumber } from 'ethers';
 import React, { FC, useState } from 'react';
-
-import { TEthersProvider } from '.yalc/eth-hooks/models';
 
 interface IBalanceProps {
   address: string;
