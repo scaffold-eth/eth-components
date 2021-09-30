@@ -1,6 +1,6 @@
 import { Card } from 'antd';
 import { TContractConfig, useContractExistsAtAddress, useContractLoader } from 'eth-hooks';
-import { TEthersProvider, TProviderAndSigner } from 'eth-hooks/models';
+import { TEthersProvider, TEthersUser } from 'eth-hooks/models';
 import { Contract } from 'ethers';
 import { FunctionFragment } from 'ethers/lib/utils';
 import React, { FC, ReactElement, useMemo, useState } from 'react';
@@ -15,7 +15,7 @@ const isQueryable = (fn: FunctionFragment): boolean =>
   (fn.stateMutability === 'view' || fn.stateMutability === 'pure') && fn.inputs.length === 0;
 
 interface IGenericContract {
-  currentProviderAndSigner: TProviderAndSigner;
+  currentEthersUser: TEthersUser;
   mainnetProvider: TEthersProvider | undefined;
   customContract?: Contract;
   account?: ReactElement;
@@ -27,7 +27,7 @@ interface IGenericContract {
   contractConfig: TContractConfig;
 }
 
-const parseProviderAndSignerForContract = (contract: Contract | undefined): TProviderAndSigner => {
+const parseProviderAndSignerForContract = (contract: Contract | undefined): TEthersUser => {
   return {
     address: contract?.address,
     signer: contract?.signer,
@@ -38,16 +38,16 @@ const parseProviderAndSignerForContract = (contract: Contract | undefined): TPro
 
 export const GenericContract: FC<IGenericContract> = (props) => {
   const contracts = useContractLoader(
-    props.currentProviderAndSigner.provider as TEthersProvider,
+    props.currentEthersUser.provider as TEthersProvider,
     props.contractConfig,
-    props.currentProviderAndSigner.providerNetwork?.chainId
+    props.currentEthersUser.providerNetwork?.chainId
   );
   let contract: Contract | undefined = props.customContract;
   if (!props.customContract) {
     contract = contracts ? contracts[props.contractName] : undefined;
   }
   const address = contract ? contract.address : '';
-  const contractIsDeployed = useContractExistsAtAddress(props.currentProviderAndSigner.provider, address);
+  const contractIsDeployed = useContractExistsAtAddress(props.currentEthersUser.provider, address);
 
   const displayedContractFunctions = useMemo(
     () =>
@@ -61,13 +61,13 @@ export const GenericContract: FC<IGenericContract> = (props) => {
 
   const [refreshRequired, setTriggerRefresh] = useState(false);
   const contractDisplay = displayedContractFunctions.map((fn) => {
-    if (!props.currentProviderAndSigner.signer) return <></>;
+    if (!props.currentEthersUser.signer) return <></>;
 
     // eslint-disable-next-line @typescript-eslint/no-unsafe-assignment
     const contractFunc =
       fn.stateMutability === 'view' || fn.stateMutability === 'pure'
         ? contract?.[fn.name]
-        : contract?.connect(props.currentProviderAndSigner.signer)?.[fn.name];
+        : contract?.connect(props.currentEthersUser.signer)?.[fn.name];
 
     if (typeof contractFunc === 'function') {
       if (isQueryable(fn)) {
@@ -88,7 +88,7 @@ export const GenericContract: FC<IGenericContract> = (props) => {
           key={'FF' + fn.name}
           contractFunction={contractFunc}
           functionInfo={fn}
-          provider={props.currentProviderAndSigner.provider}
+          provider={props.currentEthersUser.provider}
           gasPrice={props.gasPrice ?? 0}
           setTriggerRefresh={setTriggerRefresh}
         />
@@ -97,7 +97,7 @@ export const GenericContract: FC<IGenericContract> = (props) => {
     return null;
   });
 
-  const contractProviderAndSigner: TProviderAndSigner = parseProviderAndSignerForContract(contract);
+  const contractEthersUser: TEthersUser = parseProviderAndSignerForContract(contract);
 
   return (
     <div style={{ margin: 'auto', width: '70vw' }}>
@@ -107,7 +107,8 @@ export const GenericContract: FC<IGenericContract> = (props) => {
             {props.contractName}
             <div style={{ float: 'right' }}>
               <Account
-                currentProviderAndSigner={contractProviderAndSigner}
+                currentEthersUser={contractEthersUser}
+                isWeb3ModalUser={false}
                 mainnetProvider={props.mainnetProvider}
                 price={props.tokenPrice ?? 0}
                 blockExplorer={props.blockExplorer}
