@@ -5172,10 +5172,10 @@ eth-gas-reporter@^0.2.20:
     sha1 "^1.1.1"
     sync-request "^6.0.0"
 
-eth-hooks@^3.0.0-beta02:
-  version "3.0.0-beta02"
-  resolved "https://registry.yarnpkg.com/eth-hooks/-/eth-hooks-3.0.0-beta02.tgz#f80d0ffa8829fa6bd498b4ac7f8c416b28392dc5"
-  integrity sha512-cn4juo1Oaf1g4msLOcAIFf/YsJvzqM/4OP97XRKnUpYs86HpejfeD+h92fjYoJ0B0H/Y5+NpJVrOXHSTHIoV6g==
+eth-hooks@^3.0.0-beta04:
+  version "3.0.0-beta04"
+  resolved "https://registry.yarnpkg.com/eth-hooks/-/eth-hooks-3.0.0-beta04.tgz#586bb853036de657a314cef294b187a674872e44"
+  integrity sha512-eoZv7a/fyYf9RSmjnVq7Y59n0/rMQJsbGVn+SrlKl+4QyJLBQuaQzxZyuI9U4Ou1WHafirg26e8ghdQ0QfNxrw==
   dependencies:
     "@ethersproject/address" "^5.4.0"
     "@ethersproject/bignumber" "^5.4.0"
@@ -5189,6 +5189,7 @@ eth-hooks@^3.0.0-beta02:
     "@uniswap/token-lists" "^1.0.0-beta.24"
     axios "^0.21.4"
     ethers "^5.4.1"
+    tiny-invariant "^1.1.0"
     use-debounce "^7.0.0"
 
 eth-json-rpc-infura@^3.1.0:
