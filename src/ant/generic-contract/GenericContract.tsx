@@ -27,6 +27,7 @@ interface IGenericContract {
   tokenPrice?: number;
   blockExplorer: string;
   contractConfig: TContractConfig;
+  providerKey?: string;
 }
 
 const parseProviderAndSignerForContract = (contract: Contract | undefined): TEthersUser => {
@@ -39,17 +40,12 @@ const parseProviderAndSignerForContract = (contract: Contract | undefined): TEth
 };
 
 export const GenericContract: FC<IGenericContract> = (props) => {
-  const contracts = useContractLoader(
-    props.currentEthersUser.provider as TEthersProvider,
-    props.contractConfig,
-    props.currentEthersUser.providerNetwork?.chainId
-  );
+  const contracts = useContractLoader(props.contractConfig, props.currentEthersUser.signer, props.providerKey);
   let contract: Contract | undefined = props.customContract;
   if (!props.customContract) {
     contract = contracts ? contracts[props.contractName] : undefined;
   }
-  const address = contract ? contract.address : '';
-  const contractIsDeployed = useContractExistsAtAddress(props.currentEthersUser.provider, address);
+  const contractIsDeployed = useContractExistsAtAddress(contract?.address, props.providerKey);
 
   const displayedContractFunctions = useMemo(
     () =>

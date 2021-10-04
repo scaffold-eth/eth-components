@@ -8,6 +8,7 @@ interface IGasGaugeProps {
   speed: TGasStationSpeed;
   provider: TEthersProvider | undefined;
   currentNetwork?: TNetworkInfo;
+  providerKey?: string;
 }
 
 /**
@@ -16,7 +17,7 @@ interface IGasGaugeProps {
  * @returns
  */
 export const GasGauge: FC<IGasGaugeProps> = (props) => {
-  const gasPrice = useGasPrice(props.chainId, props.speed, props.provider, props.currentNetwork);
+  const gasPrice = useGasPrice(props.chainId, props.speed, props.currentNetwork, props.providerKey);
 
   return (
     <Button

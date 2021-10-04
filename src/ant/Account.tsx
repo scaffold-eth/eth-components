@@ -15,6 +15,7 @@ export interface IAccountProps {
   loadWeb3Modal?: () => void;
   logoutOfWeb3Modal?: () => void;
   blockExplorer: string;
+  providerKey?: string;
 }
 
 /**
@@ -85,7 +86,7 @@ export const Account: FC<IAccountProps> = (props: IAccountProps) => {
             blockExplorer={props.blockExplorer}
             minimized={props.minimized}
           />
-          <Balance address={address} provider={props.currentEthersUser?.provider} price={props.price} />
+          <Balance address={address} price={props.price} providerKey={props.providerKey} />
           {props.mainnetProvider && (
             <Wallet
               address={address}
