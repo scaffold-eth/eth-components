@@ -6,7 +6,7 @@
     "lib": ["DOM", "DOM.Iterable", "ESNext"],
     "types": ["node", "ethers"],
     "sourceMap": false,
-    "jsx": "react-jsxdev",
+    "jsx": "preserve",
     "allowJs": false,
     "declaration": true,
     "declarationDir": "lib",
@@ -44,7 +44,8 @@
     "**/node_modules/**",
     "../../node_modules/**/*",
     ".husky",
-    "./tailwind.config.js"
+    "./tailwind.config.js",
+    "./.yalc/**/*"
   ],
   "files": ["hardhat.config.ts"]
 }

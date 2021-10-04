@@ -1,15 +1,17 @@
 import { Button } from 'antd';
-import { TEthersProvider, TProviderAndSigner } from 'eth-hooks/models';
+import { TEthersProvider, TEthersUser } from 'eth-hooks/models';
 import React, { FC } from 'react';
 import { useThemeSwitcher } from 'react-css-theme-switcher';
 
 import { Address, Balance, Wallet } from '.';
 
 export interface IAccountProps {
-  providerAndSigner: TProviderAndSigner | undefined;
+  currentEthersUser: TEthersUser | undefined;
   mainnetProvider: TEthersProvider | undefined;
   price: number;
-  minimized?: string;
+  minimized?: boolean;
+  isWeb3ModalUser: boolean;
+  fontSize?: number;
   loadWeb3Modal?: () => void;
   logoutOfWeb3Modal?: () => void;
   blockExplorer: string;
@@ -34,56 +36,66 @@ export interface IAccountProps {
  * @returns (FC)
  */
 export const Account: FC<IAccountProps> = (props: IAccountProps) => {
-  const { providerAndSigner, mainnetProvider, price, minimized, loadWeb3Modal, logoutOfWeb3Modal, blockExplorer } =
-    props;
+  const showLogin = !props.isWeb3ModalUser || props.currentEthersUser?.signer == null;
 
-  const modalButtons = [];
-  if (loadWeb3Modal && logoutOfWeb3Modal) {
-    modalButtons.push(
-      <Button
-        key="logoutbutton"
-        style={{ verticalAlign: 'top', marginLeft: 8, marginTop: 4 }}
-        shape="round"
-        size="large"
-        onClick={logoutOfWeb3Modal}>
-        logout
-      </Button>
-    );
-  } else {
-    modalButtons.push(
-      <Button
-        key="loginbutton"
-        style={{ verticalAlign: 'top', marginLeft: 8, marginTop: 4 }}
-        shape="round"
-        size="large"
-        /* type={minimized ? "default" : "primary"}     too many people just defaulting to MM and having a bad time */
-        onClick={loadWeb3Modal}>
-        connect
-      </Button>
-    );
-  }
+  const logoutButton = (
+    <>
+      {props.logoutOfWeb3Modal && !showLogin && (
+        <Button
+          key="logoutbutton"
+          style={{ verticalAlign: 'top', marginLeft: 8, marginTop: 4 }}
+          shape="round"
+          size="large"
+          onClick={props.logoutOfWeb3Modal}>
+          logout
+        </Button>
+      )}
+    </>
+  );
+
+  const loadModalButton = (
+    <>
+      {props.loadWeb3Modal && showLogin && (
+        <Button
+          key="loginbutton"
+          style={{ verticalAlign: 'top', marginLeft: 8, marginTop: 4 }}
+          shape="round"
+          size="large"
+          onClick={props.loadWeb3Modal}>
+          connect
+        </Button>
+      )}
+    </>
+  );
 
   const { currentTheme } = useThemeSwitcher();
-  const address = providerAndSigner?.address ?? '';
+  const address = props.currentEthersUser?.address;
 
-  const display = minimized ? (
-    ''
+  const display = props.minimized ? (
+    <></>
   ) : (
     <span>
-      {providerAndSigner?.address ? (
-        <Address punkBlockie address={address} ensProvider={mainnetProvider} blockExplorer={blockExplorer} />
-      ) : (
-        'Connecting...'
-      )}
-      <Balance address={address} provider={providerAndSigner?.provider} price={price} />
-      {mainnetProvider && (
-        <Wallet
-          address={address}
-          signer={providerAndSigner?.signer}
-          ensProvider={mainnetProvider}
-          price={price}
-          color={currentTheme === 'light' ? '#1890ff' : '#2caad9'}
-        />
+      {address != null && (
+        <>
+          <Address
+            punkBlockie
+            address={address}
+            fontSize={props.fontSize}
+            ensProvider={props.mainnetProvider}
+            blockExplorer={props.blockExplorer}
+            minimized={props.minimized}
+          />
+          <Balance address={address} provider={props.currentEthersUser?.provider} price={props.price} />
+          {props.mainnetProvider && (
+            <Wallet
+              address={address}
+              signer={props.currentEthersUser?.signer}
+              ensProvider={props.mainnetProvider}
+              price={props.price}
+              color={currentTheme === 'light' ? '#1890ff' : '#2caad9'}
+            />
+          )}
+        </>
       )}
     </span>
   );
@@ -91,7 +103,8 @@ export const Account: FC<IAccountProps> = (props: IAccountProps) => {
   return (
     <div>
       {display}
-      {modalButtons}
+      {loadModalButton}
+      {logoutButton}
     </div>
   );
 };

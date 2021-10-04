@@ -1,12 +1,12 @@
-import { Provider } from '@ethersproject/providers';
 import { formatEther } from '@ethersproject/units';
 import { useBalance } from 'eth-hooks';
+import { TEthersProvider } from 'eth-hooks/models';
 import { BigNumber } from 'ethers';
 import React, { FC, useState } from 'react';
 
 interface IBalanceProps {
   address: string;
-  provider: Provider | undefined;
+  provider: TEthersProvider | undefined;
   price?: number;
   balance?: BigNumber;
   dollarMultiplier?: number;

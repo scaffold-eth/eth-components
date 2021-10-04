@@ -1,5 +1,5 @@
 import { Skeleton, Typography } from 'antd';
-import { useLookupAddress } from 'eth-hooks/dapps/ens';
+import { useEnsAddress } from 'eth-hooks/dapps';
 import { TEthersProvider } from 'eth-hooks/models';
 import React, { FC } from 'react';
 import Blockies from 'react-blockies';
@@ -9,7 +9,7 @@ import { PunkBlockie } from '.';
 
 // changed value={address} to address={address}
 
-const { Text } = Typography;
+const { Text, Link } = Typography;
 
 const blockExplorerLink = (address: string, blockExplorer?: string): string =>
   `${blockExplorer || 'https://etherscan.io/'}${'address/'}${address}`;
@@ -45,7 +45,7 @@ export const Address: FC<IAddressProps> = ({ punkBlockie = false, size = 'short'
   let ens: string = '';
   const { currentTheme } = useThemeSwitcher();
 
-  ens = useLookupAddress(props.ensProvider, address);
+  ens = useEnsAddress(props.ensProvider, address);
 
   if (!address) {
     return (
@@ -57,8 +57,8 @@ export const Address: FC<IAddressProps> = ({ punkBlockie = false, size = 'short'
 
   let displayAddress = address.substr(0, 6);
 
-  const ensSplit = ens && ens.split(".");
-  const validEnsCheck = ensSplit && ensSplit[ensSplit.length - 1] === "eth";
+  const ensSplit = ens && ens.split('.');
+  const validEnsCheck = ensSplit && ensSplit[ensSplit.length - 1] === 'eth';
 
   if (validEnsCheck) {
     displayAddress = ens;
@@ -74,7 +74,7 @@ export const Address: FC<IAddressProps> = ({ punkBlockie = false, size = 'short'
       return (
         <span style={{ verticalAlign: 'middle' }}>
           <span style={{ verticalAlign: 'middle', position: 'relative' }}>
-            <div style={{ position: 'absolute', left: -213, top: -68 }}>
+            <div style={{ position: 'absolute', left: -213, top: -62 }}>
               <PunkBlockie withQr={false} address={address.toLowerCase()} scale={0.35} />
             </div>
           </span>
@@ -89,7 +89,7 @@ export const Address: FC<IAddressProps> = ({ punkBlockie = false, size = 'short'
           href={etherscanLink}
           rel="noopener noreferrer">
           <span style={{ verticalAlign: 'middle', position: 'relative' }}>
-            <div style={{ position: 'absolute', left: -213, top: -68 }}>
+            <div style={{ position: 'absolute', left: -213, top: -62 }}>
               <PunkBlockie withQr={false} address={address.toLowerCase()} scale={0.35} />
             </div>
           </span>
@@ -98,42 +98,26 @@ export const Address: FC<IAddressProps> = ({ punkBlockie = false, size = 'short'
     );
   }
 
-  let text;
+  const copyable = props.hideCopy ? undefined : { text: address };
 
-  let copyable = {};
-  if (!props.hideCopy) copyable = { text: address };
-
-  if (props.onChange) {
-    text = (
-      <Text editable={{ onChange: props.onChange }} copyable={copyable}>
-        <a
-          style={{ color: currentTheme === 'light' ? '#222222' : '#ddd' }}
-          target="_blank"
-          href={etherscanLink}
-          rel="noopener noreferrer">
-          {displayAddress}
-        </a>
-      </Text>
-    );
-  } else {
-    text = (
-      <Text copyable={copyable}>
-        <a
-          style={{ color: currentTheme === 'light' ? '#222222' : '#ddd' }}
-          target="_blank"
-          href={etherscanLink}
-          rel="noopener noreferrer">
-          {displayAddress}
-        </a>
-      </Text>
-    );
-  }
+  const text = (
+    <>
+      <Link
+        style={{ color: currentTheme === 'light' ? '#222222' : '#ddd' }}
+        editable={props.onChange ? { onChange: props.onChange } : false}
+        copyable={copyable}
+        href={etherscanLink}
+        target="_blank">
+        {displayAddress}
+      </Link>
+    </>
+  );
 
   return (
     <span style={{ position: 'relative' }}>
       {props.punkBlockie ? (
         <span style={{ verticalAlign: 'middle' }}>
-          <div style={{ position: 'absolute', left: -213, top: -68 }}>
+          <div style={{ position: 'absolute', left: -213, top: -62 }}>
             <PunkBlockie withQr={false} address={address.toLowerCase()} scale={0.4} />
           </div>
         </span>

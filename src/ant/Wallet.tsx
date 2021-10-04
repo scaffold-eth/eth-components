@@ -2,6 +2,7 @@ import { KeyOutlined, QrcodeOutlined, SendOutlined, WalletOutlined } from '@ant-
 import { JsonRpcProvider, Web3Provider } from '@ethersproject/providers';
 import { parseEther } from '@ethersproject/units';
 import { Button, Modal, Spin, Tooltip, Typography } from 'antd';
+import { TEthersProvider } from 'eth-hooks/models';
 import { BytesLike, ethers, Signer } from 'ethers';
 import QR from 'qrcode.react';
 import React, { FC, useContext, useEffect, useState } from 'react';
@@ -292,7 +293,11 @@ export const Wallet: FC<IWalletProps> = (props) => {
           <div>
             {selectedAddress ? <Address address={selectedAddress} ensProvider={props.ensProvider} /> : <Spin />}
             <div style={{ float: 'right', paddingRight: 25 }}>
-              <Balance address={selectedAddress} provider={props?.signer?.provider} dollarMultiplier={props.price} />
+              <Balance
+                address={selectedAddress}
+                provider={props?.signer?.provider as TEthersProvider}
+                dollarMultiplier={props.price}
+              />
             </div>
           </div>
         }

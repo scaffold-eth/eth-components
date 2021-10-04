@@ -1,18 +1,23 @@
 import { Button } from 'antd';
+import { TGasStationSpeed, useGasPrice } from 'eth-hooks';
+import { TEthersProvider, TNetworkInfo } from 'eth-hooks/models';
 import React, { FC } from 'react';
 
 interface IGasGaugeProps {
-  gasPrice: string;
+  chainId: number | undefined;
+  speed: TGasStationSpeed;
+  provider: TEthersProvider | undefined;
+  currentNetwork?: TNetworkInfo;
 }
+
 /**
- * Displays gas gauge
- 
-  ~ Features ~
-  - Provide gasPrice={gasPrice} and get current gas gauge
+ * Displays gas gauge.  Defaults to mainnet and uses gastation get get data.  You can also provide the data
  * @param props
- * @returns (FC)
+ * @returns
  */
 export const GasGauge: FC<IGasGaugeProps> = (props) => {
+  const gasPrice = useGasPrice(props.chainId, props.speed, props.provider, props.currentNetwork);
+
   return (
     <Button
       onClick={(): void => {
@@ -25,7 +30,7 @@ export const GasGauge: FC<IGasGaugeProps> = (props) => {
           ⛽️
         </span>
       </span>
-      {typeof props.gasPrice === 'undefined' ? 0 : parseInt(props.gasPrice, 10) / 10 ** 9}g
+      {gasPrice ?? '❓'}
     </Button>
   );
 };

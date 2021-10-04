@@ -2,7 +2,7 @@ import { SendOutlined } from '@ant-design/icons';
 import { StaticJsonRpcProvider } from '@ethersproject/providers';
 import { parseEther } from '@ethersproject/units';
 import { Button, Input, Tooltip } from 'antd';
-import { useLookupAddress } from 'eth-hooks/dapps/ens';
+import { useEnsAddress } from 'eth-hooks/dapps';
 import React, { FC, useCallback, useContext, useState } from 'react';
 import Blockies from 'react-blockies';
 
@@ -48,7 +48,7 @@ export const Faucet: FC<IFaucetProps> = (props) => {
     blockie = <div />;
   }
 
-  const ens = useLookupAddress(props.ensProvider, props.address ?? '');
+  const ens = useEnsAddress(props.ensProvider, props.address ?? '');
   const context = useContext(EthComponentsContext);
 
   const updateAddress = useCallback(

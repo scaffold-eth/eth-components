@@ -1,7 +1,7 @@
 import { CameraOutlined, QrcodeOutlined } from '@ant-design/icons';
 import { StaticJsonRpcProvider } from '@ethersproject/providers';
 import { Badge, Input } from 'antd';
-import { useLookupAddress } from 'eth-hooks/dapps/ens';
+import { useEnsAddress } from 'eth-hooks/dapps';
 import React, { Dispatch, FC, SetStateAction, useCallback, useState } from 'react';
 import QrReader from 'react-qr-reader';
 
@@ -31,7 +31,7 @@ interface IAddressInputProps {
 export const AddressInput: FC<IAddressInputProps> = (props) => {
   const [scan, setScan] = useState(false);
 
-  const ens = useLookupAddress(props.ensProvider, props.address ?? '');
+  const ens = useEnsAddress(props.ensProvider, props.address ?? '');
 
   const scannerButton = (
     <div
