@@ -1,19 +1,19 @@
 import { Button } from 'antd';
-import { TEthersProvider, TEthersUser } from 'eth-hooks/models';
+import { EthersModalConnector, useEthersContext } from 'eth-hooks/context';
+import { TEthersProvider } from 'eth-hooks/models';
 import React, { FC } from 'react';
 import { useThemeSwitcher } from 'react-css-theme-switcher';
+import { useDebounce } from 'use-debounce';
 
 import { Address, Balance, Wallet } from '.';
 
 export interface IAccountProps {
-  currentEthersUser: TEthersUser | undefined;
   mainnetProvider: TEthersProvider | undefined;
+  modalConnector?: EthersModalConnector;
   price: number;
   minimized?: boolean;
   isWeb3ModalUser: boolean;
   fontSize?: number;
-  loadWeb3Modal?: () => void;
-  logoutOfWeb3Modal?: () => void;
   blockExplorer: string;
   providerKey?: string;
 }
@@ -37,17 +37,18 @@ export interface IAccountProps {
  * @returns (FC)
  */
 export const Account: FC<IAccountProps> = (props: IAccountProps) => {
-  const showLogin = !props.isWeb3ModalUser || props.currentEthersUser?.signer == null;
+  const ethersContext = useEthersContext(props.providerKey);
+  const showLogin = !props.isWeb3ModalUser || ethersContext?.signer == null;
 
   const logoutButton = (
     <>
-      {props.logoutOfWeb3Modal && !showLogin && (
+      {!showLogin && (
         <Button
           key="logoutbutton"
           style={{ verticalAlign: 'top', marginLeft: 8, marginTop: 4 }}
           shape="round"
           size="large"
-          onClick={props.logoutOfWeb3Modal}>
+          onClick={ethersContext.logoutWeb3Modal}>
           logout
         </Button>
       )}
@@ -56,13 +57,13 @@ export const Account: FC<IAccountProps> = (props: IAccountProps) => {
 
   const loadModalButton = (
     <>
-      {props.loadWeb3Modal && showLogin && (
+      {showLogin && props.modalConnector && (
         <Button
           key="loginbutton"
           style={{ verticalAlign: 'top', marginLeft: 8, marginTop: 4 }}
           shape="round"
           size="large"
-          onClick={props.loadWeb3Modal}>
+          onClick={(): void => ethersContext.openWeb3Modal(props.modalConnector!)}>
           connect
         </Button>
       )}
@@ -70,7 +71,7 @@ export const Account: FC<IAccountProps> = (props: IAccountProps) => {
   );
 
   const { currentTheme } = useThemeSwitcher();
-  const address = props.currentEthersUser?.address;
+  const [address] = useDebounce(ethersContext?.account, 100, { trailing: true });
 
   const display = props.minimized ? (
     <></>
@@ -90,7 +91,7 @@ export const Account: FC<IAccountProps> = (props: IAccountProps) => {
           {props.mainnetProvider && (
             <Wallet
               address={address}
-              signer={props.currentEthersUser?.signer}
+              signer={ethersContext?.signer}
               ensProvider={props.mainnetProvider}
               price={props.price}
               color={currentTheme === 'light' ? '#1890ff' : '#2caad9'}
