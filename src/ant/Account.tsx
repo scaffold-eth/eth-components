@@ -1,4 +1,5 @@
 import { Button } from 'antd';
+import { useBurnerSigner } from 'eth-hooks';
 import { EthersModalConnector, useEthersContext } from 'eth-hooks/context';
 import { TEthersProvider } from 'eth-hooks/models';
 import React, { FC } from 'react';
@@ -10,9 +11,10 @@ import { Address, Balance, Wallet } from '.';
 export interface IAccountProps {
   mainnetProvider: TEthersProvider | undefined;
   modalConnector?: EthersModalConnector;
+  account: string | undefined;
   price: number;
   minimized?: boolean;
-  isWeb3ModalUser: boolean;
+  isFallbackUser?: boolean;
   fontSize?: number;
   blockExplorer: string;
   providerKey?: string;
@@ -37,8 +39,9 @@ export interface IAccountProps {
  * @returns (FC)
  */
 export const Account: FC<IAccountProps> = (props: IAccountProps) => {
-  const ethersContext = useEthersContext(props.providerKey);
-  const showLogin = !props.isWeb3ModalUser || ethersContext?.signer == null;
+  const ethersContext = useEthersContext();
+  const burner = useBurnerSigner(ethersContext.ethersProvider);
+  const showLogin = burner.account === ethersContext.account || ethersContext.signer == null;
 
   const logoutButton = (
     <>
@@ -71,7 +74,7 @@ export const Account: FC<IAccountProps> = (props: IAccountProps) => {
   );
 
   const { currentTheme } = useThemeSwitcher();
-  const [address] = useDebounce(ethersContext?.account, 100, { trailing: true });
+  const [address] = useDebounce(props.account, 100, { trailing: true });
 
   const display = props.minimized ? (
     <></>

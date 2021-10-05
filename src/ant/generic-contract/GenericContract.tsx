@@ -20,7 +20,7 @@ const isQueryable = (fn: FunctionFragment): boolean =>
 interface IGenericContract {
   mainnetProvider: TEthersProvider | undefined;
   customContract?: Contract;
-  account?: ReactElement;
+  addressElement?: ReactElement;
   gasPrice?: number;
   contractName: string;
   show?: string[];
@@ -32,24 +32,23 @@ interface IGenericContract {
 
 export const GenericContract: FC<IGenericContract> = (props) => {
   const ethersContext = useEthersContext(props.providerKey);
-  const contracts = useContractLoader(props.contractConfig, ethersContext.signer, props.providerKey);
+  const contracts = useContractLoader(props.contractConfig, undefined, props.providerKey);
   let contract: Contract | undefined = props.customContract;
   if (!props.customContract) {
     contract = contracts ? contracts[props.contractName] : undefined;
   }
   const contractIsDeployed = useContractExistsAtAddress(contract?.address, props.providerKey);
-
-  const displayedContractFunctions = useMemo(
-    () =>
-      contract
-        ? Object.values(contract.interface.functions).filter(
-            (fn) => fn.type === 'function' && !(props.show && props.show.indexOf(fn.name) < 0)
-          )
-        : [],
-    [contract, props.show]
-  );
-
   const [refreshRequired, setTriggerRefresh] = useState(false);
+
+  const displayedContractFunctions = useMemo(() => {
+    // setTriggerRefresh(true);
+    return contract
+      ? Object.values(contract.interface.functions).filter(
+          (fn) => fn.type === 'function' && !(props.show && props.show.indexOf(fn.name) < 0)
+        )
+      : [];
+  }, [contract, props.show]);
+
   const contractDisplay = displayedContractFunctions.map((fn) => {
     if (!ethersContext.signer) return <></>;
 
@@ -97,19 +96,19 @@ export const GenericContract: FC<IGenericContract> = (props) => {
             <Text style={{ fontSize: fontSize, verticalAlign: 'middle' }}>{props.contractName}</Text>
             <div style={{ float: 'right' }}>
               <Account
-                isWeb3ModalUser={false}
+                account={contract?.address}
                 mainnetProvider={props.mainnetProvider}
                 price={props.tokenPrice ?? 0}
                 blockExplorer={props.blockExplorer}
                 fontSize={fontSize}
               />
-              {props.account}
+              {props.addressElement}
             </div>
           </div>
         }
         size="default"
         style={{ marginTop: 25, width: '100%' }}
-        loading={contractDisplay && contractDisplay.length <= 0}>
+        loading={ethersContext.ethersProvider == null || ethersContext.signer == null}>
         {contractIsDeployed ? (
           contractDisplay
         ) : (
