@@ -4,7 +4,7 @@ import { useEthersContext } from 'eth-hooks/context';
 import { TEthersProvider } from 'eth-hooks/models';
 import { Contract } from 'ethers';
 import { FunctionFragment } from 'ethers/lib/utils';
-import React, { FC, ReactElement, useMemo, useState } from 'react';
+import React, { FC, ReactElement, useState } from 'react';
 
 import { DisplayVariable } from './DisplayVariable';
 import { FunctionForm } from './FunctionFrom';
@@ -27,27 +27,23 @@ interface IGenericContract {
   tokenPrice?: number;
   blockExplorer: string;
   contractConfig: TContractConfig;
-  providerKey?: string;
 }
 
 export const GenericContract: FC<IGenericContract> = (props) => {
-  const ethersContext = useEthersContext(props.providerKey);
-  const contracts = useContractLoader(props.contractConfig, undefined, props.providerKey);
+  const ethersContext = useEthersContext();
+  const contracts = useContractLoader(props.contractConfig, undefined);
   let contract: Contract | undefined = props.customContract;
   if (!props.customContract) {
     contract = contracts ? contracts[props.contractName] : undefined;
   }
-  const contractIsDeployed = useContractExistsAtAddress(contract?.address, props.providerKey);
+  const contractIsDeployed = useContractExistsAtAddress(contract?.address);
   const [refreshRequired, setTriggerRefresh] = useState(false);
 
-  const displayedContractFunctions = useMemo(() => {
-    // setTriggerRefresh(true);
-    return contract
-      ? Object.values(contract.interface.functions).filter(
-          (fn) => fn.type === 'function' && !(props.show && props.show.indexOf(fn.name) < 0)
-        )
-      : [];
-  }, [contract, props.show]);
+  const displayedContractFunctions = contract
+    ? Object.values(contract.interface.functions).filter(
+        (fn) => fn.type === 'function' && !(props.show && props.show.indexOf(fn.name) < 0)
+      )
+    : [];
 
   const contractDisplay = displayedContractFunctions.map((fn) => {
     if (!ethersContext.signer) return <></>;

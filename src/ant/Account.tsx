@@ -1,23 +1,23 @@
 import { Button } from 'antd';
 import { useBurnerSigner } from 'eth-hooks';
-import { EthersModalConnector, useEthersContext } from 'eth-hooks/context';
+import { CreateEthersModalConnector, useEthersContext } from 'eth-hooks/context';
 import { TEthersProvider } from 'eth-hooks/models';
-import React, { FC } from 'react';
+import { StaticJsonRpcProvider } from 'ethers/node_modules/@ethersproject/providers';
+import React, { FC, useEffect, useRef } from 'react';
 import { useThemeSwitcher } from 'react-css-theme-switcher';
 import { useDebounce } from 'use-debounce';
 
 import { Address, Balance, Wallet } from '.';
 
 export interface IAccountProps {
-  mainnetProvider: TEthersProvider | undefined;
-  modalConnector?: EthersModalConnector;
-  account: string | undefined;
-  price: number;
+  mainnetProvider: StaticJsonRpcProvider | undefined;
+  localProvider?: StaticJsonRpcProvider | undefined;
+  createLoginConnector?: CreateEthersModalConnector;
+  account?: string;
   minimized?: boolean;
-  isFallbackUser?: boolean;
   fontSize?: number;
   blockExplorer: string;
-  providerKey?: string;
+  price: number;
 }
 
 /**
@@ -30,7 +30,6 @@ export interface IAccountProps {
   - Provide userProvider={userProvider} to display a wallet
   - Provide mainnetProvider={mainnetProvider} and your address will be replaced by ENS name
               (ex. "0xa870" => "user.eth")
-  - Provide price={price} of ether and get your balance converted to dollars
   - Provide web3Modal={web3Modal}, loadWeb3Modal={loadWeb3Modal}, logoutOfWeb3Modal={logoutOfWeb3Modal}
               to be able to log in/log out to/from existing accounts
   - Provide blockExplorer={blockExplorer}, click on address and get the link
@@ -40,41 +39,81 @@ export interface IAccountProps {
  */
 export const Account: FC<IAccountProps> = (props: IAccountProps) => {
   const ethersContext = useEthersContext();
-  const burner = useBurnerSigner(ethersContext.ethersProvider);
-  const showLogin = burner.account === ethersContext.account || ethersContext.signer == null;
+  const burnerFallback = useBurnerSigner(props.localProvider as TEthersProvider);
 
-  const logoutButton = (
-    <>
-      {!showLogin && (
-        <Button
-          key="logoutbutton"
-          style={{ verticalAlign: 'top', marginLeft: 8, marginTop: 4 }}
-          shape="round"
-          size="large"
-          onClick={ethersContext.logoutWeb3Modal}>
-          logout
-        </Button>
-      )}
-    </>
-  );
+  const connectingRef = useRef(false);
+  const showConnect = burnerFallback.account === ethersContext.account || !ethersContext.active;
+
+  useEffect(() => {
+    if (ethersContext.active && connectingRef.current) {
+      connectingRef.current = false;
+    }
+  }, [ethersContext.active]);
+
+  useEffect(() => {
+    //  if the current provider is local provider then use the burner fallback
+    if (ethersContext.account === burnerFallback.account && burnerFallback.signer) {
+      if (ethersContext.active) {
+        ethersContext.changeAccount?.(burnerFallback.signer);
+      }
+    }
+  }, [
+    ethersContext.account,
+    ethersContext.changeAccount,
+    burnerFallback.signer,
+    ethersContext,
+    burnerFallback.account,
+  ]);
+
+  const [address] = useDebounce(props.account ?? ethersContext.account ?? burnerFallback.account, 100, {
+    trailing: true,
+  });
+
+  const handleLoginClick = (): void => {
+    if (props.createLoginConnector != null && !connectingRef.current) {
+      connectingRef.current = true;
+      const connector = props.createLoginConnector?.();
+      if (connector) {
+        ethersContext.openWeb3Modal(connector);
+      } else {
+        console.warn('A valid EthersModalConnector was not provided');
+        connectingRef.current = false;
+      }
+    }
+  };
 
   const loadModalButton = (
     <>
-      {showLogin && props.modalConnector && (
+      {showConnect && props.createLoginConnector && (
         <Button
+          loading={connectingRef.current}
           key="loginbutton"
           style={{ verticalAlign: 'top', marginLeft: 8, marginTop: 4 }}
           shape="round"
           size="large"
-          onClick={(): void => ethersContext.openWeb3Modal(props.modalConnector!)}>
+          onClick={handleLoginClick}>
           connect
         </Button>
       )}
     </>
   );
 
+  const logoutButton = (
+    <>
+      {!showConnect && props.createLoginConnector && (
+        <Button
+          key="logoutbutton"
+          style={{ verticalAlign: 'top', marginLeft: 8, marginTop: 4 }}
+          shape="round"
+          size="large"
+          onClick={ethersContext.disconnectWeb3Modal}>
+          logout
+        </Button>
+      )}
+    </>
+  );
+
   const { currentTheme } = useThemeSwitcher();
-  const [address] = useDebounce(props.account, 100, { trailing: true });
 
   const display = props.minimized ? (
     <></>
@@ -90,7 +129,7 @@ export const Account: FC<IAccountProps> = (props: IAccountProps) => {
             blockExplorer={props.blockExplorer}
             minimized={props.minimized}
           />
-          <Balance address={address} price={props.price} providerKey={props.providerKey} />
+          <Balance address={address} price={props.price} />
           {props.mainnetProvider && (
             <Wallet
               address={address}

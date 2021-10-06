@@ -1,6 +1,6 @@
 import { BigNumber } from '@ethersproject/bignumber';
-import { JsonRpcProvider, Web3Provider } from '@ethersproject/providers';
 import { Button, Col, Divider, Input, Row, Tooltip } from 'antd';
+import { TEthersProvider } from 'eth-hooks/models';
 import { ContractFunction, utils } from 'ethers';
 import { FunctionFragment } from 'ethers/lib/utils';
 import React, { Dispatch, ReactElement, SetStateAction, useState, FC, useContext } from 'react';
@@ -19,7 +19,7 @@ const getFunctionInputKey = (functionInfo: FunctionFragment, input: utils.ParamT
 interface IFunctionForm {
   contractFunction: ContractFunction;
   functionInfo: FunctionFragment;
-  provider: JsonRpcProvider | Web3Provider | undefined;
+  provider: TEthersProvider | undefined;
   gasPrice: number;
   setTriggerRefresh: Dispatch<SetStateAction<boolean>>;
 }

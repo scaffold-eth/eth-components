@@ -9,7 +9,6 @@ interface IBalanceProps {
   balance?: BigNumber;
   dollarMultiplier?: number;
   size?: 'short' | 'long';
-  providerKey?: string;
 }
 
 /**
@@ -26,7 +25,7 @@ interface IBalanceProps {
 export const Balance: FC<IBalanceProps> = ({ size = 'short', ...rest }) => {
   const props = { ...rest, size };
   const [dollarMode, setDollarMode] = useState(true);
-  const balance = useBalance(props.address, props.providerKey);
+  const balance = useBalance(props.address);
 
   let floatBalance = parseFloat('0.00');
 
