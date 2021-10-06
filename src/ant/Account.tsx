@@ -3,7 +3,7 @@ import { useBurnerSigner } from 'eth-hooks';
 import { CreateEthersModalConnector, useEthersContext } from 'eth-hooks/context';
 import { TEthersProvider } from 'eth-hooks/models';
 import { StaticJsonRpcProvider } from 'ethers/node_modules/@ethersproject/providers';
-import React, { FC, useEffect, useRef } from 'react';
+import React, { FC, useEffect } from 'react';
 import { useThemeSwitcher } from 'react-css-theme-switcher';
 import { useDebounce } from 'use-debounce';
 
@@ -41,14 +41,7 @@ export const Account: FC<IAccountProps> = (props: IAccountProps) => {
   const ethersContext = useEthersContext();
   const burnerFallback = useBurnerSigner(props.localProvider as TEthersProvider);
 
-  const connectingRef = useRef(false);
   const showConnect = burnerFallback.account === ethersContext.account || !ethersContext.active;
-
-  useEffect(() => {
-    if (ethersContext.active && connectingRef.current) {
-      connectingRef.current = false;
-    }
-  }, [ethersContext.active]);
 
   useEffect(() => {
     //  if the current provider is local provider then use the burner fallback
@@ -70,14 +63,12 @@ export const Account: FC<IAccountProps> = (props: IAccountProps) => {
   });
 
   const handleLoginClick = (): void => {
-    if (props.createLoginConnector != null && !connectingRef.current) {
-      connectingRef.current = true;
+    if (props.createLoginConnector != null) {
       const connector = props.createLoginConnector?.();
       if (connector) {
-        ethersContext.openWeb3Modal(connector);
+        ethersContext.openModal(connector);
       } else {
         console.warn('A valid EthersModalConnector was not provided');
-        connectingRef.current = false;
       }
     }
   };
@@ -86,7 +77,7 @@ export const Account: FC<IAccountProps> = (props: IAccountProps) => {
     <>
       {showConnect && props.createLoginConnector && (
         <Button
-          loading={connectingRef.current}
+          loading={{ delay: 1000 }}
           key="loginbutton"
           style={{ verticalAlign: 'top', marginLeft: 8, marginTop: 4 }}
           shape="round"
@@ -106,7 +97,7 @@ export const Account: FC<IAccountProps> = (props: IAccountProps) => {
           style={{ verticalAlign: 'top', marginLeft: 8, marginTop: 4 }}
           shape="round"
           size="large"
-          onClick={ethersContext.disconnectWeb3Modal}>
+          onClick={ethersContext.disconnectModal}>
           logout
         </Button>
       )}
