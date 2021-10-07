@@ -1,5 +1,6 @@
 import { BigNumber } from '@ethersproject/bignumber';
 import { Button, Col, Divider, Input, Row, Tooltip } from 'antd';
+import { useEthersContext } from 'eth-hooks/context';
 import { TEthersProvider } from 'eth-hooks/models';
 import { ContractFunction, utils } from 'ethers';
 import { FunctionFragment } from 'ethers/lib/utils';
@@ -29,8 +30,10 @@ export const FunctionForm: FC<IFunctionForm> = (props) => {
   const [txValue, setTxValue] = useState<string>('');
   const [returnValue, setReturnValue] = useState<string | ReactElement | number | undefined>();
 
+  const ethersContext = useEthersContext();
   const context = useContext(EthComponentsContext);
-  const tx = transactor(context, props.provider, props.gasPrice);
+
+  const tx = transactor(context, ethersContext.signer, props.gasPrice);
 
   const inputs = props.functionInfo.inputs.map((input, inputIndex) => {
     const key = getFunctionInputKey(props.functionInfo, input, inputIndex);
