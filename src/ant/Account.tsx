@@ -4,7 +4,6 @@ import { StaticJsonRpcProvider } from 'ethers/node_modules/@ethersproject/provid
 import React, { FC, useState } from 'react';
 import { useThemeSwitcher } from 'react-css-theme-switcher';
 import { useDebounce } from 'use-debounce';
-import { useTimeout } from 'usehooks-ts';
 
 import { Address, Balance, Wallet } from '.';
 
@@ -41,7 +40,13 @@ export const Account: FC<IAccountProps> = (props: IAccountProps) => {
   const showConnect = !ethersContext.active;
   const [connecting, setConnecting] = useState(false);
 
-  useTimeout(() => setConnecting(false), 5000);
+  const [loadingButton, loadingButtonDebounce] = useDebounce(connecting, 1000, {
+    maxWait: 1500,
+  });
+
+  if (loadingButton && connecting) {
+    setConnecting(false);
+  }
 
   const [address] = useDebounce(props.account ?? ethersContext.account, 200, {
     trailing: true,
@@ -63,7 +68,7 @@ export const Account: FC<IAccountProps> = (props: IAccountProps) => {
     <>
       {showConnect && props.createLoginConnector && (
         <Button
-          loading={connecting}
+          loading={loadingButtonDebounce.isPending()}
           key="loginbutton"
           style={{ verticalAlign: 'top', marginLeft: 8, marginTop: 4 }}
           shape="round"

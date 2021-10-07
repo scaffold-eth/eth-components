@@ -6,6 +6,7 @@ import { Button, Modal, Spin, Tooltip, Typography } from 'antd';
 import { BytesLike, ethers, Signer } from 'ethers';
 import QR from 'qrcode.react';
 import React, { FC, useContext, useEffect, useState } from 'react';
+import { useIsMounted } from 'usehooks-ts';
 
 import { Address, AddressInput, Balance, EtherInput } from '.';
 
@@ -40,11 +41,13 @@ interface IWalletProps {
  */
 export const Wallet: FC<IWalletProps> = (props) => {
   const [signerAddress, setSignerAddress] = useState<string>('');
+  const isMounted = useIsMounted();
+
   useEffect(() => {
     const getAddress = async (): Promise<void> => {
       if (props.signer) {
         const newAddress = await props.signer.getAddress();
-        setSignerAddress(newAddress);
+        if (isMounted()) setSignerAddress(newAddress);
       }
     };
 
