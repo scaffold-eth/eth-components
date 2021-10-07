@@ -5184,10 +5184,10 @@ eth-gas-reporter@^0.2.20:
     sha1 "^1.1.1"
     sync-request "^6.0.0"
 
-eth-hooks@^3.1.0beta05:
-  version "3.1.0-beta05"
-  resolved "https://registry.yarnpkg.com/eth-hooks/-/eth-hooks-3.1.0-beta05.tgz#fd0ab549d7ff90d79e8fd22c01590da0cf5a7c95"
-  integrity sha512-OTekv4G8y0U0VYpH26onRfbXzmtKB3/xHpCpjBojqCxyXu8FBR/gMWng02hw7jqF1I3OprSCRikGJvrHEeCc7w==
+eth-hooks@^3.1.0beta06:
+  version "3.1.0-beta06"
+  resolved "https://registry.yarnpkg.com/eth-hooks/-/eth-hooks-3.1.0-beta06.tgz#0f25a9097ec582f2b7be2dfac38e8233eb71b613"
+  integrity sha512-yre4US6NzTm25wwf+oXOtkHood6poPd0EH/VrFXNjyNJdrSYBh16kZCxi2Cok+v6If0Ry5HoPtSRJkItuXtJyQ==
   dependencies:
     "@ethersproject/address" "^5.4.0"
     "@ethersproject/bignumber" "^5.4.0"
