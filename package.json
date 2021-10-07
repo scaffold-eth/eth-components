@@ -1,6 +1,6 @@
 {
   "name": "eth-components",
-  "version": "2.0.0beta02",
+  "version": "2.0.0beta05",
   "description": "A set of react components to turbocharge buidling",
   "author": "Austin Griffith <austin@ethereum.org>",
   "repository": "https://github.com/scaffold-eth/eth-components.git",
@@ -51,20 +51,20 @@
     "@uniswap/token-lists": "^1.0.0-beta.24",
     "axios": "^0.21.4",
     "bnc-notify": "^1.9.1",
-    "eth-hooks": "^3.0.1",
+    "eth-hooks": "^3.1.0beta05",
     "ethers": "^5.4.1",
     "qrcode.react": "^1.0.1",
     "react-blockies": "^1.4.1",
     "react-qr-reader": "^2.2.1",
-    "use-debounce": "^7.0.0"
+    "use-debounce": "^7.0.0",
+    "usehooks-ts": "^1.0.4"
   },
   "peerDependencies": {
     "@ant-design/icons": "^4.2.2",
     "antd": "^4.7.0",
     "react": ">=17.0.2",
     "react-css-theme-switcher": "^0.3.0",
-    "react-dom": ">=17.0.2",
-    "web3modal": "^1.9.1"
+    "react-dom": ">=17.0.2"
   },
   "devDependencies": {
     "@ant-design/icons": "^4.2.2",
@@ -91,9 +91,6 @@
     "@typescript-eslint/eslint-plugin": "^4.31.2",
     "@typescript-eslint/parser": "^4.31.2",
     "@uniswap/sdk": "^3.0.3",
-    "@web3-react/abstract-connector": "^6.0.7",
-    "@web3-react/core": "^6.1.9",
-    "@web3-react/types": "^6.0.7",
     "antd": "^4.7.0",
     "chai": "^4.3.4",
     "commitizen": "^4.1.2",
@@ -133,9 +130,7 @@
     "ts-patch": "^1.3.4",
     "tsconfig-paths": "^3.11.0",
     "typescript": "^4.3.4",
-    "typescript-transform-paths": "^3.0.2",
-    "web3modal": "^1.9.1",
-    "yarn": "^1.22.11"
+    "typescript-transform-paths": "^3.0.2"
   },
   "keywords": [
     "blockchain",

@@ -1,11 +1,10 @@
 import { Button } from 'antd';
-import { useBurnerSigner } from 'eth-hooks';
 import { CreateEthersModalConnector, useEthersContext } from 'eth-hooks/context';
-import { TEthersProvider } from 'eth-hooks/models';
 import { StaticJsonRpcProvider } from 'ethers/node_modules/@ethersproject/providers';
-import React, { FC, useEffect } from 'react';
+import React, { FC, useState } from 'react';
 import { useThemeSwitcher } from 'react-css-theme-switcher';
 import { useDebounce } from 'use-debounce';
+import { useTimeout } from 'usehooks-ts';
 
 import { Address, Balance, Wallet } from '.';
 
@@ -39,26 +38,12 @@ export interface IAccountProps {
  */
 export const Account: FC<IAccountProps> = (props: IAccountProps) => {
   const ethersContext = useEthersContext();
-  const burnerFallback = useBurnerSigner(props.localProvider as TEthersProvider);
+  const showConnect = !ethersContext.active;
+  const [connecting, setConnecting] = useState(false);
 
-  const showConnect = burnerFallback.account === ethersContext.account || !ethersContext.active;
+  useTimeout(() => setConnecting(false), 5000);
 
-  useEffect(() => {
-    //  if the current provider is local provider then use the burner fallback
-    if (ethersContext.account === burnerFallback.account && burnerFallback.signer) {
-      if (ethersContext.active) {
-        ethersContext.changeAccount?.(burnerFallback.signer);
-      }
-    }
-  }, [
-    ethersContext.account,
-    ethersContext.changeAccount,
-    burnerFallback.signer,
-    ethersContext,
-    burnerFallback.account,
-  ]);
-
-  const [address] = useDebounce(props.account ?? ethersContext.account ?? burnerFallback.account, 100, {
+  const [address] = useDebounce(props.account ?? ethersContext.account, 200, {
     trailing: true,
   });
 
@@ -66,6 +51,7 @@ export const Account: FC<IAccountProps> = (props: IAccountProps) => {
     if (props.createLoginConnector != null) {
       const connector = props.createLoginConnector?.();
       if (connector) {
+        setConnecting(true);
         ethersContext.openModal(connector);
       } else {
         console.warn('A valid EthersModalConnector was not provided');
@@ -77,7 +63,7 @@ export const Account: FC<IAccountProps> = (props: IAccountProps) => {
     <>
       {showConnect && props.createLoginConnector && (
         <Button
-          loading={{ delay: 1000 }}
+          loading={connecting}
           key="loginbutton"
           style={{ verticalAlign: 'top', marginLeft: 8, marginTop: 4 }}
           shape="round"
