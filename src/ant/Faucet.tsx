@@ -70,7 +70,7 @@ export const Faucet: FC<IFaucetProps> = (props) => {
     [props.ensProvider, props.onChange]
   );
 
-  const tx = transactor(context, props.localProvider);
+  const tx = transactor(context, props.localProvider.getSigner());
 
   return (
     <span>

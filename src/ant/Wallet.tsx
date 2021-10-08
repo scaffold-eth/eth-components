@@ -329,12 +329,11 @@ export const Wallet: FC<IWalletProps> = (props) => {
                 value = parseEther('' + parseFloat(amount).toFixed(8));
               }
 
-              if (tx) {
-                void tx({
-                  to: toAddress,
-                  value,
-                });
-              }
+              void tx?.({
+                to: toAddress,
+                value,
+              });
+
               setOpen(!open);
               setQr('');
             }}>

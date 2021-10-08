@@ -2,8 +2,7 @@ import { TransactionRequest, TransactionResponse } from '@ethersproject/provider
 import { notification } from 'antd';
 import Notify, { API, InitOptions } from 'bnc-notify';
 import { parseProviderOrSigner } from 'eth-hooks/functions';
-import { TEthersProviderOrSigner } from 'eth-hooks/models';
-import { BigNumber, ethers } from 'ethers';
+import { BigNumber, ethers, Signer } from 'ethers';
 import { Deferrable } from 'ethers/lib/utils';
 
 import { checkBlocknativeAppId, IEthComponentsContext } from '~~/models/EthComponentsContext';
@@ -27,17 +26,17 @@ type TTransactor = (
  */
 export const transactor = (
   context: IEthComponentsContext,
-  providerOrSigner: TEthersProviderOrSigner | undefined,
+  signer: Signer | undefined,
   gasPrice?: number,
   etherscan?: string
 ): TTransactor | undefined => {
-  if (typeof providerOrSigner !== 'undefined') {
+  if (signer != null) {
     // eslint-disable-next-line consistent-return
     return async (
       tx: Deferrable<TransactionRequest> | Promise<TransactionResponse>,
       callback?: (_param: any) => void
     ): Promise<Record<string, any> | TransactionResponse | undefined> => {
-      const { signer, provider, providerNetwork } = await parseProviderOrSigner(providerOrSigner);
+      const { provider, providerNetwork } = await parseProviderOrSigner(signer);
 
       checkBlocknativeAppId(context);
 
