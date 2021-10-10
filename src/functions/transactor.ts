@@ -9,7 +9,7 @@ import { checkBlocknativeAppId, IEthComponentsContext } from '~~/models/EthCompo
 
 const callbacks: Record<string, any> = {};
 const DEBUG = true;
-type TTransactor = (
+export type TTransactor = (
   tx: Deferrable<TransactionRequest> | Promise<TransactionResponse>,
   callback?: ((_param: any) => void) | undefined
 ) => Promise<Record<string, any> | TransactionResponse | undefined>;
@@ -28,10 +28,10 @@ export const transactor = (
   context: IEthComponentsContext,
   signer: Signer | undefined,
   gasPrice?: number,
-  etherscan?: string
+  etherscan?: string,
+  throwOnError: boolean = false
 ): TTransactor | undefined => {
   if (signer != null) {
-    // eslint-disable-next-line consistent-return
     return async (
       tx: Deferrable<TransactionRequest> | Promise<TransactionResponse>,
       callback?: (_param: any) => void
@@ -138,11 +138,12 @@ export const transactor = (
       } catch (e: any) {
         if (DEBUG) console.log(e);
         // Accounts for Metamask and default signer on all networks
-
         notification.error({
           message: 'Transaction Error',
           description: e?.message,
         });
+
+        if (throwOnError) throw e;
       }
     };
   }

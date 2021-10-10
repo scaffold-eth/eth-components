@@ -1,6 +1,6 @@
+import { StaticJsonRpcProvider } from '@ethersproject/providers';
 import { Skeleton, Typography } from 'antd';
 import { useEnsAddress } from 'eth-hooks/dapps';
-import { TEthersProvider } from 'eth-hooks/models';
 import React, { FC } from 'react';
 import Blockies from 'react-blockies';
 import { useThemeSwitcher } from 'react-css-theme-switcher';
@@ -16,7 +16,7 @@ const blockExplorerLink = (address: string, blockExplorer?: string): string =>
 
 interface IAddressProps {
   punkBlockie?: boolean;
-  ensProvider?: TEthersProvider;
+  ensProvider?: StaticJsonRpcProvider | undefined;
   blockExplorer?: string;
   address: string;
   fontSize?: number;
@@ -39,8 +39,8 @@ interface IAddressProps {
  * @param props
  * @returns (FC)
  */
-export const Address: FC<IAddressProps> = ({ punkBlockie = false, size = 'short', ...rest }) => {
-  const props = { ...rest, size, punkBlockie };
+export const Address: FC<IAddressProps> = ({ minimized = false, punkBlockie = false, size = 'short', ...rest }) => {
+  const props = { ...rest, size, minimized, punkBlockie };
   const address = props.address;
   let ens: string = '';
   const { currentTheme } = useThemeSwitcher();

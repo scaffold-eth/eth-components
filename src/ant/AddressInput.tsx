@@ -9,7 +9,7 @@ import { Blockie } from '.';
 
 interface IAddressInputProps {
   autoFocus?: boolean;
-  ensProvider: StaticJsonRpcProvider;
+  ensProvider: StaticJsonRpcProvider | undefined;
   placeholder?: string;
   address: string | undefined;
   onChange?: Dispatch<SetStateAction<string>>;
@@ -47,12 +47,12 @@ export const AddressInput: FC<IAddressInputProps> = (props) => {
   );
 
   const updateAddress = useCallback(
-    async (newValue) => {
-      if (typeof newValue !== 'undefined') {
+    async (newValue: string) => {
+      if (newValue != null) {
         let address = newValue;
         if (address.indexOf('.eth') > 0 || address.indexOf('.xyz') > 0) {
           try {
-            const possibleAddress = await props.ensProvider.resolveName(address);
+            const possibleAddress = await props.ensProvider?.resolveName?.(address);
             if (possibleAddress) {
               address = possibleAddress;
             }

@@ -1,6 +1,6 @@
 /* eslint-disable @typescript-eslint/restrict-plus-operands */
 import { KeyOutlined, QrcodeOutlined, SendOutlined, WalletOutlined } from '@ant-design/icons';
-import { JsonRpcProvider, Web3Provider } from '@ethersproject/providers';
+import { StaticJsonRpcProvider } from '@ethereum-waffle/provider/node_modules/@ethersproject/providers';
 import { parseEther } from '@ethersproject/units';
 import { Button, Modal, Spin, Tooltip, Typography } from 'antd';
 import { BytesLike, ethers, Signer } from 'ethers';
@@ -18,7 +18,7 @@ const { Text, Paragraph } = Typography;
 interface IWalletProps {
   signer: Signer | undefined;
   address: string;
-  ensProvider: JsonRpcProvider | Web3Provider;
+  ensProvider: StaticJsonRpcProvider | undefined;
   price: number;
   color: string;
 }

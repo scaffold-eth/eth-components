@@ -12,7 +12,10 @@ export interface IAccountProps {
   localProvider?: StaticJsonRpcProvider | undefined;
   createLoginConnector?: CreateEthersModalConnector;
   account?: string;
-  minimized?: boolean;
+  /**
+   * if hasContextConnect = false, do not use context or context connect/login/logout.  only used passed in address.  defaults={false}
+   */
+  hasContextConnect?: boolean;
   fontSize?: number;
   blockExplorer: string;
   price: number;
@@ -35,9 +38,10 @@ export interface IAccountProps {
  * @param props
  * @returns (FC)
  */
-export const Account: FC<IAccountProps> = (props: IAccountProps) => {
+export const Account: FC<IAccountProps> = ({ hasContextConnect = false, ...rest }: IAccountProps) => {
+  const props = { hasContextConnect, ...rest };
   const ethersContext = useEthersContext();
-  const showConnect = !ethersContext.active;
+  const showLoadModal = !ethersContext.active;
   const [connecting, setConnecting] = useState(false);
 
   const [loadingButton, loadingButtonDebounce] = useDebounce(connecting, 1000, {
@@ -48,7 +52,8 @@ export const Account: FC<IAccountProps> = (props: IAccountProps) => {
     setConnecting(false);
   }
 
-  const [address] = useDebounce(props.account ?? ethersContext.account, 200, {
+  // if hasContextConnect = false, do not use context or context connect/login/logout.  only used passed in address
+  const [address] = useDebounce(props.hasContextConnect ? props.account ?? ethersContext.account : props.account, 200, {
     trailing: true,
   });
 
@@ -66,7 +71,7 @@ export const Account: FC<IAccountProps> = (props: IAccountProps) => {
 
   const loadModalButton = (
     <>
-      {showConnect && props.createLoginConnector && (
+      {showLoadModal && props.createLoginConnector && (
         <Button
           loading={loadingButtonDebounce.isPending()}
           key="loginbutton"
@@ -82,7 +87,7 @@ export const Account: FC<IAccountProps> = (props: IAccountProps) => {
 
   const logoutButton = (
     <>
-      {!showConnect && props.createLoginConnector && (
+      {!showLoadModal && props.createLoginConnector && (
         <Button
           key="logoutbutton"
           style={{ verticalAlign: 'top', marginLeft: 8, marginTop: 4 }}
@@ -97,9 +102,7 @@ export const Account: FC<IAccountProps> = (props: IAccountProps) => {
 
   const { currentTheme } = useThemeSwitcher();
 
-  const display = props.minimized ? (
-    <></>
-  ) : (
+  const display = (
     <span>
       {address != null && (
         <>
@@ -109,7 +112,7 @@ export const Account: FC<IAccountProps> = (props: IAccountProps) => {
             fontSize={props.fontSize}
             ensProvider={props.mainnetProvider}
             blockExplorer={props.blockExplorer}
-            minimized={props.minimized}
+            minimized={false}
           />
           <Balance address={address} price={props.price} />
           {props.mainnetProvider && (
@@ -129,8 +132,12 @@ export const Account: FC<IAccountProps> = (props: IAccountProps) => {
   return (
     <div>
       {display}
-      {loadModalButton}
-      {logoutButton}
+      {props.hasContextConnect && (
+        <>
+          {loadModalButton}
+          {logoutButton}
+        </>
+      )}
     </div>
   );
 };

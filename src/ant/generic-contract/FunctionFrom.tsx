@@ -28,7 +28,7 @@ interface IFunctionForm {
 export const FunctionForm: FC<IFunctionForm> = (props) => {
   const [form, setForm] = useState<Record<string, any>>({});
   const [txValue, setTxValue] = useState<string>('');
-  const [returnValue, setReturnValue] = useState<string | ReactElement | number | undefined>();
+  const [returnValue, setReturnValue] = useState<string | ReactElement | number | BigInt | undefined>();
 
   const ethersContext = useEthersContext();
   const context = useContext(EthComponentsContext);
@@ -38,7 +38,7 @@ export const FunctionForm: FC<IFunctionForm> = (props) => {
   const inputs = props.functionInfo.inputs.map((input, inputIndex) => {
     const key = getFunctionInputKey(props.functionInfo, input, inputIndex);
 
-    let buttons: ReactElement | null = null;
+    let buttons: ReactElement = <></>;
     if (input.type === 'bytes32') {
       buttons = (
         <Tooltip placement="right" title="to bytes32">
@@ -207,7 +207,7 @@ export const FunctionForm: FC<IFunctionForm> = (props) => {
                 return value;
               });
 
-              let result: string | ReactElement | number | undefined = undefined;
+              let result: string | ReactElement | number | BigInt | undefined = undefined;
               if (props.functionInfo.stateMutability === 'view' || props.functionInfo.stateMutability === 'pure') {
                 try {
                   const returned = await props.contractFunction(...args);
