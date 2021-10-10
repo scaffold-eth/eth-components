@@ -2,6 +2,7 @@ import { Col, Divider, Row } from 'antd';
 import { ContractFunction } from 'ethers';
 import { FunctionFragment } from 'ethers/lib/utils';
 import React, { FC, SetStateAction, useCallback, useEffect, useState, Dispatch } from 'react';
+import { useIsMounted } from 'usehooks-ts';
 
 import { tryToDisplay } from './displayUtils';
 
@@ -14,17 +15,21 @@ interface IDisplayVariableProps {
 
 export const DisplayVariable: FC<IDisplayVariableProps> = (props) => {
   const [variable, setVariable] = useState('');
+  const isMounted = useIsMounted();
 
   const refresh = useCallback(async () => {
     try {
       if (props.contractFunction) {
-        setVariable(await props.contractFunction());
+        // eslint-disable-next-line @typescript-eslint/no-unsafe-assignment
+        const result = await props.contractFunction();
+
+        if (isMounted()) setVariable(result);
         props.setTriggerRefresh(false);
       }
     } catch (e) {
       console.log(e);
     }
-  }, [props.contractFunction, setVariable, props.setTriggerRefresh]);
+  }, [props, isMounted]);
 
   useEffect((): void => {
     void refresh();

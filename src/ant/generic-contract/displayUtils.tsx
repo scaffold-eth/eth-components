@@ -7,11 +7,11 @@ import { Address } from '~~/ant/Address';
 
 export const tryToDisplay = (
   thing: string | BigNumber | Record<string, any> | TransactionResponse | undefined
-): string | ReactElement | number | BigInt => {
+): string | ReactElement | number => {
   if (thing == null) return '';
   if (thing && thing instanceof BigNumber) {
     try {
-      return thing.toBigInt();
+      return thing.toNumber();
     } catch (e) {
       return 'Ξ' + formatUnits(thing, 'ether');
     }

@@ -1,7 +1,6 @@
 import { BigNumber } from '@ethersproject/bignumber';
 import { Button, Col, Divider, Input, Row, Tooltip } from 'antd';
 import { useEthersContext } from 'eth-hooks/context';
-import { TEthersProvider } from 'eth-hooks/models';
 import { ContractFunction, utils } from 'ethers';
 import { FunctionFragment } from 'ethers/lib/utils';
 import React, { Dispatch, ReactElement, SetStateAction, useState, FC, useContext } from 'react';
@@ -19,8 +18,7 @@ const getFunctionInputKey = (functionInfo: FunctionFragment, input: utils.ParamT
 
 interface IFunctionForm {
   contractFunction: ContractFunction;
-  functionInfo: FunctionFragment;
-  provider: TEthersProvider | undefined;
+  functionFragment: FunctionFragment;
   gasPrice: number;
   setTriggerRefresh: Dispatch<SetStateAction<boolean>>;
 }
@@ -28,15 +26,15 @@ interface IFunctionForm {
 export const FunctionForm: FC<IFunctionForm> = (props) => {
   const [form, setForm] = useState<Record<string, any>>({});
   const [txValue, setTxValue] = useState<string>('');
-  const [returnValue, setReturnValue] = useState<string | ReactElement | number | BigInt | undefined>();
+  const [returnValue, setReturnValue] = useState<string | ReactElement | number | undefined>();
 
   const ethersContext = useEthersContext();
   const context = useContext(EthComponentsContext);
 
   const tx = transactor(context, ethersContext.signer, props.gasPrice);
 
-  const inputs = props.functionInfo.inputs.map((input, inputIndex) => {
-    const key = getFunctionInputKey(props.functionInfo, input, inputIndex);
+  const inputs = props.functionFragment.inputs.map((input, inputIndex) => {
+    const key = getFunctionInputKey(props.functionFragment, input, inputIndex);
 
     let buttons: ReactElement = <></>;
     if (input.type === 'bytes32') {
@@ -167,12 +165,12 @@ export const FunctionForm: FC<IFunctionForm> = (props) => {
     </div>
   );
 
-  if (props.functionInfo.payable) {
+  if (props.functionFragment.payable) {
     inputs.push(txValueInput);
   }
 
   const buttonIcon =
-    props.functionInfo.type === 'call' ? (
+    props.functionFragment.type === 'call' ? (
       <Button style={{ marginLeft: -32 }}>Read📡</Button>
     ) : (
       <Button style={{ marginLeft: -32 }}>Send💸</Button>
@@ -191,8 +189,8 @@ export const FunctionForm: FC<IFunctionForm> = (props) => {
             style={{ width: 50, height: 30, margin: 0 }}
             // type="default"
             onClick={async (): Promise<any> => {
-              const args = props.functionInfo.inputs.map((input, inputIndex) => {
-                const key = getFunctionInputKey(props.functionInfo, input, inputIndex);
+              const args = props.functionFragment.inputs.map((input, inputIndex) => {
+                const key = getFunctionInputKey(props.functionFragment, input, inputIndex);
                 let value = form[key];
                 if (input.baseType === 'array') {
                   value = JSON.parse(value);
@@ -207,8 +205,11 @@ export const FunctionForm: FC<IFunctionForm> = (props) => {
                 return value;
               });
 
-              let result: string | ReactElement | number | BigInt | undefined = undefined;
-              if (props.functionInfo.stateMutability === 'view' || props.functionInfo.stateMutability === 'pure') {
+              let result: string | ReactElement | number | undefined = undefined;
+              if (
+                props.functionFragment.stateMutability === 'view' ||
+                props.functionFragment.stateMutability === 'pure'
+              ) {
                 try {
                   const returned = await props.contractFunction(...args);
                   result = tryToDisplay(returned);
@@ -255,7 +256,7 @@ export const FunctionForm: FC<IFunctionForm> = (props) => {
             paddingRight: 6,
             fontSize: 24,
           }}>
-          {props.functionInfo.name}
+          {props.functionFragment.name}
         </Col>
         <Col span={16}>{inputs}</Col>
       </Row>

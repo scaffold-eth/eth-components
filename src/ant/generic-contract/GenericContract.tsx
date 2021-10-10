@@ -2,7 +2,7 @@ import { Card, Typography } from 'antd';
 import { TContractConfig, useContractExistsAtAddress } from 'eth-hooks';
 import { useEthersContext } from 'eth-hooks/context';
 import { TEthersProvider } from 'eth-hooks/models';
-import { Contract } from 'ethers';
+import { Contract, ContractFunction } from 'ethers';
 import { FunctionFragment } from 'ethers/lib/utils';
 import React, { FC, ReactElement, useState } from 'react';
 
@@ -44,7 +44,7 @@ export const GenericContract: FC<IGenericContract> = (props) => {
     if (!ethersContext.signer) return <></>;
 
     // eslint-disable-next-line @typescript-eslint/no-unsafe-assignment
-    const contractFunc =
+    const contractFunc: ContractFunction<any> =
       fn.stateMutability === 'view' || fn.stateMutability === 'pure'
         ? props.contract?.[fn.name]
         : props.contract?.connect(ethersContext.signer)?.[fn.name];
@@ -67,8 +67,7 @@ export const GenericContract: FC<IGenericContract> = (props) => {
         <FunctionForm
           key={'FF' + fn.name}
           contractFunction={contractFunc}
-          functionInfo={fn}
-          provider={props.contract.provider as TEthersProvider}
+          functionFragment={fn}
           gasPrice={props.gasPrice ?? 0}
           setTriggerRefresh={setTriggerRefresh}
         />
