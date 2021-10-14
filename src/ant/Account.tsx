@@ -1,4 +1,6 @@
+import { Signer } from '@ethereum-waffle/provider/node_modules/ethers';
 import { Button } from 'antd';
+import { useUserAddress } from 'eth-hooks';
 import { CreateEthersModalConnector, useEthersContext } from 'eth-hooks/context';
 import { StaticJsonRpcProvider } from 'ethers/node_modules/@ethersproject/providers';
 import React, { FC, useState } from 'react';
@@ -8,10 +10,13 @@ import { useDebounce } from 'use-debounce';
 import { Address, Balance, Wallet } from '.';
 
 export interface IAccountProps {
-  mainnetProvider: StaticJsonRpcProvider | undefined;
+  ensProvider: StaticJsonRpcProvider | undefined;
   localProvider?: StaticJsonRpcProvider | undefined;
   createLoginConnector?: CreateEthersModalConnector;
-  account?: string;
+  /**
+   * if hasContextConnect is true, it will not use this variable
+   */
+  signer: Signer;
   /**
    * if hasContextConnect = false, do not use context or context connect/login/logout.  only used passed in address.  defaults={false}
    */
@@ -52,8 +57,13 @@ export const Account: FC<IAccountProps> = ({ hasContextConnect = false, ...rest 
     setConnecting(false);
   }
 
+  const address = useUserAddress(props.signer);
   // if hasContextConnect = false, do not use context or context connect/login/logout.  only used passed in address
-  const [address] = useDebounce(props.hasContextConnect ? props.account ?? ethersContext.account : props.account, 200, {
+  const [resolvedAddress] = useDebounce(props.hasContextConnect ? ethersContext.account : address, 200, {
+    trailing: true,
+  });
+
+  const [resolvedSigner] = useDebounce(props.hasContextConnect ? ethersContext.signer : props.signer, 200, {
     trailing: true,
   });
 
@@ -104,22 +114,22 @@ export const Account: FC<IAccountProps> = ({ hasContextConnect = false, ...rest 
 
   const display = (
     <span>
-      {address != null && (
+      {resolvedAddress != null && (
         <>
           <Address
             punkBlockie
-            address={address}
+            address={resolvedAddress}
             fontSize={props.fontSize}
-            ensProvider={props.mainnetProvider}
+            ensProvider={props.ensProvider}
             blockExplorer={props.blockExplorer}
             minimized={false}
           />
-          <Balance address={address} price={props.price} />
-          {props.mainnetProvider && (
+          <Balance address={resolvedAddress} price={props.price} />
+          {resolvedSigner && (
             <Wallet
-              address={address}
-              signer={ethersContext?.signer}
-              ensProvider={props.mainnetProvider}
+              signer={resolvedSigner}
+              ensProvider={props.ensProvider}
+              localProvider={props.localProvider}
               price={props.price}
               color={currentTheme === 'light' ? '#1890ff' : '#2caad9'}
             />

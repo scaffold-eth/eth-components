@@ -3,10 +3,10 @@ import { KeyOutlined, QrcodeOutlined, SendOutlined, WalletOutlined } from '@ant-
 import { StaticJsonRpcProvider } from '@ethersproject/providers';
 import { parseEther } from '@ethersproject/units';
 import { Button, Modal, Spin, Tooltip, Typography } from 'antd';
-import { BytesLike, ethers, Signer } from 'ethers';
+import { useBurnerSigner, useUserAddress } from 'eth-hooks';
+import { BytesLike, Signer } from 'ethers';
 import QR from 'qrcode.react';
-import React, { FC, useContext, useEffect, useState } from 'react';
-import { useIsMounted } from 'usehooks-ts';
+import React, { FC, useContext, useState } from 'react';
 
 import { Address, AddressInput, Balance, EtherInput } from '.';
 
@@ -17,8 +17,8 @@ const { Text, Paragraph } = Typography;
 
 interface IWalletProps {
   signer: Signer | undefined;
-  address: string;
   ensProvider: StaticJsonRpcProvider | undefined;
+  localProvider: StaticJsonRpcProvider | undefined;
   price: number;
   color: string;
 }
@@ -39,21 +39,10 @@ interface IWalletProps {
  * @param props 
  * @returns (FC)
  */
-export const Wallet: FC<IWalletProps> = (props) => {
-  const [signerAddress, setSignerAddress] = useState<string>('');
-  const isMounted = useIsMounted();
+export const Wallet: FC<IWalletProps> = (props: IWalletProps) => {
+  const burner = useBurnerSigner(props.localProvider);
 
-  useEffect(() => {
-    const getAddress = async (): Promise<void> => {
-      if (props.signer) {
-        const newAddress = await props.signer.getAddress();
-        if (isMounted()) setSignerAddress(newAddress);
-      }
-    };
-
-    void getAddress();
-  }, [props.signer]);
-  const selectedAddress = props.address || signerAddress;
+  const account = useUserAddress(props.signer);
 
   const [open, setOpen] = useState(false);
   const [qr, setQr] = useState<string>();
@@ -90,10 +79,10 @@ export const Wallet: FC<IWalletProps> = (props) => {
     display = (
       <div>
         <div>
-          <Text copyable>{selectedAddress}</Text>
+          <Text copyable>{account}</Text>
         </div>
         <QR
-          value={selectedAddress}
+          value={account ?? ''}
           size={450}
           level="H"
           includeMargin
@@ -115,71 +104,54 @@ export const Wallet: FC<IWalletProps> = (props) => {
       <Button
         key="hide"
         onClick={(): void => {
-          setPublicKey(selectedAddress);
+          setPublicKey(account);
           setQr('');
         }}>
         <KeyOutlined /> Private Key
       </Button>
     );
   } else if (publicKey) {
-    const privateKey = localStorage.getItem('metaPrivateKey') as BytesLike;
-    const wallet = new ethers.Wallet(privateKey);
-
-    if (wallet.address !== selectedAddress) {
+    if (props.signer == null || account == null) {
       display = (
         <div>
-          <b>*injected account*, private key unknown</b>
+          <b>*initalizing*</b>
+        </div>
+      );
+    }
+    if (burner.account == null) {
+      display = (
+        <div>
+          <b>*unknown*, burner signer not initalized</b>
+        </div>
+      );
+    } else if (burner.account !== account) {
+      display = (
+        <div>
+          <b>*injected account*, burner private key unknown</b>
         </div>
       );
     } else {
-      const extraPkDisplayAdded: Record<string, any> = {};
-      const extraPkDisplay = [];
-      extraPkDisplayAdded[wallet.address] = true;
-      extraPkDisplay.push(
-        <div style={{ fontSize: 16, padding: 2, backgroundColor: '#89e789' }}>
-          <a href={'/pk#' + privateKey}>
-            <Address minimized address={wallet.address} ensProvider={props.ensProvider} /> {wallet.address.substr(0, 6)}
-          </a>
-        </div>
-      );
-      for (const key in localStorage) {
-        if (key.indexOf('metaPrivateKey_backup') >= 0) {
-          console.log(key);
-          const pastpk = localStorage.getItem(key) as BytesLike;
-          const pastwallet = new ethers.Wallet(pastpk);
-          if (!extraPkDisplayAdded[pastwallet.address] /* && selectedAddress!=pastwallet.address */) {
-            extraPkDisplayAdded[pastwallet.address] = true;
-            extraPkDisplay.push(
-              <div style={{ fontSize: 16 }}>
-                <a href={'/pk#' + pastpk}>
-                  <Address minimized address={pastwallet.address} ensProvider={props.ensProvider} />{' '}
-                  {pastwallet.address.substr(0, 6)}
-                </a>
-              </div>
-            );
-          }
-        }
-      }
+      const burnerPrivateKey: BytesLike = burner.getBurnerPrivateKey() ?? '';
 
       display = (
         <div>
           <b>Private Key:</b>
 
           <div>
-            <Text copyable>{privateKey}</Text>
+            <Text copyable>{burnerPrivateKey}</Text>
           </div>
 
           <hr />
 
           <i>
             Point your camera phone at qr code to open in
-            <a target="_blank" href={'https://xdai.io/' + privateKey} rel="noopener noreferrer">
+            <a target="_blank" href={'https://xdai.io/' + burnerPrivateKey} rel="noopener noreferrer">
               burner wallet
             </a>
             :
           </i>
           <QR
-            value={'https://xdai.io/' + privateKey}
+            value={'https://xdai.io/' + burnerPrivateKey}
             size={450}
             level="H"
             includeMargin
@@ -188,30 +160,8 @@ export const Wallet: FC<IWalletProps> = (props) => {
           />
 
           <Paragraph style={{ fontSize: '16' }} copyable>
-            {'https://xdai.io/' + privateKey}
+            {'https://xdai.io/' + burnerPrivateKey}
           </Paragraph>
-
-          {extraPkDisplay ? (
-            <div>
-              <h3>Known Private Keys:</h3>
-              {extraPkDisplay}
-              <Button
-                onClick={(): void => {
-                  const currentPrivateKey = window.localStorage.getItem('metaPrivateKey');
-                  if (currentPrivateKey) {
-                    window.localStorage.setItem('metaPrivateKey_backup' + Date.now(), currentPrivateKey);
-                  }
-                  const randomWallet = ethers.Wallet.createRandom();
-                  const privateKey = randomWallet.privateKey;
-                  window.localStorage.setItem('metaPrivateKey', privateKey);
-                  window.location.reload();
-                }}>
-                Generate
-              </Button>
-            </div>
-          ) : (
-            ''
-          )}
         </div>
       );
     }
@@ -220,7 +170,7 @@ export const Wallet: FC<IWalletProps> = (props) => {
       <Button
         key="receive"
         onClick={(): void => {
-          setQr(selectedAddress);
+          setQr(account);
           setPublicKey('');
         }}>
         <QrcodeOutlined /> Receive
@@ -267,7 +217,7 @@ export const Wallet: FC<IWalletProps> = (props) => {
       <Button
         key="receive"
         onClick={(): void => {
-          setQr(selectedAddress);
+          setQr(account);
           setPublicKey('');
         }}>
         <QrcodeOutlined /> Receive
@@ -277,7 +227,7 @@ export const Wallet: FC<IWalletProps> = (props) => {
       <Button
         key="hide"
         onClick={(): void => {
-          setPublicKey(selectedAddress);
+          setPublicKey(account);
           setQr('');
         }}>
         <KeyOutlined /> Private Key
@@ -294,9 +244,9 @@ export const Wallet: FC<IWalletProps> = (props) => {
         visible={open}
         title={
           <div>
-            {selectedAddress ? <Address address={selectedAddress} ensProvider={props.ensProvider} /> : <Spin />}
+            {account ? <Address address={account} ensProvider={props.ensProvider} /> : <Spin />}
             <div style={{ float: 'right', paddingRight: 25 }}>
-              <Balance address={selectedAddress} dollarMultiplier={props.price} />
+              <Balance address={account} dollarMultiplier={props.price} />
             </div>
           </div>
         }

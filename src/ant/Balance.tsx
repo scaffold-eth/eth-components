@@ -4,7 +4,7 @@ import { BigNumber } from 'ethers';
 import React, { FC, useState } from 'react';
 
 interface IBalanceProps {
-  address: string;
+  address: string | undefined;
   price?: number;
   balance?: BigNumber;
   dollarMultiplier?: number;

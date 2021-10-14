@@ -86,8 +86,8 @@ export const GenericContract: FC<IGenericContract> = (props) => {
             <Text style={{ fontSize: fontSize, verticalAlign: 'middle' }}>{props.contractName}</Text>
             <div style={{ float: 'right' }}>
               <Account
-                account={props.contract?.address}
-                mainnetProvider={props.mainnetProvider}
+                signer={props.contract?.signer}
+                ensProvider={props.mainnetProvider}
                 price={props.tokenPrice ?? 0}
                 blockExplorer={props.blockExplorer}
                 fontSize={fontSize}

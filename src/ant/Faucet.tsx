@@ -18,8 +18,7 @@ import { EthComponentsContext } from '~~/models';
 interface IFaucetProps {
   address?: string;
   price: number;
-  ensProvider: StaticJsonRpcProvider;
-  onChange?: (value: string) => void;
+  mainnetProvider: StaticJsonRpcProvider;
   placeholder?: string;
   localProvider: StaticJsonRpcProvider;
 }
@@ -48,16 +47,16 @@ export const Faucet: FC<IFaucetProps> = (props) => {
     blockie = <div />;
   }
 
-  const ens = useEnsAddress(props.ensProvider, props.address ?? '');
+  const ens = useEnsAddress(props.mainnetProvider, props.address ?? '');
   const context = useContext(EthComponentsContext);
 
   const updateAddress = useCallback(
-    async (newValue) => {
+    async (newValue: string) => {
       if (typeof newValue !== 'undefined') {
         let tempAddress = newValue;
         if (tempAddress.indexOf('.eth') > 0 || tempAddress.indexOf('.xyz') > 0) {
           try {
-            const possibleAddress = await props.ensProvider.resolveName(tempAddress);
+            const possibleAddress = await props.mainnetProvider.resolveName(tempAddress);
             if (possibleAddress) {
               tempAddress = possibleAddress;
             }
@@ -67,10 +66,11 @@ export const Faucet: FC<IFaucetProps> = (props) => {
         setAddress(tempAddress);
       }
     },
-    [props.ensProvider, props.onChange]
+    [props.mainnetProvider]
   );
 
-  const tx = transactor(context, props.localProvider.getSigner());
+  const signer = props.localProvider.getSigner(address);
+  const tx = transactor(context, signer);
 
   return (
     <span>
@@ -101,10 +101,10 @@ export const Faucet: FC<IFaucetProps> = (props) => {
             />
             <Wallet
               color="#888888"
-              signer={props.localProvider.getSigner()}
-              ensProvider={props.ensProvider}
+              signer={signer}
+              localProvider={props.localProvider}
+              ensProvider={props.mainnetProvider}
               price={props.price}
-              address={address ?? ''}
             />
           </Tooltip>
         }
