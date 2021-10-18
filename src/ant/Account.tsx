@@ -16,11 +16,11 @@ export interface IAccountProps {
   /**
    * if hasContextConnect is true, it will not use this variable
    */
-  signer: Signer;
+  signer?: Signer;
   /**
    * if hasContextConnect = false, do not use context or context connect/login/logout.  only used passed in address.  defaults={false}
    */
-  hasContextConnect?: boolean;
+  hasContextConnect: boolean;
   fontSize?: number;
   blockExplorer: string;
   price: number;

@@ -25,7 +25,6 @@
     "strict": true,
     "rootDir": ".",
     "baseUrl": ".",
-    "types": [],
     "typeRoots": ["node_modules/@types", "helpers/types"],
     "paths": {
       "~~": ["./src/"],
@@ -43,5 +42,5 @@
     ".husky",
     "./tailwind.config.js",
     "./.yalc/**/*"
-  ],
+  ]
 }
