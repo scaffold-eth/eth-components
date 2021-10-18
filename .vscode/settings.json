@@ -23,7 +23,8 @@
     "**/obj": true,
     "node_modules": true,
     "node_modules/*/**": true,
-    ".yalc": true
+    ".yalc": true,
+    "lib": true
   },
   "explorerExclude.backup": null
 }

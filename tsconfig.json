@@ -4,8 +4,9 @@
     "module": "esNext",
     "outDir": "lib",
     "lib": ["DOM", "DOM.Iterable", "ESNext"],
-    "types": ["node", "ethers"],
-    "sourceMap": false,
+    "types": [],
+    "sourceMap": true,
+    "inlineSources": true,
     "jsx": "preserve",
     "allowJs": false,
     "declaration": true,
@@ -16,7 +17,7 @@
     "forceConsistentCasingInFileNames": true,
     "allowSyntheticDefaultImports": true,
     "downlevelIteration": true,
-    "esModuleInterop": true,
+    "esModuleInterop": false,
     "isolatedModules": false,
     "noImplicitAny": true,
     "skipLibCheck": true,
@@ -24,19 +25,15 @@
     "strict": true,
     "rootDir": ".",
     "baseUrl": ".",
-    "typeRoots": ["node_modules/@types", "test-utils/types"],
+    "types": [],
+    "typeRoots": ["node_modules/@types", "helpers/types"],
     "paths": {
       "~~": ["./src/"],
-      "~~/*": ["./src/*"],
-      "~test-utils": ["./test/test-utils/"],
-      "~test-utils/*": ["./test/test-utils/*"]
-    },
-    "plugins": [
-      { "transform": "typescript-transform-paths" },
-      { "transform": "typescript-transform-paths", "afterDeclarations": true }
-    ]
+      "~~/*": ["./src/*"]
+    }
   },
-  "include": ["src", "helpers", "test"],
+  "include": ["src", "test"],
+  "files": ["hardhat.config.ts"],
   "exclude": [
     "lib/**/*",
     "node_modules",
@@ -47,5 +44,4 @@
     "./tailwind.config.js",
     "./.yalc/**/*"
   ],
-  "files": ["hardhat.config.ts"]
 }

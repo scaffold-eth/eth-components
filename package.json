@@ -1,6 +1,6 @@
 {
   "name": "eth-components",
-  "version": "2.1.0beta13",
+  "version": "2.1.0beta14",
   "description": "A set of react components to turbocharge buidling",
   "author": "Austin Griffith <austin@ethereum.org>",
   "repository": "https://github.com/scaffold-eth/eth-components.git",
@@ -23,19 +23,26 @@
     }
   ],
   "scripts": {
-    "commit": "git-cz",
-    "build": "ts-patch i && tsc -p tsconfig.json",
+    "watch": " ts-patch i && tsc tsconfig.json --watch",
     "clean": "shx rm -rf ./lib",
-    "prepublish": "yarn clean && yarn build && shx cp -R package.json ./lib && shx cp -R README.md ./lib && shx mv ./lib/src\\* ./lib/ && shx rm -rf ./lib/src && shx rm -rf ./lib/test",
+    "build": "yarn clean && ts-patch i && yarn mkdirp lib && yarn shx cp -r src lib/src.ts && tsc -p tsconfig.build.json",
+    "package": "shx cp -R package.json ./lib && shx cp -R README.md ./lib",
+    "prepublish": "yarn clean && yarn build && yarn package",
     "publish:yalc": "yarn prepublish && cd lib && yalc publish --no-script --push",
     "publish:next": "yarn prepublish && cd lib && npm publish --tag next",
     "publish:latest": "yarn prepublish && cd lib && npm publish --tag latest",
     "dev:link": "yalc link eth-hooks",
-    "docs": "yarn prepublish && yarn jsdoc2md -t README.hsb.md ./lib/**/*.{js,jsx} > README.md",
+    "docs": "yarn typedoc --listInvalidSymbolLinks && shx mv ./docs/api-typedocs/readme.md ./docs/api-typedocs/api-overview.md",
+    "docs:js": "yarn prepublish && yarn jsdoc2md -t README.hsb.md ./lib/**/*.{js,jsx} > README.md",
     "deprecate": "npm deprecate",
     "lint": "eslint --config ./.eslintrc --ignore-path ./.eslintignore ./src/**/*",
     "hardhat:test": "cross-env TS_NODE_PROJECT=tsconfig.testing.json yarn hardhat test  --network hardhat",
-    "hardhat:chain": "cross-env TS_NODE_PROJECT=tsconfig.testing.json yarn hardhat node"
+    "test:hh": "yarn hardhat:run test  --network hardhat",
+    "test:mocha": "yarn hh:env yarn mocha --config .mocharc.js",
+    "hh:run": "yarn hh:env yarn hardhat",
+    "hh:chain": "yarn hh:run node",
+    "hardhat:chain": "cross-env TS_NODE_PROJECT=tsconfig.testing.json yarn hardhat node",
+    "hh:env": "cross-env TS_NODE_PROJECT=tsconfig.testing.json TS_NODE_TRANSPILE_ONLY=1"
   },
   "dependencies": {
     "@ethersproject/abstract-signer": "^5.4.0",
@@ -51,7 +58,7 @@
     "@uniswap/token-lists": "^1.0.0-beta.24",
     "axios": "^0.21.4",
     "bnc-notify": "^1.9.1",
-    "eth-hooks": "^3.2.0beta15",
+    "eth-hooks": "^3.2.0beta16",
     "ethers": "^5.4.1",
     "qrcode.react": "^1.0.1",
     "react-blockies": "^1.4.1",
