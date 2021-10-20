@@ -69,8 +69,8 @@ export const Faucet: FC<IFaucetProps> = (props) => {
     [props.mainnetProvider]
   );
 
-  const signer = props.localProvider.getSigner(address);
-  const tx = transactor(context, signer);
+  const localSigner = props.localProvider.getSigner(address);
+  const tx = transactor(context, localSigner);
 
   return (
     <span>
@@ -101,7 +101,7 @@ export const Faucet: FC<IFaucetProps> = (props) => {
             />
             <Wallet
               color="#888888"
-              signer={signer}
+              signer={localSigner}
               localProvider={props.localProvider}
               ensProvider={props.mainnetProvider}
               price={props.price}
