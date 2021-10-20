@@ -6,7 +6,6 @@
     "lib": ["DOM", "DOM.Iterable", "ESNext"],
     "types": [],
     "sourceMap": true,
-    "inlineSources": true,
     "jsx": "preserve",
     "allowJs": false,
     "declaration": true,
