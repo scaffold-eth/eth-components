@@ -2901,15 +2901,6 @@ __metadata:
   languageName: node
   linkType: hard
 
-"axios@npm:^0.21.4":
-  version: 0.21.4
-  resolution: "axios@npm:0.21.4"
-  dependencies:
-    follow-redirects: ^1.14.0
-  checksum: 44245f24ac971e7458f3120c92f9d66d1fc695e8b97019139de5b0cc65d9b8104647db01e5f46917728edfc0cfd88eb30fc4c55e6053eef4ace76768ce95ff3c
-  languageName: node
-  linkType: hard
-
 "axios@npm:^0.23.0":
   version: 0.23.0
   resolution: "axios@npm:0.23.0"
@@ -6374,7 +6365,7 @@ __metadata:
     "@uniswap/sdk": ^3.0.3
     "@uniswap/token-lists": ^1.0.0-beta.24
     antd: ^4.7.0
-    axios: ^0.21.4
+    axios: ^0.23.0
     bnc-notify: ^1.9.1
     chai: ^4.3.4
     commitizen: ^4.1.2
@@ -6393,7 +6384,7 @@ __metadata:
     eslint-plugin-react-hooks: ^4.2.0
     eslint-plugin-testing-library: ^4.12.3
     eslint-plugin-unused-imports: ^1.1.2
-    eth-hooks: ^3.2.0-beta24
+    eth-hooks: ^3.2.0-beta26
     ethereum-waffle: ^3.4.0
     ethers: ^5.4.1
     global-jsdom: ^8.2.0
@@ -6466,9 +6457,9 @@ __metadata:
   languageName: node
   linkType: hard
 
-"eth-hooks@npm:^3.2.0-beta24":
-  version: 3.2.0-beta24
-  resolution: "eth-hooks@npm:3.2.0-beta24"
+"eth-hooks@npm:^3.2.0-beta26":
+  version: 3.2.0-beta26
+  resolution: "eth-hooks@npm:3.2.0-beta26"
   dependencies:
     "@ethersproject/address": ^5.4.0
     "@ethersproject/bignumber": ^5.4.0
@@ -6493,7 +6484,7 @@ __metadata:
     "@uniswap/sdk": ^3.0.3
     react: ">=17.0.2"
     react-dom: ">=17.0.2"
-  checksum: 11eeb7946df2f0a4bf89661a47a2b982a99208f34fee4531b28687280c5fd612a567d3ddc03fdaf4e7123ce11408c71a2cc2831e781379838c86cf0e09cf4f39
+  checksum: 1123362ab97b324b4d2a4f0129a91d746a37d7ce0414011ad2846558bfc86ab9d0e48e76655a33f00ba174618ed3a4a87cb6ff050c8f4739707986f3aded20a8
   languageName: node
   linkType: hard
 
@@ -7519,7 +7510,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"follow-redirects@npm:^1.12.1, follow-redirects@npm:^1.14.0, follow-redirects@npm:^1.14.4":
+"follow-redirects@npm:^1.12.1, follow-redirects@npm:^1.14.4":
   version: 1.14.4
   resolution: "follow-redirects@npm:1.14.4"
   peerDependenciesMeta:
