@@ -2,7 +2,8 @@ import { TransactionRequest, TransactionResponse } from '@ethersproject/provider
 import { notification } from 'antd';
 import Notify, { API, InitOptions } from 'bnc-notify';
 import { parseProviderOrSigner } from 'eth-hooks/functions';
-import { BigNumber, ethers, Signer } from 'ethers';
+import { TEthersSigner } from 'eth-hooks/models';
+import { BigNumber, ethers } from 'ethers';
 import { Deferrable } from 'ethers/lib/utils';
 
 import { checkBlocknativeAppId, IEthComponentsContext } from '~~/models/EthComponentsContext';
@@ -26,7 +27,7 @@ export type TTransactor = (
  */
 export const transactor = (
   context: IEthComponentsContext,
-  signer: Signer | undefined,
+  signer: TEthersSigner | undefined,
   gasPrice?: number,
   etherscan?: string,
   throwOnError: boolean = false

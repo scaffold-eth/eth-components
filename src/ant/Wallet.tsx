@@ -4,7 +4,8 @@ import { StaticJsonRpcProvider } from '@ethersproject/providers';
 import { parseEther } from '@ethersproject/units';
 import { Button, Modal, Spin, Tooltip, Typography } from 'antd';
 import { useBurnerSigner, useUserAddress } from 'eth-hooks';
-import { BytesLike, Signer } from 'ethers';
+import { TEthersSigner } from 'eth-hooks/models';
+import { BytesLike } from 'ethers';
 import QR from 'qrcode.react';
 import React, { FC, useContext, useState } from 'react';
 
@@ -16,7 +17,7 @@ import { EthComponentsContext } from '~~/models';
 const { Text, Paragraph } = Typography;
 
 interface IWalletProps {
-  signer: Signer | undefined;
+  signer: TEthersSigner | undefined;
   ensProvider: StaticJsonRpcProvider | undefined;
   localProvider: StaticJsonRpcProvider | undefined;
   price: number;
