@@ -3,11 +3,10 @@
   "compilerOptions": {
     "rootDir": "./src",
     "outDir": "lib",
-    "emitDeclarationOnly": true,
-    "declaration": true,
-    "declarationMap": true,
-    "sourceMap": true,
-    "inlineSources": true,
+    "declarationMap": false,
+    "sourceMap": false,
+    "inlineSources": false,
+    "inlineSourceMap": false,
     "plugins": [
       { "transform": "typescript-transform-paths" },
       { "transform": "typescript-transform-paths", "afterDeclarations": true }
