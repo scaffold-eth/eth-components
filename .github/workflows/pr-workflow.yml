@@ -33,8 +33,10 @@ jobs:
           key: ${{ runner.os }}-yarn-${{ hashFiles('**/yarn.lock') }}
           restore-keys: |
             ${{ runner.os }}-yarn-${{ hashFiles('**/yarn.lock') }}
+
       - run: yarn install --immutable
-      - run: yarn run build
+      - run: yarn run es-build
+
       - run: yarn hardhat:test
       - name: Publish Unit Test Results
         uses: EnricoMi/publish-unit-test-result-action@v1
