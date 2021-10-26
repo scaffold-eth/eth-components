@@ -91,6 +91,7 @@ export const GenericContract: FC<IGenericContract> = (props) => {
                 price={props.tokenPrice ?? 0}
                 blockExplorer={props.blockExplorer}
                 fontSize={fontSize}
+                hasContextConnect={false}
               />
               {props.addressElement}
             </div>

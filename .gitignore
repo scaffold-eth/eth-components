@@ -10,3 +10,4 @@ test/testresult.xml
 testresult.xml
 .yalc
 yalc.lock
+.yarn/install-state.gz

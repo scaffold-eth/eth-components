@@ -4,10 +4,9 @@
     "module": "esNext",
     "outDir": "lib",
     "lib": ["DOM", "DOM.Iterable", "ESNext"],
-    "types": [],
     "sourceMap": true,
     "inlineSources": true,
-    "jsx": "preserve",
+    "jsx": "react-jsxdev",
     "allowJs": false,
     "declaration": true,
     "declarationDir": "lib",
@@ -43,5 +42,5 @@
     ".husky",
     "./tailwind.config.js",
     "./.yalc/**/*"
-  ],
+  ]
 }

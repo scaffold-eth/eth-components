@@ -1,11 +1,12 @@
-import { Signer } from '@ethereum-waffle/provider/node_modules/ethers';
+import { StaticJsonRpcProvider } from '@ethersproject/providers';
 import { Button } from 'antd';
 import { useUserAddress } from 'eth-hooks';
 import { CreateEthersModalConnector, useEthersContext } from 'eth-hooks/context';
-import { StaticJsonRpcProvider } from 'ethers/node_modules/@ethersproject/providers';
+import { Signer } from 'ethers';
 import React, { FC, useState } from 'react';
 import { useThemeSwitcher } from 'react-css-theme-switcher';
 import { useDebounce } from 'use-debounce';
+import { useIsMounted } from 'usehooks-ts';
 
 import { Address, Balance, Wallet } from '.';
 
@@ -16,11 +17,11 @@ export interface IAccountProps {
   /**
    * if hasContextConnect is true, it will not use this variable
    */
-  signer: Signer;
+  signer?: Signer;
   /**
    * if hasContextConnect = false, do not use context or context connect/login/logout.  only used passed in address.  defaults={false}
    */
-  hasContextConnect?: boolean;
+  hasContextConnect: boolean;
   fontSize?: number;
   blockExplorer: string;
   price: number;
@@ -49,6 +50,7 @@ export const Account: FC<IAccountProps> = ({ hasContextConnect = false, ...rest 
   const showLoadModal = !ethersContext.active;
   const [connecting, setConnecting] = useState(false);
 
+  const isMounted = useIsMounted();
   const [loadingButton, loadingButtonDebounce] = useDebounce(connecting, 1000, {
     maxWait: 1500,
   });
@@ -70,11 +72,13 @@ export const Account: FC<IAccountProps> = ({ hasContextConnect = false, ...rest 
   const handleLoginClick = (): void => {
     if (props.createLoginConnector != null) {
       const connector = props.createLoginConnector?.();
-      if (connector) {
+      if (!isMounted()) {
+        console.log('openModal: no longer mounted');
+      } else if (connector) {
         setConnecting(true);
         ethersContext.openModal(connector);
       } else {
-        console.warn('A valid EthersModalConnector was not provided');
+        console.warn('openModal: A valid EthersModalConnector was not provided');
       }
     }
   };
