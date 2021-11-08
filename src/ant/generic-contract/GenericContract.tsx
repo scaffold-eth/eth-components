@@ -1,7 +1,7 @@
 import { Card, Typography } from 'antd';
-import { TContractConfig, useContractExistsAtAddress } from 'eth-hooks';
+import { useContractExistsAtAddress } from 'eth-hooks';
 import { useEthersContext } from 'eth-hooks/context';
-import { TEthersProvider } from 'eth-hooks/models';
+import { TContractConfig, TEthersProvider } from 'eth-hooks/models';
 import { Contract, ContractFunction } from 'ethers';
 import { FunctionFragment } from 'ethers/lib/utils';
 import React, { FC, ReactElement, useState } from 'react';

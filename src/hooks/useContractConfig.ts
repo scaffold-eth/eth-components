@@ -1,4 +1,4 @@
-import { TContractConfig } from 'eth-hooks';
+import { TContractConfig } from 'eth-hooks/models';
 import { useState, useEffect } from 'react';
 
 /**
