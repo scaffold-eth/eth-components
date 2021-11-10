@@ -42,5 +42,6 @@
     ".husky",
     "./tailwind.config.js",
     "./.yalc/**/*"
+    "**/*.md"
   ]
 }

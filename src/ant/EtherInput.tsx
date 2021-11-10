@@ -1,5 +1,5 @@
 import { Input } from 'antd';
-import React, { FC, useEffect, useState } from 'react';
+import React, { FC, ReactNode, useEffect, useState } from 'react';
 
 // small change in useEffect, display currentValue if it's provided by user
 
@@ -54,7 +54,7 @@ export const EtherInput: FC<IEtherInputProps> = (props) => {
 
   const currentValue: string | undefined = props.value ? props.value : value;
 
-  const option = (title: string) => {
+  const option = (title: string): ReactNode => {
     if (props?.price != null) {
       return <></>;
     }
@@ -103,7 +103,7 @@ export const EtherInput: FC<IEtherInputProps> = (props) => {
       prefix={prefix}
       value={display}
       addonAfter={addonAfter}
-      onChange={async (e) => {
+      onChange={(e): void => {
         const newValue = e.target.value;
         if (mode === 'USD') {
           const possibleNewValue = parseFloat(newValue);
