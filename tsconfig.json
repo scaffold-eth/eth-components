@@ -41,7 +41,7 @@
     "../../node_modules/**/*",
     ".husky",
     "./tailwind.config.js",
-    "./.yalc/**/*"
+    "./.yalc/**/*",
     "**/*.md"
   ]
 }
