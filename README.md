@@ -3,6 +3,7 @@
 React library of commonly used Ethereum components.
 
 Used by 🏗 [scaffold-eth](https://github.com/scaffold-eth/scaffold-eth)
+Used by 🏭 [scaffold-eth-typescript](https://github.com/scaffold-eth/scaffold-eth-typescript)
 
 Created by 🏰 [BuidlGuidl.eth](https://BuidlGuidl.com)
 
