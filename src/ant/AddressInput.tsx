@@ -82,11 +82,11 @@ export const AddressInput: FC<IAddressInputProps> = (props) => {
       <QrReader
         delay={250}
         resolution={1200}
-        onError={(e: Error) => {
+        onError={(e: Error): void => {
           console.log('SCAN ERROR', e);
           setScan(false);
         }}
-        onScan={(newValue: string | null) => {
+        onScan={(newValue: string | null): void => {
           if (newValue) {
             console.log('SCAN VALUE', newValue);
             let possibleNewValue = newValue;
@@ -95,7 +95,7 @@ export const AddressInput: FC<IAddressInputProps> = (props) => {
               console.log('CLEANED VALUE', possibleNewValue);
             }
             setScan(false);
-            updateAddress(possibleNewValue);
+            void updateAddress(possibleNewValue);
           }
         }}
         style={{ width: '100%' }}
@@ -117,8 +117,8 @@ export const AddressInput: FC<IAddressInputProps> = (props) => {
         prefix={<Blockie address={props.address ?? ''} scale={3} />}
         value={ens || props.address}
         addonAfter={scannerButton}
-        onChange={(e) => {
-          updateAddress(e.target.value);
+        onChange={(e): void => {
+          void updateAddress(e.target.value);
         }}
       />
     </div>
