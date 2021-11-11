@@ -18,7 +18,7 @@ yarn add eth-components
 [@austinGriffith](https://github.com/austintgriffith)
 [@shravansunder](https://github.com/ShravanSunder)
 
-## Peer Dependencies
+## Dependencies
 
 - react & general
   - react
@@ -29,7 +29,11 @@ yarn add eth-components
   - antd
   - @ant-design/icons
 
-# API
+# API Docs
+
+## Documentation site
+
+- [Docs @gitbook](https://docs.scaffoldeth.io/scaffold-eth/toolkit/scaffold-eth-toolbox/eth-components)
 
 ## Components &amp; Helpers
 
