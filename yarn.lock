@@ -6136,7 +6136,7 @@ __metadata:
     eslint-plugin-react-hooks: ^4.2.0
     eslint-plugin-testing-library: ^4.12.3
     eslint-plugin-unused-imports: ^1.1.2
-    eth-hooks: ^3.3.2-beta01
+    eth-hooks: ^3.3.2
     ethereum-waffle: ^3.4.0
     ethers: ^5.4.1
     global-jsdom: ^8.2.0
@@ -6209,7 +6209,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"eth-hooks@npm:^3.3.2-beta01":
+"eth-hooks@npm:^3.3.2":
   version: 3.3.2
   resolution: "eth-hooks@npm:3.3.2"
   dependencies:
