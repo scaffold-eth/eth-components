@@ -27,14 +27,13 @@ export const Balance: FC<IBalanceProps> = ({ size = 'short', ...rest }) => {
   const [dollarMode, setDollarMode] = useState(true);
   const balance = useBalance(props.address);
 
-  let floatBalance = parseFloat('0.00');
-
   let usingBalance = balance;
 
   if (typeof props.balance !== 'undefined') {
     usingBalance = props.balance;
   }
 
+  let floatBalance = parseFloat('0.00');
   if (usingBalance) {
     const etherBalance = formatEther(usingBalance);
     floatBalance = parseFloat(etherBalance);
