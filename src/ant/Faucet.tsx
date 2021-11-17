@@ -2,6 +2,7 @@ import { SendOutlined } from '@ant-design/icons';
 import { StaticJsonRpcProvider } from '@ethersproject/providers';
 import { parseEther } from '@ethersproject/units';
 import { Button, Input, Tooltip } from 'antd';
+import { useEnsResolveName } from 'eth-hooks/dapps';
 import { ethers } from 'ethers';
 import React, { FC, useCallback, useContext, useState } from 'react';
 import Blockies from 'react-blockies';
@@ -38,7 +39,7 @@ interface IFaucetProps {
  * @returns (FC)
  */
 export const Faucet: FC<IFaucetProps> = (props) => {
-  const [recipientAddress, setRecipientAddress] = useState<string>('');
+  const [recipient, setRecipient] = useState<string>('');
   const context = useContext(EthComponentsContext);
 
   let blockie;
@@ -48,29 +49,29 @@ export const Faucet: FC<IFaucetProps> = (props) => {
     blockie = <div />;
   }
 
-  const updateAddress = useCallback(
-    async (newValue: string) => {
-      if (newValue != null) {
-        const result = '';
-        // try {
-        //   if (newValue.indexOf('.eth') > 0 || newValue.indexOf('.xyz') > 0) {
-        //     const possibleName = await props.mainnetProvider.resolveName(newValue);
-        //     if (!!possibleName) {
-        //       result = possibleName;
-        //     }
-        //   } else {
-        //     result = newValue;
-        //   }
-        // } catch (e) {
-        //   result = newValue;
-        // }
+  const updateAddress = useCallback((newValue: string) => {
+    if (newValue != null) {
+      // const result = '';
+      // try {
+      //   if (newValue.indexOf('.eth') > 0 || newValue.indexOf('.xyz') > 0) {
+      //     const possibleName = await props.mainnetProvider.resolveName(newValue);
+      //     if (!!possibleName) {
+      //       result = possibleName;
+      //     }
+      //   } else {
+      //     result = newValue;
+      //   }
+      // } catch (e) {
+      //   result = newValue;
+      // }
 
-        setRecipientAddress(result);
-      }
-    },
-    [props.mainnetProvider]
-  );
 
+      setRecipient(newValue);
+    }
+  }, []);
+
+  const resolvedAddress = useEnsResolveName(props.mainnetProvider, recipient ?? '');
+  const toAddress = ethers.utils.isAddress(recipient) ? recipient : resolvedAddress;
   const localSigner = props.localProvider.getSigner();
 
   return (
@@ -80,7 +81,7 @@ export const Faucet: FC<IFaucetProps> = (props) => {
         placeholder={props.placeholder ? props.placeholder : 'local faucet'}
         prefix={blockie}
         // value={address}
-        value={recipientAddress}
+        value={recipient}
         onChange={(e): void => {
           // setAddress(e.target.value);
           void updateAddress(e.target.value);
@@ -89,19 +90,19 @@ export const Faucet: FC<IFaucetProps> = (props) => {
           <Tooltip title="Faucet: Send local ether to an address.">
             <Button
               onClick={(): void => {
-                if (localSigner && context && ethers.utils.isAddress(recipientAddress)) {
+                if (localSigner && context && ethers.utils.isAddress(toAddress)) {
                   const tx = transactor(context, localSigner);
 
-                  if (tx && !!recipientAddress) {
+                  if (tx && !!recipient) {
                     void tx({
-                      to: recipientAddress,
+                      to: toAddress,
                       value: parseEther('0.01'),
                     }).then(() => {
-                      setRecipientAddress('');
+                      setRecipient('');
                     });
                   }
                 } else {
-                  console.log('Faucet: invalid address');
+                  console.warn('Faucet: invalid address');
                 }
               }}
               shape="circle"
