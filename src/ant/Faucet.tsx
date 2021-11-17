@@ -2,7 +2,7 @@ import { SendOutlined } from '@ant-design/icons';
 import { StaticJsonRpcProvider } from '@ethersproject/providers';
 import { parseEther } from '@ethersproject/units';
 import { Button, Input, Tooltip } from 'antd';
-import { useEnsAddress } from 'eth-hooks/dapps';
+import { ethers } from 'ethers';
 import React, { FC, useCallback, useContext, useState } from 'react';
 import Blockies from 'react-blockies';
 
@@ -16,7 +16,7 @@ import { EthComponentsContext } from '~~/models';
 // added placeholder option
 
 interface IFaucetProps {
-  address?: string;
+  faucetAddress?: string;
   price: number;
   mainnetProvider: StaticJsonRpcProvider;
   placeholder?: string;
@@ -38,39 +38,40 @@ interface IFaucetProps {
  * @returns (FC)
  */
 export const Faucet: FC<IFaucetProps> = (props) => {
-  const [address, setAddress] = useState<string>();
+  const [recipientAddress, setRecipientAddress] = useState<string>('');
+  const context = useContext(EthComponentsContext);
 
   let blockie;
-  if (props.address && typeof props.address.toLowerCase === 'function') {
-    blockie = <Blockies seed={props.address.toLowerCase()} size={8} scale={4} />;
+  if (props.faucetAddress && typeof props.faucetAddress.toLowerCase === 'function') {
+    blockie = <Blockies seed={props.faucetAddress.toLowerCase()} size={8} scale={4} />;
   } else {
     blockie = <div />;
   }
 
-  const ens = useEnsAddress(props.mainnetProvider, props.address ?? '');
-  const context = useContext(EthComponentsContext);
-
   const updateAddress = useCallback(
     async (newValue: string) => {
-      if (typeof newValue !== 'undefined') {
-        let tempAddress = newValue;
-        if (tempAddress.indexOf('.eth') > 0 || tempAddress.indexOf('.xyz') > 0) {
-          try {
-            const possibleAddress = await props.mainnetProvider.resolveName(tempAddress);
-            if (possibleAddress) {
-              tempAddress = possibleAddress;
-            }
-            // eslint-disable-next-line no-empty
-          } catch (e) {}
-        }
-        setAddress(tempAddress);
+      if (newValue != null) {
+        const result = '';
+        // try {
+        //   if (newValue.indexOf('.eth') > 0 || newValue.indexOf('.xyz') > 0) {
+        //     const possibleName = await props.mainnetProvider.resolveName(newValue);
+        //     if (!!possibleName) {
+        //       result = possibleName;
+        //     }
+        //   } else {
+        //     result = newValue;
+        //   }
+        // } catch (e) {
+        //   result = newValue;
+        // }
+
+        setRecipientAddress(result);
       }
     },
     [props.mainnetProvider]
   );
 
-  const localSigner = props.localProvider.getSigner(address);
-  const tx = transactor(context, localSigner);
+  const localSigner = props.localProvider.getSigner();
 
   return (
     <span>
@@ -79,7 +80,7 @@ export const Faucet: FC<IFaucetProps> = (props) => {
         placeholder={props.placeholder ? props.placeholder : 'local faucet'}
         prefix={blockie}
         // value={address}
-        value={ens || address}
+        value={recipientAddress}
         onChange={(e): void => {
           // setAddress(e.target.value);
           void updateAddress(e.target.value);
@@ -88,13 +89,20 @@ export const Faucet: FC<IFaucetProps> = (props) => {
           <Tooltip title="Faucet: Send local ether to an address.">
             <Button
               onClick={(): void => {
-                if (tx) {
-                  void tx({
-                    to: address,
-                    value: parseEther('0.01'),
-                  });
+                if (localSigner && context && ethers.utils.isAddress(recipientAddress)) {
+                  const tx = transactor(context, localSigner);
+
+                  if (tx && !!recipientAddress) {
+                    void tx({
+                      to: recipientAddress,
+                      value: parseEther('0.01'),
+                    }).then(() => {
+                      setRecipientAddress('');
+                    });
+                  }
+                } else {
+                  console.log('Faucet: invalid address');
                 }
-                setAddress('');
               }}
               shape="circle"
               icon={<SendOutlined />}
