@@ -40,7 +40,6 @@ interface IFaucetProps {
  */
 export const Faucet: FC<IFaucetProps> = (props) => {
   const [recipient, setRecipient] = useState<string>('');
-  const context = useContext(EthComponentsSettingsContext);
 
   let blockie;
   if (props.faucetAddress && typeof props.faucetAddress.toLowerCase === 'function') {
