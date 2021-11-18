@@ -1,8 +1,8 @@
 import { StaticJsonRpcProvider } from '@ethersproject/providers';
 import { Button } from 'antd';
-import { useUserAddress } from 'eth-hooks';
-import { CreateEthersModalConnector, useEthersContext } from 'eth-hooks/context';
-import { Signer } from 'ethers';
+import { useUserAddress, useBalance } from 'eth-hooks';
+import { CreateEthersModalConnector, useEthersContext, useBlockNumberContext } from 'eth-hooks/context';
+import { BigNumber, ethers, Signer } from 'ethers';
 import React, { FC, useState } from 'react';
 import { useThemeSwitcher } from 'react-css-theme-switcher';
 import { useDebounce } from 'use-debounce';
@@ -44,8 +44,8 @@ export interface IAccountProps {
  * @param props
  * @returns (FC)
  */
-export const Account: FC<IAccountProps> = ({ hasContextConnect = false, ...rest }: IAccountProps) => {
-  const props = { hasContextConnect, ...rest };
+export const Account: FC<IAccountProps> = (props: IAccountProps) => {
+  const blockNumber = useBlockNumberContext();
   const ethersContext = useEthersContext();
   const showLoadModal = !ethersContext.active;
   const [connecting, setConnecting] = useState(false);
@@ -61,13 +61,22 @@ export const Account: FC<IAccountProps> = ({ hasContextConnect = false, ...rest 
 
   const address = useUserAddress(props.signer);
   // if hasContextConnect = false, do not use context or context connect/login/logout.  only used passed in address
-  const [resolvedAddress] = useDebounce(props.hasContextConnect ? ethersContext.account : address, 200, {
-    trailing: true,
-  });
+  const [resolvedAddress] = useDebounce<string | undefined>(
+    props.hasContextConnect ? ethersContext.account : address,
+    200,
+    {
+      trailing: true,
+    }
+  );
 
-  const [resolvedSigner] = useDebounce(props.hasContextConnect ? ethersContext.signer : props.signer, 200, {
-    trailing: true,
-  });
+  const [resolvedSigner] = useDebounce<Signer | undefined>(
+    props.hasContextConnect ? ethersContext.signer : props.signer,
+    200,
+    {
+      trailing: true,
+    }
+  );
+
 
   const handleLoginClick = (): void => {
     if (props.createLoginConnector != null) {

@@ -1,6 +1,6 @@
 import { Card, Typography } from 'antd';
 import { useContractExistsAtAddress } from 'eth-hooks';
-import { useEthersContext } from 'eth-hooks/context';
+import { useBlockNumberContext, useEthersContext } from 'eth-hooks/context';
 import { TContractLoaderConfig, TEthersProvider } from 'eth-hooks/models';
 import { Contract, ContractFunction } from 'ethers';
 import { FunctionFragment } from 'ethers/lib/utils';
