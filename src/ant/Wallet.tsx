@@ -12,7 +12,7 @@ import React, { FC, useContext, useState } from 'react';
 import { Address, AddressInput, Balance, EtherInput } from '.';
 
 import { transactor } from '~~/functions';
-import { EthComponentsContext } from '~~/models';
+import { EthComponentsSettingsContext } from '~~/models';
 
 const { Text, Paragraph } = Typography;
 
@@ -51,7 +51,7 @@ export const Wallet: FC<IWalletProps> = (props: IWalletProps) => {
   const [toAddress, setToAddress] = useState<string>('');
   const [publicKey, setPublicKey] = useState<BytesLike>();
 
-  const context = useContext(EthComponentsContext);
+  const context = useContext(EthComponentsSettingsContext);
 
   const providerSend = props.signer ? (
     <Tooltip title="Wallet">

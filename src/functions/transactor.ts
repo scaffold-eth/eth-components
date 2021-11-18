@@ -6,7 +6,10 @@ import { TEthersSigner } from 'eth-hooks/models';
 import { BigNumber, ethers } from 'ethers';
 import { Deferrable } from 'ethers/lib/utils';
 
-import { checkBlocknativeAppId, IEthComponentsContext } from '~~/models/EthComponentsContext';
+import {
+  checkBlocknativeAppId,
+  IEthComponentsSettings as IEthComponentsSettings,
+} from '~~/models/EthComponentsSettings';
 
 const callbacks: Record<string, any> = {};
 const DEBUG = true;
@@ -19,14 +22,14 @@ export type TTransactor = (
  * this should probably just be renamed to "notifier"
  * it is basically just a wrapper around BlockNative's wonderful Notify.js
  * https://docs.blocknative.com/notify
- * @param context (IEthComponentsContext)
+ * @param settings (IEthComponentsContext)
  * @param provider
  * @param gasPrice
  * @param etherscan
  * @returns (transactor) a function to transact which calls a callback method parameter on completion
  */
 export const transactor = (
-  context: IEthComponentsContext,
+  settings: IEthComponentsSettings,
   signer: TEthersSigner | undefined,
   gasPrice?: number,
   etherscan?: string,
@@ -39,13 +42,13 @@ export const transactor = (
     ): Promise<Record<string, any> | TransactionResponse | undefined> => {
       const { provider, providerNetwork } = await parseProviderOrSigner(signer);
 
-      checkBlocknativeAppId(context);
+      checkBlocknativeAppId(settings);
 
       let options: InitOptions | undefined;
       let notify: API | undefined;
       if (navigator.onLine) {
         options = {
-          dappId: context.apiKeys.BlocknativeDappId, // GET YOUR OWN KEY AT https://account.blocknative.com
+          dappId: settings.apiKeys.BlocknativeDappId, // GET YOUR OWN KEY AT https://account.blocknative.com
           system: 'ethereum',
           networkId: providerNetwork?.chainId,
           // darkMode: Boolean, // (default: false)

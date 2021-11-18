@@ -1,6 +1,6 @@
 import { StaticJsonRpcProvider } from '@ethersproject/providers';
 import { Skeleton, Typography } from 'antd';
-import { useEnsAddress } from 'eth-hooks/dapps';
+import { useResolveEnsName } from 'eth-hooks/dapps';
 import React, { FC } from 'react';
 import Blockies from 'react-blockies';
 import { useThemeSwitcher } from 'react-css-theme-switcher';
@@ -42,10 +42,10 @@ interface IAddressProps {
 export const Address: FC<IAddressProps> = ({ minimized = false, punkBlockie = false, size = 'short', ...rest }) => {
   const props = { ...rest, size, minimized, punkBlockie };
   const address = props.address;
-  let ens: string = '';
+  let ensName: string = '';
   const { currentTheme } = useThemeSwitcher();
 
-  ens = useEnsAddress(props.ensProvider, address);
+  ensName = useResolveEnsName(props.ensProvider, address);
 
   if (!address) {
     return (
@@ -57,11 +57,11 @@ export const Address: FC<IAddressProps> = ({ minimized = false, punkBlockie = fa
 
   let displayAddress = address.substr(0, 6);
 
-  const ensSplit = ens && ens.split('.');
+  const ensSplit = ensName && ensName.split('.');
   const validEnsCheck = ensSplit && ensSplit[ensSplit.length - 1] === 'eth';
 
   if (validEnsCheck) {
-    displayAddress = ens;
+    displayAddress = ensName;
   } else if (props.size === 'short') {
     displayAddress += '...' + address.substr(-4);
   } else if (props.size === 'long') {
