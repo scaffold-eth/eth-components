@@ -1,7 +1,7 @@
 import { CameraOutlined, QrcodeOutlined } from '@ant-design/icons';
 import { StaticJsonRpcProvider } from '@ethersproject/providers';
 import { Badge, Input } from 'antd';
-import { useEnsAddress } from 'eth-hooks/dapps';
+import { useResolveEnsName } from 'eth-hooks/dapps';
 import React, { Dispatch, FC, SetStateAction, useCallback, useState } from 'react';
 import QrReader from 'react-qr-reader';
 
@@ -31,7 +31,7 @@ interface IAddressInputProps {
 export const AddressInput: FC<IAddressInputProps> = (props) => {
   const [scan, setScan] = useState(false);
 
-  const ens = useEnsAddress(props.ensProvider, props.address ?? '');
+  const ensName = useResolveEnsName(props.ensProvider, props.address ?? '');
 
   const scannerButton = (
     <div
@@ -115,7 +115,7 @@ export const AddressInput: FC<IAddressInputProps> = (props) => {
         autoFocus={props.autoFocus}
         placeholder={props.placeholder ? props.placeholder : 'address'}
         prefix={<Blockie address={props.address ?? ''} scale={3} />}
-        value={ens || props.address}
+        value={ensName || props.address}
         addonAfter={scannerButton}
         onChange={(e): void => {
           void updateAddress(e.target.value);
