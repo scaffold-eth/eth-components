@@ -1,1 +1,1 @@
-export * from './EthComponentsContext';
+export * from './EthComponentsSettings';

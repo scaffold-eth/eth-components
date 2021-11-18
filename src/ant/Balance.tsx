@@ -22,43 +22,39 @@ interface IBalanceProps {
  * @param props
  * @returns (FC)
  */
-export const Balance: FC<IBalanceProps> = ({ size = 'short', ...rest }) => {
-  const props = { ...rest, size };
+export const Balance: FC<IBalanceProps> = (props) => {
   const [dollarMode, setDollarMode] = useState(true);
   const balance = useBalance(props.address);
 
-  let usingBalance = balance;
-
-  if (typeof props.balance !== 'undefined') {
-    usingBalance = props.balance;
+  let resolvedBalance = BigNumber.from(balance);
+  if (props.balance != null) {
+    resolvedBalance = BigNumber.from(props.balance);
   }
 
   let floatBalance = parseFloat('0.00');
-  if (usingBalance) {
-    const etherBalance = formatEther(usingBalance);
+  if (resolvedBalance) {
+    const etherBalance = formatEther(resolvedBalance);
     floatBalance = parseFloat(etherBalance);
   }
 
-  let displayBalance = floatBalance.toFixed(4);
-
-  const price = props.price || props.dollarMultiplier;
-
+  let display = floatBalance.toFixed(4);
+  const price = props.price ?? props.dollarMultiplier;
   if (price && dollarMode) {
-    displayBalance = '$' + (floatBalance * price).toFixed(2);
+    display = '$' + (floatBalance * price).toFixed(2);
   }
 
   return (
     <span
       style={{
         verticalAlign: 'middle',
-        fontSize: props.size ? props.size : 24,
+        fontSize: props.size ?? 24,
         padding: 8,
         cursor: 'pointer',
       }}
       onClick={(): void => {
         setDollarMode(!dollarMode);
       }}>
-      {displayBalance}
+      {display}
     </span>
   );
 };

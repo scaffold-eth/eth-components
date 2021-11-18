@@ -9,7 +9,7 @@ import Blockies from 'react-blockies';
 import { tryToDisplay } from './displayUtils';
 
 import { transactor } from '~~/functions';
-import { EthComponentsContext } from '~~/models';
+import { EthComponentsSettingsContext } from '~~/models';
 
 const getFunctionInputKey = (functionInfo: FunctionFragment, input: utils.ParamType, inputIndex: number): string => {
   const name = input?.name ? input.name : `input_${inputIndex}_`;
@@ -29,13 +29,10 @@ export const FunctionForm: FC<IFunctionForm> = (props) => {
   const [returnValue, setReturnValue] = useState<string | ReactElement | number | undefined>();
 
   const ethersContext = useEthersContext();
-  const context = useContext(EthComponentsContext);
-
-  const tx = transactor(context, ethersContext.signer, props.gasPrice);
+  const ethComponentsSettings = useContext(EthComponentsSettingsContext);
 
   const inputs = props.functionFragment.inputs.map((input, inputIndex) => {
     const key = getFunctionInputKey(props.functionFragment, input, inputIndex);
-
     let buttons: ReactElement = <></>;
     if (input.type === 'bytes32') {
       buttons = (
@@ -228,7 +225,8 @@ export const FunctionForm: FC<IFunctionForm> = (props) => {
                 // overrides.gasLimit = hexlify(1200000);
 
                 // console.log("Running with extras",extras)
-                if (tx) {
+                const tx = transactor(ethComponentsSettings, ethersContext.signer, props.gasPrice);
+                if (tx && ethersContext?.chainId != null) {
                   const returned = await tx(props.contractFunction(...args, overrides));
                   result = tryToDisplay(returned);
                 }

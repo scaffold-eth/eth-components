@@ -10,7 +10,7 @@ import Blockies from 'react-blockies';
 import { Wallet } from '.';
 
 import { transactor } from '~~/functions';
-import { EthComponentsContext } from '~~/models';
+import { EthComponentsSettingsContext } from '~~/models';
 
 // improved a bit by converting address to ens if it exists
 // added option to directly input ens name
