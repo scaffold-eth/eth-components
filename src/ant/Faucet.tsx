@@ -2,7 +2,7 @@ import { SendOutlined } from '@ant-design/icons';
 import { StaticJsonRpcProvider } from '@ethersproject/providers';
 import { parseEther } from '@ethersproject/units';
 import { Button, Input, Tooltip } from 'antd';
-import { useEnsResolveName } from 'eth-hooks/dapps';
+import { useResolveEnsAddress } from 'eth-hooks/dapps';
 import { ethers } from 'ethers';
 import React, { FC, useCallback, useContext, useState } from 'react';
 import Blockies from 'react-blockies';
@@ -10,7 +10,7 @@ import Blockies from 'react-blockies';
 import { Wallet } from '.';
 
 import { transactor } from '~~/functions';
-import { EthComponentsContext } from '~~/models';
+import { EthComponentsSettingsContext } from '~~/models';
 
 // improved a bit by converting address to ens if it exists
 // added option to directly input ens name
@@ -40,7 +40,7 @@ interface IFaucetProps {
  */
 export const Faucet: FC<IFaucetProps> = (props) => {
   const [recipient, setRecipient] = useState<string>('');
-  const context = useContext(EthComponentsContext);
+  const context = useContext(EthComponentsSettingsContext);
 
   let blockie;
   if (props.faucetAddress && typeof props.faucetAddress.toLowerCase === 'function') {
@@ -65,12 +65,11 @@ export const Faucet: FC<IFaucetProps> = (props) => {
       //   result = newValue;
       // }
 
-
       setRecipient(newValue);
     }
   }, []);
 
-  const resolvedAddress = useEnsResolveName(props.mainnetProvider, recipient ?? '');
+  const resolvedAddress = useResolveEnsAddress(props.mainnetProvider, recipient ?? '');
   const toAddress = ethers.utils.isAddress(recipient) ? recipient : resolvedAddress;
   const localSigner = props.localProvider.getSigner();
 
