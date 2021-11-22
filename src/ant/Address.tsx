@@ -113,22 +113,27 @@ export const Address: FC<IAddressProps> = ({ minimized = false, punkBlockie = fa
     </>
   );
 
-  return (
-    <span style={{ position: 'relative' }}>
-      {props.punkBlockie ? (
+  if (props.punkBlockie) {
+    return (
+      <span style={{ position: 'relative' }}>
         <span style={{ verticalAlign: 'middle' }}>
           <div style={{ position: 'absolute', left: -213, top: -62 }}>
             <PunkBlockie withQr={false} address={address.toLowerCase()} scale={0.4} />
           </div>
         </span>
-      ) : (
-        <span style={{ verticalAlign: 'middle' }}>
-          <Blockies seed={address.toLowerCase()} size={8} scale={props.fontSize ? props.fontSize / 7 : 4} />
+        <span style={{ verticalAlign: 'middle', paddingLeft: 5, fontSize: props.fontSize ? props.fontSize : 28 }}>
+          {text}
         </span>
-      )}
-      <span style={{ verticalAlign: 'middle', paddingLeft: 5, fontSize: props.fontSize ? props.fontSize : 28 }}>
-        {text}
       </span>
-    </span>
-  );
+    );
+  } else {
+    return (
+      <span style={{ display: 'inline-flex', alignItems: 'center' }}>
+        <Blockies seed={address.toLowerCase()} size={8} scale={props.fontSize ? props.fontSize / 7 : 4} />
+        <span style={{ verticalAlign: 'middle', paddingLeft: 5, fontSize: props.fontSize ? props.fontSize : 28 }}>
+          {text}
+        </span>
+      </span>
+    );
+  }
 };
