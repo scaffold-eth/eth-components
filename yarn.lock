@@ -6136,7 +6136,7 @@ __metadata:
     eslint-plugin-react-hooks: ^4.2.0
     eslint-plugin-testing-library: ^4.12.3
     eslint-plugin-unused-imports: ^1.1.2
-    eth-hooks: ^3.3.6
+    eth-hooks: ^4.0.0-beta04
     ethereum-waffle: ^3.4.0
     ethers: ^5.4.1
     global-jsdom: ^8.2.0
@@ -6168,6 +6168,7 @@ __metadata:
   peerDependencies:
     "@ant-design/icons": ^4.2.2
     antd: ^4.7.0
+    eth-hooks: ^4.0.0-beta04
     react: ">=17.0.2"
     react-css-theme-switcher: ^0.3.0
     react-dom: ">=17.0.2"
@@ -6209,9 +6210,9 @@ __metadata:
   languageName: node
   linkType: hard
 
-"eth-hooks@npm:^3.3.6":
-  version: 3.3.6
-  resolution: "eth-hooks@npm:3.3.6"
+"eth-hooks@npm:^4.0.0-beta04":
+  version: 4.0.0-beta04
+  resolution: "eth-hooks@npm:4.0.0-beta04"
   dependencies:
     "@ethersproject/address": ^5.4.0
     "@ethersproject/bignumber": ^5.4.0
@@ -6228,8 +6229,8 @@ __metadata:
     "@web3-react/types": ^6.0.7
     axios: ^0.23.0
     ethers: ^5.4.1
-    lint-staged: ^11.2.6
-    tiny-invariant: ^1.1.0
+    tiny-invariant: ^1.2.0
+    tiny-warning: ^1.0.3
     use-debounce: ^7.0.0
     usehooks-ts: ^1.0.5
     web3modal: ^1.9.1
@@ -6237,7 +6238,7 @@ __metadata:
     "@uniswap/sdk": ^3.0.3
     react: ">=17.0.2"
     react-dom: ">=17.0.2"
-  checksum: 9ec98b6c365f443a069258096909947880cb71c0941b8ac9d053112bf42e467fde0274c34d449b42c3d62c521538bf81a3b3400cf9cbdb4259a0d1b84b732706
+  checksum: b54cbb6fecfda8338b7b5bcb7637c16967a50e557b06adccfaedc3b1dc044f97f2326fc90ea7d0b887c8cbeeacc4942e804049477e815c5b53733fc0c2f22c0a
   languageName: node
   linkType: hard
 
@@ -9723,30 +9724,6 @@ fsevents@~2.1.1:
   bin:
     lint-staged: bin/lint-staged.js
   checksum: cf3a1612a8cb3790030fb1eaf98071b97be0c71e9ee87f2f65741321974178e9b15b480dac695bb126d2cd8751dd7d72071b13d7ea0e1a97a735d88bd3cc8bb7
-  languageName: node
-  linkType: hard
-
-"lint-staged@npm:^11.2.6":
-  version: 11.2.6
-  resolution: "lint-staged@npm:11.2.6"
-  dependencies:
-    cli-truncate: 2.1.0
-    colorette: ^1.4.0
-    commander: ^8.2.0
-    cosmiconfig: ^7.0.1
-    debug: ^4.3.2
-    enquirer: ^2.3.6
-    execa: ^5.1.1
-    listr2: ^3.12.2
-    micromatch: ^4.0.4
-    normalize-path: ^3.0.0
-    please-upgrade-node: ^3.2.0
-    string-argv: 0.3.1
-    stringify-object: 3.3.0
-    supports-color: 8.1.1
-  bin:
-    lint-staged: bin/lint-staged.js
-  checksum: b9071621db351c553579bd18df3d80fb753f851c4f1f72db0aaf12e713eab25b6d8a044dab2957817de7da02054a63f7725a49c763aee09295133f0d554f4d3f
   languageName: node
   linkType: hard
 
@@ -14697,6 +14674,13 @@ resolve@^2.0.0-next.3:
   version: 1.1.0
   resolution: "tiny-invariant@npm:1.1.0"
   checksum: 27d29bbb9e1d1d86e25766711c28ad91af6d67c87d561167077ac7fbce5212b97bbfe875e70bc369808e075748c825864c9b61f0e9f8652275ec86bcf4dcc924
+  languageName: node
+  linkType: hard
+
+"tiny-invariant@npm:^1.2.0":
+  version: 1.2.0
+  resolution: "tiny-invariant@npm:1.2.0"
+  checksum: e09a718a7c4a499ba592cdac61f015d87427a0867ca07f50c11fd9b623f90cdba18937b515d4a5e4f43dac92370498d7bdaee0d0e7a377a61095e02c4a92eade
   languageName: node
   linkType: hard
 

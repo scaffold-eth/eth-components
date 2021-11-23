@@ -6,10 +6,7 @@ import { TEthersSigner } from 'eth-hooks/models';
 import { BigNumber, ethers } from 'ethers';
 import { Deferrable } from 'ethers/lib/utils';
 
-import {
-  checkBlocknativeAppId,
-  IEthComponentsSettings as IEthComponentsSettings,
-} from '~~/models/EthComponentsSettings';
+import { checkBlocknativeAppId, IEthComponentsSettings } from '~~/models/EthComponentsSettings';
 
 const callbacks: Record<string, any> = {};
 const DEBUG = true;
@@ -22,7 +19,7 @@ export type TTransactor = (
  * this should probably just be renamed to "notifier"
  * it is basically just a wrapper around BlockNative's wonderful Notify.js
  * https://docs.blocknative.com/notify
- * @param settings (IEthComponentsContext)
+ * @param settings
  * @param provider
  * @param gasPrice
  * @param etherscan
@@ -40,7 +37,7 @@ export const transactor = (
       tx: Deferrable<TransactionRequest> | Promise<TransactionResponse>,
       callback?: (_param: any) => void
     ): Promise<Record<string, any> | TransactionResponse | undefined> => {
-      const { provider, providerNetwork } = await parseProviderOrSigner(signer);
+      const { provider, chainId } = (await parseProviderOrSigner(signer)) ?? {};
 
       checkBlocknativeAppId(settings);
 
@@ -50,7 +47,7 @@ export const transactor = (
         options = {
           dappId: settings.apiKeys.BlocknativeDappId, // GET YOUR OWN KEY AT https://account.blocknative.com
           system: 'ethereum',
-          networkId: providerNetwork?.chainId,
+          networkId: chainId,
           // darkMode: Boolean, // (default: false)
           transactionHandler: (txInformation: any): void => {
             if (DEBUG) console.log('HANDLE TX', txInformation);
@@ -64,12 +61,12 @@ export const transactor = (
       }
 
       let etherscanNetwork = '';
-      if (providerNetwork?.name && providerNetwork?.chainId > 1) {
-        etherscanNetwork = providerNetwork.name + '.';
+      if (provider?.network.name && provider?.network?.chainId > 1) {
+        etherscanNetwork = provider?.network.name + '.';
       }
 
       let etherscanTxUrl = 'https://' + etherscanNetwork + 'etherscan.io/tx/';
-      if (providerNetwork?.chainId === 100) {
+      if (provider?.network?.chainId === 100) {
         etherscanTxUrl = 'https://blockscout.com/poa/xdai/tx/';
       }
 
@@ -99,8 +96,8 @@ export const transactor = (
         if (result && 'wait' in result && result.wait) {
           // if it is a valid Notify.js network, use that, if not, just send a default notification
           if (
-            providerNetwork != null &&
-            [1, 3, 4, 5, 42, 100].indexOf(providerNetwork.chainId) >= 0 &&
+            provider?.network != null &&
+            [1, 3, 4, 5, 42, 100].indexOf(provider?.network.chainId) >= 0 &&
             notify != null
           ) {
             const { emitter } = notify.hash(result.hash);

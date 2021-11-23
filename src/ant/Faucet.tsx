@@ -2,7 +2,7 @@ import { SendOutlined } from '@ant-design/icons';
 import { StaticJsonRpcProvider } from '@ethersproject/providers';
 import { parseEther } from '@ethersproject/units';
 import { Button, Input, Tooltip } from 'antd';
-import { useEnsResolveName } from 'eth-hooks/dapps';
+import { useResolveEnsAddress } from 'eth-hooks/dapps';
 import { ethers } from 'ethers';
 import React, { FC, useCallback, useContext, useState } from 'react';
 import Blockies from 'react-blockies';
@@ -40,7 +40,7 @@ interface IFaucetProps {
  */
 export const Faucet: FC<IFaucetProps> = (props) => {
   const [recipient, setRecipient] = useState<string>('');
-  const context = useContext(EthComponentsContext);
+  const ethComponentsSettings = useContext(EthComponentsSettingsContext);
 
   let blockie;
   if (props.faucetAddress && typeof props.faucetAddress.toLowerCase === 'function') {
@@ -65,12 +65,11 @@ export const Faucet: FC<IFaucetProps> = (props) => {
       //   result = newValue;
       // }
 
-
       setRecipient(newValue);
     }
   }, []);
 
-  const resolvedAddress = useEnsResolveName(props.mainnetProvider, recipient ?? '');
+  const resolvedAddress = useResolveEnsAddress(props.mainnetProvider, recipient ?? '');
   const toAddress = ethers.utils.isAddress(recipient) ? recipient : resolvedAddress;
   const localSigner = props.localProvider.getSigner();
 
@@ -90,8 +89,8 @@ export const Faucet: FC<IFaucetProps> = (props) => {
           <Tooltip title="Faucet: Send local ether to an address.">
             <Button
               onClick={(): void => {
-                if (localSigner && context && ethers.utils.isAddress(toAddress)) {
-                  const tx = transactor(context, localSigner);
+                if (localSigner && ethComponentsSettings && ethers.utils.isAddress(toAddress)) {
+                  const tx = transactor(ethComponentsSettings, localSigner);
 
                   if (tx && !!recipient) {
                     void tx({

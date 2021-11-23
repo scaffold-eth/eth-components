@@ -1,8 +1,9 @@
 import { StaticJsonRpcProvider } from '@ethersproject/providers';
 import { Button } from 'antd';
-import { useUserAddress, useBalance } from 'eth-hooks';
-import { CreateEthersModalConnector, useEthersContext, useBlockNumberContext } from 'eth-hooks/context';
-import { BigNumber, ethers, Signer } from 'ethers';
+import { useUserAddress } from 'eth-hooks';
+import { useEthersContext, useBlockNumberContext } from 'eth-hooks/context';
+import { TCreateEthersModalConnector } from 'eth-hooks/models';
+import { Signer } from 'ethers';
 import React, { FC, useState } from 'react';
 import { useThemeSwitcher } from 'react-css-theme-switcher';
 import { useDebounce } from 'use-debounce';
@@ -13,7 +14,7 @@ import { Address, Balance, Wallet } from '.';
 export interface IAccountProps {
   ensProvider: StaticJsonRpcProvider | undefined;
   localProvider?: StaticJsonRpcProvider | undefined;
-  createLoginConnector?: CreateEthersModalConnector;
+  createLoginConnector?: TCreateEthersModalConnector;
   /**
    * if hasContextConnect is true, it will not use this variable
    */
@@ -76,7 +77,6 @@ export const Account: FC<IAccountProps> = (props: IAccountProps) => {
       trailing: true,
     }
   );
-
 
   const handleLoginClick = (): void => {
     if (props.createLoginConnector != null) {

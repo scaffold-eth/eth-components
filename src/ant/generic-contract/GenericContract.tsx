@@ -1,6 +1,6 @@
 import { Card, Typography } from 'antd';
 import { useContractExistsAtAddress } from 'eth-hooks';
-import { useBlockNumberContext, useEthersContext } from 'eth-hooks/context';
+import { useEthersContext } from 'eth-hooks/context';
 import { TContractLoaderConfig, TEthersProvider } from 'eth-hooks/models';
 import { Contract, ContractFunction } from 'ethers';
 import { FunctionFragment } from 'ethers/lib/utils';
@@ -98,7 +98,7 @@ export const GenericContract: FC<IGenericContract> = (props) => {
         }
         size="default"
         style={{ marginTop: 25, width: '100%' }}
-        loading={ethersContext.ethersProvider == null || ethersContext.signer == null}>
+        loading={ethersContext.provider == null || ethersContext.signer == null}>
         {contractIsDeployed ? (
           contractDisplay
         ) : (
