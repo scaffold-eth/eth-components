@@ -18,7 +18,7 @@ const isQueryable = (fn: FunctionFragment): boolean =>
 
 interface IGenericContract<GContract extends BaseContract> {
   mainnetProvider: TEthersProvider | undefined;
-  contract: GContract;
+  contract: GContract | undefined;
   contractName: string;
   addressElement?: ReactElement;
   gasPrice?: number;
@@ -31,7 +31,7 @@ export const GenericContract = <GContract extends BaseContract>(
   props: PropsWithChildren<IGenericContract<GContract>>
 ): ReturnType<FC<IGenericContract<GContract>>> => {
   const ethersContext = useEthersContext();
-  const [contractIsDeployed] = useContractExistsAtAddress(props.contract.address);
+  const [contractIsDeployed] = useContractExistsAtAddress(props.contract?.address);
   const [refreshRequired, setTriggerRefresh] = useState(false);
 
   const displayedContractFunctions = props.contract

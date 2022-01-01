@@ -1,3 +1,4 @@
+/* eslint @typescript-eslint/no-unsafe-argument: "warn" */
 import { BigNumber } from '@ethersproject/bignumber';
 import { Button, Col, Divider, Input, Row, Tooltip } from 'antd';
 import { useEthersContext } from 'eth-hooks/context';
