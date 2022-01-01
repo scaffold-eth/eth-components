@@ -69,7 +69,7 @@ export const Faucet: FC<IFaucetProps> = (props) => {
     }
   }, []);
 
-  const resolvedAddress = useResolveEnsAddress(props.mainnetProvider, recipient ?? '');
+  const [resolvedAddress] = useResolveEnsAddress(props.mainnetProvider, recipient ?? '');
   const toAddress = ethers.utils.isAddress(recipient) ? recipient : resolvedAddress;
   const localSigner = props.localProvider.getSigner();
 

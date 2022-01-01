@@ -1,10 +1,10 @@
 import { Card, Typography } from 'antd';
 import { useContractExistsAtAddress } from 'eth-hooks';
 import { useEthersContext } from 'eth-hooks/context';
-import { TContractLoaderConfig, TEthersProvider } from 'eth-hooks/models';
-import { Contract, ContractFunction } from 'ethers';
+import { TEthersProvider } from 'eth-hooks/models';
+import { BaseContract, ContractFunction } from 'ethers';
 import { FunctionFragment } from 'ethers/lib/utils';
-import React, { FC, ReactElement, useState } from 'react';
+import React, { FC, PropsWithChildren, ReactElement, useState } from 'react';
 
 import { DisplayVariable } from './DisplayVariable';
 import { FunctionForm } from './FunctionFrom';
@@ -16,21 +16,22 @@ import { Account } from '~~/ant';
 const isQueryable = (fn: FunctionFragment): boolean =>
   (fn.stateMutability === 'view' || fn.stateMutability === 'pure') && fn.inputs.length === 0;
 
-interface IGenericContract {
+interface IGenericContract<GContract extends BaseContract> {
   mainnetProvider: TEthersProvider | undefined;
-  contract: Contract;
+  contract: GContract;
   contractName: string;
   addressElement?: ReactElement;
   gasPrice?: number;
   show?: string[];
   tokenPrice?: number;
   blockExplorer: string;
-  contractConfig: TContractLoaderConfig;
 }
 
-export const GenericContract: FC<IGenericContract> = (props) => {
+export const GenericContract = <GContract extends BaseContract>(
+  props: PropsWithChildren<IGenericContract<GContract>>
+): ReturnType<FC<IGenericContract<GContract>>> => {
   const ethersContext = useEthersContext();
-  const contractIsDeployed = useContractExistsAtAddress(props.contract);
+  const [contractIsDeployed] = useContractExistsAtAddress(props.contract.address);
   const [refreshRequired, setTriggerRefresh] = useState(false);
 
   const displayedContractFunctions = props.contract
@@ -45,7 +46,7 @@ export const GenericContract: FC<IGenericContract> = (props) => {
     // eslint-disable-next-line @typescript-eslint/no-unsafe-assignment
     const contractFunc: ContractFunction<any> =
       fn.stateMutability === 'view' || fn.stateMutability === 'pure'
-        ? props.contract?.[fn.name]
+        ? props.contract?.functions[fn.name]
         : props.contract?.connect(ethersContext.signer)?.[fn.name];
 
     if (typeof contractFunc === 'function') {
@@ -54,7 +55,7 @@ export const GenericContract: FC<IGenericContract> = (props) => {
         return (
           <DisplayVariable
             key={fn.name}
-            contractFunction={props.contract?.[fn.name]}
+            contractFunction={props.contract?.functions[fn.name]}
             functionInfo={fn}
             refreshRequired={refreshRequired}
             setTriggerRefresh={setTriggerRefresh}

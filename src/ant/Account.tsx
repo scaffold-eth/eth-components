@@ -1,6 +1,6 @@
 import { StaticJsonRpcProvider } from '@ethersproject/providers';
 import { Button } from 'antd';
-import { useUserAddress } from 'eth-hooks';
+import { useSignerAddress } from 'eth-hooks';
 import { useEthersContext, useBlockNumberContext } from 'eth-hooks/context';
 import { TCreateEthersModalConnector } from 'eth-hooks/models';
 import { Signer } from 'ethers';
@@ -60,7 +60,7 @@ export const Account: FC<IAccountProps> = (props: IAccountProps) => {
     setConnecting(false);
   }
 
-  const address = useUserAddress(props.signer);
+  const [address] = useSignerAddress(props.signer);
   // if hasContextConnect = false, do not use context or context connect/login/logout.  only used passed in address
   const [resolvedAddress] = useDebounce<string | undefined>(
     props.hasContextConnect ? ethersContext.account : address,

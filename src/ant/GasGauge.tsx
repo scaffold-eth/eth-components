@@ -16,7 +16,7 @@ interface IGasGaugeProps {
  * @returns
  */
 export const GasGauge: FC<IGasGaugeProps> = (props) => {
-  const gasPrice = useGasPrice(props.chainId, props.speed, props.currentNetwork);
+  const [gasPrice] = useGasPrice(props.chainId, props.speed, props.currentNetwork);
 
   return (
     <Button

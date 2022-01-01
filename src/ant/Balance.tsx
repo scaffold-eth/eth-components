@@ -24,7 +24,7 @@ interface IBalanceProps {
  */
 export const Balance: FC<IBalanceProps> = (props) => {
   const [dollarMode, setDollarMode] = useState(true);
-  const balance = useBalance(props.address);
+  const [balance] = useBalance(props.address);
 
   let resolvedBalance = BigNumber.from(balance);
   if (props.balance != null) {
