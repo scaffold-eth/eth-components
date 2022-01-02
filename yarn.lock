@@ -6307,7 +6307,7 @@ __metadata:
     eslint-plugin-react-hooks: ^4.3.0
     eslint-plugin-testing-library: ^5.0.1
     eslint-plugin-unused-imports: ^2.0.0
-    eth-hooks: ^4.0.1-beta04
+    eth-hooks: ^4.0.1-beta07
     ethereum-waffle: ^3.4.0
     ethers: ^5.5.2
     global-jsdom: ^8.4.0
@@ -6383,9 +6383,9 @@ __metadata:
   languageName: node
   linkType: hard
 
-"eth-hooks@npm:^4.0.1-beta04":
-  version: 4.0.1-beta04
-  resolution: "eth-hooks@npm:4.0.1-beta04"
+"eth-hooks@npm:^4.0.1-beta07":
+  version: 4.0.1-beta07
+  resolution: "eth-hooks@npm:4.0.1-beta07"
   dependencies:
     "@ethersproject/address": ^5.5.0
     "@ethersproject/bignumber": ^5.5.0
@@ -6402,6 +6402,7 @@ __metadata:
     "@web3-react/types": ^6.0.7
     axios: ^0.24.0
     ethers: ^5.5.2
+    merge-anything: ^4.0.2
     tiny-invariant: ^1.2.0
     tiny-warning: ^1.0.3
     use-debounce: ^7.0.1
@@ -6411,7 +6412,7 @@ __metadata:
     "@uniswap/sdk": ^3.0.3
     react: ">=17.0.2"
     react-dom: ">=17.0.2"
-  checksum: afc8b1b970c8ba4e7584f47e4cbf6d46dd3e6074cfdb5d2efcfe5d27594045e627a5d4d644a3548d37da9c6d35f57ca1095c7bf1ef37488c326952a33906e010
+  checksum: cfced3fbcbec0e130e394f101fcbd8d9f76d92945dd4bd579e0f416e3a09d85c99405b68794860b8a5c454eefa300f392eabc65881b7dca9a13830209122f87c
   languageName: node
   linkType: hard
 
@@ -8981,6 +8982,13 @@ __metadata:
   languageName: node
   linkType: hard
 
+"is-what@npm:^3.14.1":
+  version: 3.14.1
+  resolution: "is-what@npm:3.14.1"
+  checksum: a9a6ce92d33799f1ae0916c7afb6f8128a23ce9d28bd69d9ec3ec88910e7a1f68432e6236c3c8a4d544cf0b864675e5d828437efde60ee0cf8102061d395c1df
+  languageName: node
+  linkType: hard
+
 "is-windows@npm:^1.0.2":
   version: 1.0.2
   resolution: "is-windows@npm:1.0.2"
@@ -10347,6 +10355,16 @@ __metadata:
   version: 0.3.1
   resolution: "memorystream@npm:0.3.1"
   checksum: f18b42440d24d09516d01466c06adf797df7873f0d40aa7db02e5fb9ed83074e5e65412d0720901d7069363465f82dc4f8bcb44f0cde271567a61426ce6ca2e9
+  languageName: node
+  linkType: hard
+
+"merge-anything@npm:^4.0.2":
+  version: 4.0.2
+  resolution: "merge-anything@npm:4.0.2"
+  dependencies:
+    is-what: ^3.14.1
+    ts-toolbelt: ^9.6.0
+  checksum: 39f68b7909f40f58c1a134abc7b10fab6a83fdfe07f6b28dfc71c60f3b10ece3b0c15467d314b7794adb2a0d99715c50b0d9bcf2e070cc3f9c389d80fcaee205
   languageName: node
   linkType: hard
 
@@ -15090,6 +15108,13 @@ __metadata:
   bin:
     ts-patch: bin/cli.js
   checksum: 6c75ea4d9958d1d6617bb4ff63a098e205386c3727a5391691f74cf67b41088c5bce5ce8889d0e0478c1f261aa995d22dc05f4913f8322b6ab0fd69bfc1f6997
+  languageName: node
+  linkType: hard
+
+"ts-toolbelt@npm:^9.6.0":
+  version: 9.6.0
+  resolution: "ts-toolbelt@npm:9.6.0"
+  checksum: 9f35fd95d895a5d32ea9fd2e532a695b0bae6cbff6832b77292efa188a0ed1ed6e54f63f74a8920390f3d909a7a3adb20a144686372a8e78b420246a9bd3d58a
   languageName: node
   linkType: hard
 

@@ -3,17 +3,17 @@ import { notification } from 'antd';
 import Notify, { API, InitOptions } from 'bnc-notify';
 import { parseProviderOrSigner } from 'eth-hooks/functions';
 import { TEthersSigner } from 'eth-hooks/models';
-import { BigNumber, ethers } from 'ethers';
+import { BigNumber, ContractTransaction, ethers } from 'ethers';
 import { Deferrable } from 'ethers/lib/utils';
 
 import { checkBlocknativeAppId, IEthComponentsSettings } from '~~/models/EthComponentsSettings';
 
 const callbacks: Record<string, any> = {};
 const DEBUG = true;
-export type TTransactor = (
-  tx: Deferrable<TransactionRequest> | Promise<TransactionResponse>,
+export type TTransactorFunc = (
+  tx: Deferrable<TransactionRequest> | Promise<TransactionResponse> | Promise<ContractTransaction> | undefined,
   callback?: ((_param: any) => void) | undefined
-) => Promise<Record<string, any> | TransactionResponse | undefined>;
+) => Promise<Record<string, any> | undefined>;
 
 /**
  * this should probably just be renamed to "notifier"
@@ -31,12 +31,9 @@ export const transactor = (
   gasPrice?: number,
   etherscan?: string,
   throwOnError: boolean = false
-): TTransactor | undefined => {
+): TTransactorFunc | undefined => {
   if (signer != null) {
-    return async (
-      tx: Deferrable<TransactionRequest> | Promise<TransactionResponse>,
-      callback?: (_param: any) => void
-    ): Promise<Record<string, any> | TransactionResponse | undefined> => {
+    const result: TTransactorFunc = async (tx, callback) => {
       const { provider, chainId } = (await parseProviderOrSigner(signer)) ?? {};
 
       checkBlocknativeAppId(settings);
@@ -76,7 +73,7 @@ export const transactor = (
           if (DEBUG) console.log('AWAITING TX', tx);
           const data = await tx;
           result = data;
-        } else {
+        } else if (tx != null) {
           if (!tx.gasPrice) {
             tx.gasPrice = gasPrice || ethers.utils.parseUnits('4.1', 'gwei');
           }
@@ -147,5 +144,6 @@ export const transactor = (
         if (throwOnError) throw e;
       }
     };
+    return result;
   }
 };

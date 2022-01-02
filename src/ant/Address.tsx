@@ -18,7 +18,7 @@ interface IAddressProps {
   punkBlockie?: boolean;
   ensProvider?: StaticJsonRpcProvider | undefined;
   blockExplorer?: string;
-  address: string;
+  address: string | undefined;
   fontSize?: number;
   minimized?: boolean;
   size?: 'short' | 'long';
@@ -45,7 +45,7 @@ export const Address: FC<IAddressProps> = ({ minimized = false, punkBlockie = fa
   let ensName: string = '';
   const { currentTheme } = useThemeSwitcher();
 
-  ensName = useResolveEnsName(props.ensProvider, address);
+  ensName = useResolveEnsName(props.ensProvider, address ?? '');
 
   if (!address) {
     return (
