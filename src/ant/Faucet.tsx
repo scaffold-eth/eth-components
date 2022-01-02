@@ -2,13 +2,13 @@ import { SendOutlined } from '@ant-design/icons';
 import { parseEther } from '@ethersproject/units';
 import { Button, Input, Tooltip } from 'antd';
 import { useResolveEnsAddress } from 'eth-hooks/dapps';
+import { TEthersAdaptor } from 'eth-hooks/models';
 import { ethers } from 'ethers';
 import React, { FC, useCallback, useContext, useState } from 'react';
 import Blockies from 'react-blockies';
 
 import { Wallet } from '.';
 
-import { TEthersAdaptor } from '.yalc/eth-hooks/models';
 import { transactor } from '~~/functions';
 import { EthComponentsSettingsContext } from '~~/models';
 
