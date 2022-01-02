@@ -63,6 +63,7 @@
     "eth-hooks": "^4.0.1-beta07",
     "ethers": "^5.5.2",
     "qrcode.react": "^1.0.1",
+    "react-async-hook": "^4.0.0",
     "react-blockies": "^1.4.1",
     "react-qr-reader": "^2.2.1",
     "use-debounce": "^7.0.1",
