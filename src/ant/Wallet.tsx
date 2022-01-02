@@ -41,8 +41,8 @@ interface IWalletProps {
  * @returns (FC)
  */
 export const Wallet: FC<IWalletProps> = (props: IWalletProps) => {
+  const context = useContext(EthComponentsSettingsContext);
   const burner = useBurnerSigner(props.localProvider);
-
   const [account] = useSignerAddress(props.signer);
 
   const [open, setOpen] = useState(false);
@@ -50,8 +50,6 @@ export const Wallet: FC<IWalletProps> = (props: IWalletProps) => {
   const [amount, setAmount] = useState<string>('');
   const [toAddress, setToAddress] = useState<string>('');
   const [publicKey, setPublicKey] = useState<BytesLike>();
-
-  const context = useContext(EthComponentsSettingsContext);
 
   const providerSend = props.signer ? (
     <Tooltip title="Wallet">

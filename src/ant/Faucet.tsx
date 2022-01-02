@@ -1,5 +1,4 @@
 import { SendOutlined } from '@ant-design/icons';
-import { StaticJsonRpcProvider } from '@ethersproject/providers';
 import { parseEther } from '@ethersproject/units';
 import { Button, Input, Tooltip } from 'antd';
 import { useResolveEnsAddress } from 'eth-hooks/dapps';
@@ -9,6 +8,7 @@ import Blockies from 'react-blockies';
 
 import { Wallet } from '.';
 
+import { TEthersAdaptor } from '.yalc/eth-hooks/models';
 import { transactor } from '~~/functions';
 import { EthComponentsSettingsContext } from '~~/models';
 
@@ -19,9 +19,9 @@ import { EthComponentsSettingsContext } from '~~/models';
 interface IFaucetProps {
   faucetAddress?: string;
   price: number;
-  mainnetProvider: StaticJsonRpcProvider;
+  mainnetAdaptor: TEthersAdaptor | undefined;
   placeholder?: string;
-  localProvider: StaticJsonRpcProvider;
+  localAdaptor: TEthersAdaptor | undefined;
 }
 
 /**
@@ -69,9 +69,9 @@ export const Faucet: FC<IFaucetProps> = (props) => {
     }
   }, []);
 
-  const [resolvedAddress] = useResolveEnsAddress(props.mainnetProvider, recipient ?? '');
+  const [resolvedAddress] = useResolveEnsAddress(props.mainnetAdaptor?.provider, recipient ?? '');
   const toAddress = ethers.utils.isAddress(recipient) ? recipient : resolvedAddress;
-  const localSigner = props.localProvider.getSigner();
+  const localSigner = props.localAdaptor?.signer;
 
   return (
     <span>
@@ -110,8 +110,8 @@ export const Faucet: FC<IFaucetProps> = (props) => {
             <Wallet
               color="#888888"
               signer={localSigner}
-              localProvider={props.localProvider}
-              ensProvider={props.mainnetProvider}
+              localProvider={props.localAdaptor?.provider}
+              ensProvider={props.mainnetAdaptor?.provider}
               price={props.price}
             />
           </Tooltip>

@@ -1,7 +1,7 @@
 import { Card, Typography } from 'antd';
 import { useContractExistsAtAddress } from 'eth-hooks';
 import { useEthersContext } from 'eth-hooks/context';
-import { TEthersProvider } from 'eth-hooks/models';
+import { TEthersAdaptor } from 'eth-hooks/models';
 import { BaseContract, ContractFunction } from 'ethers';
 import { FunctionFragment } from 'ethers/lib/utils';
 import React, { FC, PropsWithChildren, ReactElement, useState } from 'react';
@@ -17,7 +17,7 @@ const isQueryable = (fn: FunctionFragment): boolean =>
   (fn.stateMutability === 'view' || fn.stateMutability === 'pure') && fn.inputs.length === 0;
 
 interface IGenericContract<GContract extends BaseContract> {
-  mainnetProvider: TEthersProvider | undefined;
+  mainnetAdaptor: TEthersAdaptor | undefined;
   contract: GContract | undefined;
   contractName: string;
   addressElement?: ReactElement;
@@ -31,7 +31,9 @@ export const GenericContract = <GContract extends BaseContract>(
   props: PropsWithChildren<IGenericContract<GContract>>
 ): ReturnType<FC<IGenericContract<GContract>>> => {
   const ethersContext = useEthersContext();
-  const [contractIsDeployed] = useContractExistsAtAddress(props.contract?.address);
+  const [contractIsDeployed] = useContractExistsAtAddress(props.contract?.address, {
+    adaptorOverrride: { enabled: true, adaptor: props.mainnetAdaptor },
+  });
   const [refreshRequired, setTriggerRefresh] = useState(false);
 
   const displayedContractFunctions = props.contract
@@ -87,7 +89,7 @@ export const GenericContract = <GContract extends BaseContract>(
             <div style={{ float: 'right' }}>
               <Account
                 signer={props.contract?.signer}
-                ensProvider={props.mainnetProvider}
+                ensProvider={props.mainnetAdaptor?.provider}
                 price={props.tokenPrice ?? 0}
                 blockExplorer={props.blockExplorer}
                 fontSize={fontSize}
