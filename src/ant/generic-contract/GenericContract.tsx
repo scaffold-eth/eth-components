@@ -57,7 +57,7 @@ export const GenericContract = <GContract extends BaseContract>(
         // If there are no inputs, just display return value
         return (
           <DisplayVariable
-            key={fn.name}
+            key={'DD' + fn.name}
             contractFunction={props.contract?.functions[fn.name]}
             functionInfo={fn}
             refreshRequired={refreshRequired}
