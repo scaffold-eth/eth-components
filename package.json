@@ -19,22 +19,21 @@
       "url": "https://github.com/austintgriffith"
     },
     {
+      "name": "Chimeremeze Bliss Ukah",
+      "url": "https://github.com/ghostffcode"
+    },
+    {
       "name": "Shravan Sunder",
       "url": "https://github.com/ShravanSunder"
     }
   ],
   "scripts": {
     "es-build": "node esbuild.config.js",
-    "publish": "yarn build && yarn package",
-    "docs": "yarn typedoc --listInvalidSymbolLinks && shx mv ./docs/api-typedocs/readme.md ./docs/api-typedocs/api-overview.md",
-    "docs:js": "yarn prepublish && yarn jsdoc2md -t README.hsb.md ./lib/**/*.{js,jsx} > README.md",
+    "package": "yarn es-build && yarn publish",
     "deprecate": "npm deprecate",
-    "lint": "eslint --config ./.eslintrc --ignore-path ./.eslintignore ./src/**/*",
+    "lint": "eslint --config ./.eslintrc.js --ignore-path ./.eslintignore ./src/**/*",
     "test:hardhat": "yarn hh:run test  --network hardhat",
-    "test:mocha": "yarn hh:env yarn mocha --config .mocharc.js",
-    "hh:run": "yarn hh:env yarn hardhat",
-    "hh:chain": "yarn hh:run node",
-    "hh:env": "cross-env TS_NODE_PROJECT=tsconfig.testing.json TS_NODE_TRANSPILE_ONLY=1"
+    "test:mocha": "yarn hh:env yarn mocha --config .mocharc.js"
   },
   "dependencies": {
     "@ethersproject/abstract-signer": "^5.4.0",
@@ -77,6 +76,7 @@
     "@testing-library/user-event": "^13.1.9",
     "@uniswap/sdk": "^3.0.3",
     "antd": "^4.7.0",
+    "babel-eslint": "^10.1.0",
     "chai": "^4.3.4",
     "cross-env": "^7.0.3",
     "esbuild": "^0.13.8",
