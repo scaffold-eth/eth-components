@@ -1,14 +1,14 @@
-import React from "react";
-import useTokenBalanceWrapper from "../useEthComponent/TokenBalance";
+import React from 'react';
+import useTokenBalanceWrapper from '../useEthComponent/TokenBalance';
 
 function TokenBalance({ toggleMode, img, displayBalance, ...props }) {
   return (
     <span
       style={{
-        verticalAlign: "middle",
+        verticalAlign: 'middle',
         fontSize: 24,
         padding: 8,
-        cursor: "pointer",
+        cursor: 'pointer',
       }}
       onClick={toggleMode}
     >

@@ -1,6 +1,6 @@
-import React from "react";
-import { Input } from "antd";
-import useEtherInput from "../useEthComponent/EtherInput";
+import React from 'react';
+import { Input } from 'antd';
+import useEtherInput from '../useEthComponent/EtherInput';
 
 // small change in useEffect, display currentValue if it's provided by user
 
@@ -32,16 +32,16 @@ import useEtherInput from "../useEthComponent/EtherInput";
 function EtherInput({ value, mode, toggleMode, onChange, price, ...props }) {
   return (
     <Input
-      placeholder={props.placeholder ? props.placeholder : "amount in " + mode}
+      placeholder={props.placeholder ? props.placeholder : 'amount in ' + mode}
       autoFocus={props.autoFocus}
-      prefix={mode === "USD" ? "$" : "Ξ"}
+      prefix={mode === 'USD' ? '$' : 'Ξ'}
       value={value}
       addonAfter={
         !price ? (
-          ""
+          ''
         ) : (
-          <div style={{ cursor: "pointer" }} onClick={toggleMode}>
-            {mode === "USD" ? "USD 🔀" : "ETH 🔀"}
+          <div style={{ cursor: 'pointer' }} onClick={toggleMode}>
+            {mode === 'USD' ? 'USD 🔀' : 'ETH 🔀'}
           </div>
         )
       }

@@ -1,10 +1,10 @@
-import { CameraOutlined, QrcodeOutlined } from "@ant-design/icons";
-import { Badge, Input } from "antd";
-import { useLookupAddress } from "eth-hooks/dapps/ens";
-import React, { useEffect, useState } from "react";
+import { CameraOutlined, QrcodeOutlined } from '@ant-design/icons';
+import { Badge, Input } from 'antd';
+import { useLookupAddress } from 'eth-hooks/dapps/ens';
+import React, { useEffect, useState } from 'react';
 // import useClipboard from "react-use-clipboard";
-import QrReader from "react-qr-reader";
-import { ethers } from "ethers";
+import QrReader from 'react-qr-reader';
+import { ethers } from 'ethers';
 
 // probably we need to change value={toAddress} to address={toAddress}
 
@@ -33,34 +33,34 @@ import { ethers } from "ethers";
                           or onChange={address => { setToAddress(address);}}
 */
 
-const possibleENS = (address = "") => !ethers.utils.isAddress(address) && address.indexOf(".") > -1;
+const possibleENS = (address = '') => !ethers.utils.isAddress(address) && address.indexOf('.') > -1;
 
 const AddressInput =
-  Component =>
+  (Component) =>
   ({ ensProvider, onChange, value: propsValue, ...props }) => {
-    const [value, setValue] = useState(propsValue || "");
-    const [address, setAddress] = useState("");
-    const [ens, setEns] = useState("");
+    const [value, setValue] = useState(propsValue || '');
+    const [address, setAddress] = useState('');
+    const [ens, setEns] = useState('');
     const isPossibleENS = possibleENS(value);
     // const [scan, setScan] = useState(false);
 
     const inputProps = {
-      name: "0xaddress",
-      id: "0xaddress",
+      name: '0xaddress',
+      id: '0xaddress',
     };
 
-    const shortAddress = address ? `${address.substr(0, 5)}...${address.substr(-4)}` : "";
+    const shortAddress = address ? `${address.substr(0, 5)}...${address.substr(-4)}` : '';
 
-    const ensLookupValue = useLookupAddress(ensProvider, value) || "";
+    const ensLookupValue = useLookupAddress(ensProvider, value) || '';
 
     useEffect(() => {
       setEns(ensLookupValue);
     }, [ensLookupValue]);
 
-    const updateAddress = async newValue => {
+    const updateAddress = async (newValue) => {
       setValue(newValue);
       let possibleAddress = address;
-      if (typeof newValue !== "undefined") {
+      if (typeof newValue !== 'undefined') {
         let isENS = false;
         let isAddress = false;
         if (possibleENS(newValue)) {
@@ -73,10 +73,10 @@ const AddressInput =
               setAddress(possibleAddress);
               isENS = true;
             } else {
-              throw new Error("no possible address");
+              throw new Error('no possible address');
             }
           } catch (e) {
-            setEns("");
+            setEns('');
           }
         }
 
@@ -90,21 +90,21 @@ const AddressInput =
               setAddress(newValue);
               setEns(possibleENS);
             } else {
-              throw new Error("no possible ENS");
+              throw new Error('no possible ENS');
             }
           } catch (e) {
-            setAddress("");
+            setAddress('');
           }
         }
 
         if (!isENS && !isAddress) {
-          setAddress("");
-          setEns("");
+          setAddress('');
+          setEns('');
         }
       }
 
       // send value up through onChange props
-      if (typeof onChange === "function") {
+      if (typeof onChange === 'function') {
         onChange(possibleAddress || newValue);
       }
     };

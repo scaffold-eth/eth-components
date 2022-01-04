@@ -1,6 +1,6 @@
-import { Input } from "antd";
-import React from "react";
-import useBytesStringInput from "../useEthComponent/BytesStringInput";
+import { Input } from 'antd';
+import React from 'react';
+import useBytesStringInput from '../useEthComponent/BytesStringInput';
 
 /*
   ~ What it does? ~
@@ -27,22 +27,22 @@ import useBytesStringInput from "../useEthComponent/BytesStringInput";
 */
 
 const BytesStringInput = ({ value, autoFocus, placeholder, mode, toggleOption, onChange }) => {
-  const option = title => {
+  const option = (title) => {
     return (
-      <div style={{ cursor: "pointer" }} onClick={toggleOption}>
+      <div style={{ cursor: 'pointer' }} onClick={toggleOption}>
         {title}
       </div>
     );
   };
 
-  let addonAfter = option("BYTES32 🔀");
-  if (mode === "STRING") {
-    addonAfter = option("STRING 🔀");
+  let addonAfter = option('BYTES32 🔀');
+  if (mode === 'STRING') {
+    addonAfter = option('STRING 🔀');
   }
 
   return (
     <Input
-      placeholder={placeholder ? placeholder : "Enter value in " + mode}
+      placeholder={placeholder ? placeholder : 'Enter value in ' + mode}
       autoFocus={autoFocus}
       value={value}
       addonAfter={addonAfter}

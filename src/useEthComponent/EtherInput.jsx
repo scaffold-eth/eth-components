@@ -1,5 +1,5 @@
-import { Input } from "antd";
-import React, { useEffect, useState } from "react";
+import { Input } from 'antd';
+import React, { useEffect, useState } from 'react';
 
 // small change in useEffect, display currentValue if it's provided by user
 
@@ -29,22 +29,22 @@ import React, { useEffect, useState } from "react";
 */
 
 const EtherInput =
-  Component =>
+  (Component) =>
   ({ value: oldValue, price, onChange, ...props }) => {
-    const [mode, setMode] = useState(price ? "USD" : "ETH");
+    const [mode, setMode] = useState(price ? 'USD' : 'ETH');
     const [display, setDisplay] = useState();
     const [value, setValue] = useState();
 
-    const currentValue = typeof oldValue !== "undefined" ? oldValue : value;
+    const currentValue = typeof oldValue !== 'undefined' ? oldValue : value;
 
     const toggleMode = () => {
-      if (mode === "USD") {
-        setMode("ETH");
+      if (mode === 'USD') {
+        setMode('ETH');
         setDisplay(currentValue);
       } else {
-        setMode("USD");
+        setMode('USD');
         if (currentValue) {
-          const usdValue = "" + (parseFloat(currentValue) * price).toFixed(2);
+          const usdValue = '' + (parseFloat(currentValue) * price).toFixed(2);
           setDisplay(usdValue);
         } else {
           setDisplay(currentValue);
@@ -52,14 +52,14 @@ const EtherInput =
       }
     };
 
-    const onChangeHandler = async e => {
+    const onChangeHandler = async (e) => {
       const newValue = e.target.value;
-      if (mode === "USD") {
+      if (mode === 'USD') {
         const possibleNewValue = parseFloat(newValue);
         if (possibleNewValue) {
           const ethValue = possibleNewValue / price;
           setValue(ethValue);
-          if (typeof onChange === "function") {
+          if (typeof onChange === 'function') {
             onChange(ethValue);
           }
           setDisplay(newValue);
@@ -68,7 +68,7 @@ const EtherInput =
         }
       } else {
         setValue(newValue);
-        if (typeof onChange === "function") {
+        if (typeof onChange === 'function') {
           onChange(newValue);
         }
         setDisplay(newValue);
@@ -77,7 +77,7 @@ const EtherInput =
 
     useEffect(() => {
       if (!currentValue) {
-        setDisplay("");
+        setDisplay('');
       }
     }, [currentValue]);
 
