@@ -21,8 +21,10 @@ export const DisplayVariable: FC<IDisplayVariableProps> = (props) => {
     try {
       if (props.contractFunction) {
         // eslint-disable-next-line @typescript-eslint/no-unsafe-assignment
-        const result = await props.contractFunction();
-
+        let result = await props.contractFunction();
+        if (Array.isArray(result) && result.length === 1) {
+          result = result[0];
+        }
         if (isMounted()) {
           setVariable(result);
           props.setTriggerRefresh(false);
