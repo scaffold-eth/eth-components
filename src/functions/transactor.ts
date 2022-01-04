@@ -136,9 +136,12 @@ export const transactor = (
       } catch (e: any) {
         if (DEBUG) console.log(e);
         // Accounts for Metamask and default signer on all networks
+        // eslint-disable-next-line @typescript-eslint/no-unsafe-assignment, @typescript-eslint/no-unsafe-member-access,  @typescript-eslint/no-unsafe-call
+        const description: string = e?.error?.toString() ?? e?.message;
+
         notification.error({
           message: 'Transaction Error',
-          description: e?.message,
+          description,
         });
 
         if (throwOnError) throw e;

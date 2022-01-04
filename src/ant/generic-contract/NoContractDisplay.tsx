@@ -30,8 +30,9 @@ export const NoContractDisplay: FC<{ showLoading: boolean }> = (props) => {
         <span style={{ marginRight: 4 }} role="img" aria-label="warning">
           ☢️
         </span>
-        Warning: You might need to run
-        <CodeView>yarn run deploy</CodeView>
+        Warning: You need to run
+        <CodeView>yarn run contracts:build</CodeView>
+        <CodeView>yarn run deloy</CodeView>
         <i>again</i> after the frontend comes up!
       </div>
     </div>
