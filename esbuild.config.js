@@ -4,13 +4,7 @@ const { nodeExternalsPlugin } = require('esbuild-node-externals');
 
 esbuild
   .build({
-    entryPoints: [
-      './src/index.ts',
-      './src/ant/index.ts',
-      './src/ant/generic-contract/index.ts',
-      './src/functions/index.ts',
-      './src/models/index.ts',
-    ],
+    entryPoints: ['./src/index.js'],
     outdir: 'lib',
     bundle: true,
     minifyWhitespace: true,
@@ -21,7 +15,6 @@ esbuild
     target: ['node14', 'esnext'],
     splitting: true,
     format: 'esm',
-    inject: ['esbuild.shim.js'],
     plugins: [nodeExternalsPlugin()],
   })
   .catch((err) => {
