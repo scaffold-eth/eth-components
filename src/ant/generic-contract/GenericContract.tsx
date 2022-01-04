@@ -1,7 +1,7 @@
 import { Card, Typography } from 'antd';
-import { useContractExistsAtAddress, useGetEthersAdaptorFromProviders } from 'eth-hooks';
+import { useContractExistsAtAddress } from 'eth-hooks';
 import { useEthersContext } from 'eth-hooks/context';
-import { TEthersAdaptor, TEthersProvider } from 'eth-hooks/models';
+import { TEthersAdaptor } from 'eth-hooks/models';
 import { BaseContract, ContractFunction } from 'ethers';
 import { FunctionFragment } from 'ethers/lib/utils';
 import React, { FC, PropsWithChildren, ReactElement, useState } from 'react';
@@ -31,10 +31,7 @@ export const GenericContract = <GContract extends BaseContract>(
   props: PropsWithChildren<IGenericContract<GContract>>
 ): ReturnType<FC<IGenericContract<GContract>>> => {
   const ethersContext = useEthersContext();
-  const adaptor = useGetEthersAdaptorFromProviders(props.contract?.provider as TEthersProvider | undefined);
-  const [contractIsDeployed] = useContractExistsAtAddress(props.contract?.address, {
-    adaptorOverrride: { enabled: true, adaptor: adaptor },
-  });
+  const [contractIsDeployed] = useContractExistsAtAddress(props.contract);
   const [refreshRequired, setTriggerRefresh] = useState(false);
 
   const displayedContractFunctions = props.contract
