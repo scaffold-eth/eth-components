@@ -65,6 +65,7 @@
     "qrcode.react": "^1.0.1",
     "react-blockies": "^1.4.1",
     "react-qr-reader": "^2.2.1",
+    "ts-invariant": "^0.9.4",
     "use-async-memo": "^1.2.3",
     "use-debounce": "^7.0.1",
     "usehooks-ts": "^2.1.1"

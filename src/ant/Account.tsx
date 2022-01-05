@@ -6,6 +6,7 @@ import { TCreateEthersModalConnector } from 'eth-hooks/models';
 import { Signer } from 'ethers';
 import React, { FC, useState } from 'react';
 import { useThemeSwitcher } from 'react-css-theme-switcher';
+import invariant from 'ts-invariant';
 import { useDebounce } from 'use-debounce';
 import { useIsMounted } from 'usehooks-ts';
 
@@ -82,12 +83,12 @@ export const Account: FC<IAccountProps> = (props: IAccountProps) => {
     if (props.createLoginConnector != null) {
       const connector = props.createLoginConnector?.();
       if (!isMounted()) {
-        console.log('openModal: no longer mounted');
+        invariant.log('openModal: no longer mounted');
       } else if (connector) {
         setConnecting(true);
         ethersContext.openModal(connector);
       } else {
-        console.warn('openModal: A valid EthersModalConnector was not provided');
+        invariant.warn('openModal: A valid EthersModalConnector was not provided');
       }
     }
   };

@@ -2,6 +2,7 @@ import { Col, Divider, Row } from 'antd';
 import { ContractFunction } from 'ethers';
 import { FunctionFragment } from 'ethers/lib/utils';
 import React, { FC, SetStateAction, useCallback, useEffect, useState, Dispatch } from 'react';
+import invariant from 'ts-invariant';
 import { useIsMounted } from 'usehooks-ts';
 
 import { tryToDisplay } from './displayUtils';
@@ -30,8 +31,8 @@ export const DisplayVariable: FC<IDisplayVariableProps> = (props) => {
           props.setTriggerRefresh(false);
         }
       }
-    } catch (e) {
-      console.log(e);
+    } catch (e: any) {
+      invariant.log(e?.message);
     }
   }, [props, isMounted]);
 

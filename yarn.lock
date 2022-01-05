@@ -6359,6 +6359,7 @@ __metadata:
     react-dom: ^17.0.2
     react-qr-reader: ^2.2.1
     shx: ^0.3.3
+    ts-invariant: ^0.9.4
     ts-node: ^10.4.0
     ts-patch: ^1.4.5
     tsconfig-paths: ^3.12.0

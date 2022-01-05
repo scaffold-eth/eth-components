@@ -4,6 +4,7 @@ import { Badge, Input } from 'antd';
 import { useResolveEnsName } from 'eth-hooks/dapps';
 import React, { Dispatch, FC, SetStateAction, useCallback, useState } from 'react';
 import QrReader from 'react-qr-reader';
+import invariant from 'ts-invariant';
 
 import { Blockie } from '.';
 
@@ -56,7 +57,6 @@ export const AddressInput: FC<IAddressInputProps> = (props) => {
             if (possibleAddress) {
               address = possibleAddress;
             }
-            // eslint-disable-next-line no-empty
           } catch (e) {}
         }
         if (props.onChange) {
@@ -83,16 +83,16 @@ export const AddressInput: FC<IAddressInputProps> = (props) => {
         delay={250}
         resolution={1200}
         onError={(e: Error): void => {
-          console.log('SCAN ERROR', e);
+          invariant.log('SCAN ERROR', e);
           setScan(false);
         }}
         onScan={(newValue: string | null): void => {
           if (newValue) {
-            console.log('SCAN VALUE', newValue);
+            invariant.log('SCAN VALUE', newValue);
             let possibleNewValue = newValue;
             if (possibleNewValue.indexOf('/') >= 0) {
               possibleNewValue = possibleNewValue.substr(possibleNewValue.lastIndexOf('0x'));
-              console.log('CLEANED VALUE', possibleNewValue);
+              invariant.log('CLEANED VALUE', possibleNewValue);
             }
             setScan(false);
             void updateAddress(possibleNewValue);
