@@ -32,7 +32,7 @@ interface IAddressInputProps {
 export const AddressInput: FC<IAddressInputProps> = (props) => {
   const [scan, setScan] = useState(false);
 
-  const ensName = useResolveEnsName(props.ensProvider, props.address ?? '');
+  const [ensName] = useResolveEnsName(props.ensProvider, props.address ?? '');
 
   const scannerButton = (
     <div
@@ -115,7 +115,7 @@ export const AddressInput: FC<IAddressInputProps> = (props) => {
         autoFocus={props.autoFocus}
         placeholder={props.placeholder ? props.placeholder : 'address'}
         prefix={<Blockie address={props.address ?? ''} scale={3} />}
-        value={ensName || props.address}
+        value={ensName ?? props.address}
         addonAfter={scannerButton}
         onChange={(e): void => {
           void updateAddress(e.target.value);

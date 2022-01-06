@@ -89,7 +89,7 @@ export const Faucet: FC<IFaucetProps> = (props) => {
           <Tooltip title="Faucet: Send local ether to an address.">
             <Button
               onClick={(): void => {
-                if (localSigner && ethComponentsSettings && ethers.utils.isAddress(toAddress)) {
+                if (localSigner && ethComponentsSettings && ethers.utils.isAddress(toAddress ?? '')) {
                   const tx = transactor(ethComponentsSettings, localSigner);
 
                   if (tx && !!recipient) {

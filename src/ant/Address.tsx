@@ -45,7 +45,8 @@ export const Address: FC<IAddressProps> = ({ minimized = false, punkBlockie = fa
   let ensName: string = '';
   const { currentTheme } = useThemeSwitcher();
 
-  ensName = useResolveEnsName(props.ensProvider, address ?? '');
+  const [ensResult] = useResolveEnsName(props.ensProvider, address ?? '');
+  ensName = ensResult ?? '';
 
   if (!address) {
     return (
