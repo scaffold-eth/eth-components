@@ -18,7 +18,7 @@ esbuild
     minifyIdentifiers: false,
     platform: 'browser',
     sourcemap: true,
-    target: ['node14', 'esnext'],
+    target: ['node16', 'esnext'],
     splitting: true,
     format: 'esm',
     inject: ['esbuild.shim.js'],

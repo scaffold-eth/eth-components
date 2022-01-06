@@ -3,7 +3,7 @@ import { KeyOutlined, QrcodeOutlined, SendOutlined, WalletOutlined } from '@ant-
 import { StaticJsonRpcProvider } from '@ethersproject/providers';
 import { parseEther } from '@ethersproject/units';
 import { Button, Modal, Spin, Tooltip, Typography } from 'antd';
-import { useBurnerSigner, useUserAddress } from 'eth-hooks';
+import { useBurnerSigner, useSignerAddress } from 'eth-hooks';
 import { TEthersSigner } from 'eth-hooks/models';
 import { BytesLike } from 'ethers';
 import QR from 'qrcode.react';
@@ -41,17 +41,15 @@ interface IWalletProps {
  * @returns (FC)
  */
 export const Wallet: FC<IWalletProps> = (props: IWalletProps) => {
+  const context = useContext(EthComponentsSettingsContext);
   const burner = useBurnerSigner(props.localProvider);
-
-  const account = useUserAddress(props.signer);
+  const [account] = useSignerAddress(props.signer);
 
   const [open, setOpen] = useState(false);
   const [qr, setQr] = useState<string>();
   const [amount, setAmount] = useState<string>('');
   const [toAddress, setToAddress] = useState<string>('');
   const [publicKey, setPublicKey] = useState<BytesLike>();
-
-  const context = useContext(EthComponentsSettingsContext);
 
   const providerSend = props.signer ? (
     <Tooltip title="Wallet">

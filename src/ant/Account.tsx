@@ -1,10 +1,12 @@
 import { StaticJsonRpcProvider } from '@ethersproject/providers';
 import { Button } from 'antd';
-import { useUserAddress, useBalance } from 'eth-hooks';
-import { CreateEthersModalConnector, useEthersContext, useBlockNumberContext } from 'eth-hooks/context';
-import { BigNumber, ethers, Signer } from 'ethers';
+import { useSignerAddress } from 'eth-hooks';
+import { useEthersContext, useBlockNumberContext } from 'eth-hooks/context';
+import { TCreateEthersModalConnector } from 'eth-hooks/models';
+import { Signer } from 'ethers';
 import React, { FC, useState } from 'react';
 import { useThemeSwitcher } from 'react-css-theme-switcher';
+import invariant from 'ts-invariant';
 import { useDebounce } from 'use-debounce';
 import { useIsMounted } from 'usehooks-ts';
 
@@ -13,7 +15,7 @@ import { Address, Balance, Wallet } from '.';
 export interface IAccountProps {
   ensProvider: StaticJsonRpcProvider | undefined;
   localProvider?: StaticJsonRpcProvider | undefined;
-  createLoginConnector?: CreateEthersModalConnector;
+  createLoginConnector?: TCreateEthersModalConnector;
   /**
    * if hasContextConnect is true, it will not use this variable
    */
@@ -59,7 +61,7 @@ export const Account: FC<IAccountProps> = (props: IAccountProps) => {
     setConnecting(false);
   }
 
-  const address = useUserAddress(props.signer);
+  const [address] = useSignerAddress(props.signer);
   // if hasContextConnect = false, do not use context or context connect/login/logout.  only used passed in address
   const [resolvedAddress] = useDebounce<string | undefined>(
     props.hasContextConnect ? ethersContext.account : address,
@@ -77,17 +79,16 @@ export const Account: FC<IAccountProps> = (props: IAccountProps) => {
     }
   );
 
-
   const handleLoginClick = (): void => {
     if (props.createLoginConnector != null) {
       const connector = props.createLoginConnector?.();
       if (!isMounted()) {
-        console.log('openModal: no longer mounted');
+        invariant.log('openModal: no longer mounted');
       } else if (connector) {
         setConnecting(true);
         ethersContext.openModal(connector);
       } else {
-        console.warn('openModal: A valid EthersModalConnector was not provided');
+        invariant.warn('openModal: A valid EthersModalConnector was not provided');
       }
     }
   };

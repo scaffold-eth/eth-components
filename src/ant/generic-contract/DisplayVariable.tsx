@@ -2,6 +2,7 @@ import { Col, Divider, Row } from 'antd';
 import { ContractFunction } from 'ethers';
 import { FunctionFragment } from 'ethers/lib/utils';
 import React, { FC, SetStateAction, useCallback, useEffect, useState, Dispatch } from 'react';
+import invariant from 'ts-invariant';
 import { useIsMounted } from 'usehooks-ts';
 
 import { tryToDisplay } from './displayUtils';
@@ -21,15 +22,17 @@ export const DisplayVariable: FC<IDisplayVariableProps> = (props) => {
     try {
       if (props.contractFunction) {
         // eslint-disable-next-line @typescript-eslint/no-unsafe-assignment
-        const result = await props.contractFunction();
-
+        let result = await props.contractFunction();
+        if (Array.isArray(result) && result.length === 1 && typeof result[0] === 'string') {
+          result = result[0];
+        }
         if (isMounted()) {
           setVariable(result);
           props.setTriggerRefresh(false);
         }
       }
-    } catch (e) {
-      console.log(e);
+    } catch (e: any) {
+      invariant.log(e?.message);
     }
   }, [props, isMounted]);
 

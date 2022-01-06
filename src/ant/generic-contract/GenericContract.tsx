@@ -1,10 +1,10 @@
 import { Card, Typography } from 'antd';
 import { useContractExistsAtAddress } from 'eth-hooks';
-import { useBlockNumberContext, useEthersContext } from 'eth-hooks/context';
-import { TContractLoaderConfig, TEthersProvider } from 'eth-hooks/models';
-import { Contract, ContractFunction } from 'ethers';
+import { useEthersContext } from 'eth-hooks/context';
+import { TEthersAdaptor } from 'eth-hooks/models';
+import { BaseContract, ContractFunction } from 'ethers';
 import { FunctionFragment } from 'ethers/lib/utils';
-import React, { FC, ReactElement, useState } from 'react';
+import React, { FC, PropsWithChildren, ReactElement, useState } from 'react';
 
 import { DisplayVariable } from './DisplayVariable';
 import { FunctionForm } from './FunctionFrom';
@@ -16,21 +16,22 @@ import { Account } from '~~/ant';
 const isQueryable = (fn: FunctionFragment): boolean =>
   (fn.stateMutability === 'view' || fn.stateMutability === 'pure') && fn.inputs.length === 0;
 
-interface IGenericContract {
-  mainnetProvider: TEthersProvider | undefined;
-  contract: Contract;
+interface IGenericContract<GContract extends BaseContract> {
+  mainnetAdaptor: TEthersAdaptor | undefined;
+  contract: GContract | undefined;
   contractName: string;
   addressElement?: ReactElement;
   gasPrice?: number;
   show?: string[];
   tokenPrice?: number;
   blockExplorer: string;
-  contractConfig: TContractLoaderConfig;
 }
 
-export const GenericContract: FC<IGenericContract> = (props) => {
+export const GenericContract = <GContract extends BaseContract>(
+  props: PropsWithChildren<IGenericContract<GContract>>
+): ReturnType<FC<IGenericContract<GContract>>> => {
   const ethersContext = useEthersContext();
-  const contractIsDeployed = useContractExistsAtAddress(props.contract);
+  const [contractIsDeployed] = useContractExistsAtAddress(props.contract);
   const [refreshRequired, setTriggerRefresh] = useState(false);
 
   const displayedContractFunctions = props.contract
@@ -45,7 +46,7 @@ export const GenericContract: FC<IGenericContract> = (props) => {
     // eslint-disable-next-line @typescript-eslint/no-unsafe-assignment
     const contractFunc: ContractFunction<any> =
       fn.stateMutability === 'view' || fn.stateMutability === 'pure'
-        ? props.contract?.[fn.name]
+        ? props.contract?.functions[fn.name]
         : props.contract?.connect(ethersContext.signer)?.[fn.name];
 
     if (typeof contractFunc === 'function') {
@@ -53,8 +54,8 @@ export const GenericContract: FC<IGenericContract> = (props) => {
         // If there are no inputs, just display return value
         return (
           <DisplayVariable
-            key={fn.name}
-            contractFunction={props.contract?.[fn.name]}
+            key={'DD' + fn.name}
+            contractFunction={props.contract?.functions[fn.name]}
             functionInfo={fn}
             refreshRequired={refreshRequired}
             setTriggerRefresh={setTriggerRefresh}
@@ -86,7 +87,7 @@ export const GenericContract: FC<IGenericContract> = (props) => {
             <div style={{ float: 'right' }}>
               <Account
                 signer={props.contract?.signer}
-                ensProvider={props.mainnetProvider}
+                ensProvider={props.mainnetAdaptor?.provider}
                 price={props.tokenPrice ?? 0}
                 blockExplorer={props.blockExplorer}
                 fontSize={fontSize}
@@ -98,7 +99,7 @@ export const GenericContract: FC<IGenericContract> = (props) => {
         }
         size="default"
         style={{ marginTop: 25, width: '100%' }}
-        loading={ethersContext.ethersProvider == null || ethersContext.signer == null}>
+        loading={ethersContext.provider == null || ethersContext.signer == null}>
         {contractIsDeployed ? (
           contractDisplay
         ) : (

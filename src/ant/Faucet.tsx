@@ -1,8 +1,8 @@
 import { SendOutlined } from '@ant-design/icons';
-import { StaticJsonRpcProvider } from '@ethersproject/providers';
 import { parseEther } from '@ethersproject/units';
 import { Button, Input, Tooltip } from 'antd';
 import { useResolveEnsAddress } from 'eth-hooks/dapps';
+import { TEthersAdaptor } from 'eth-hooks/models';
 import { ethers } from 'ethers';
 import React, { FC, useCallback, useContext, useState } from 'react';
 import Blockies from 'react-blockies';
@@ -19,9 +19,9 @@ import { EthComponentsSettingsContext } from '~~/models';
 interface IFaucetProps {
   faucetAddress?: string;
   price: number;
-  mainnetProvider: StaticJsonRpcProvider;
+  mainnetAdaptor: TEthersAdaptor | undefined;
   placeholder?: string;
-  localProvider: StaticJsonRpcProvider;
+  localAdaptor: TEthersAdaptor | undefined;
 }
 
 /**
@@ -40,6 +40,7 @@ interface IFaucetProps {
  */
 export const Faucet: FC<IFaucetProps> = (props) => {
   const [recipient, setRecipient] = useState<string>('');
+  const ethComponentsSettings = useContext(EthComponentsSettingsContext);
 
   let blockie;
   if (props.faucetAddress && typeof props.faucetAddress.toLowerCase === 'function') {
@@ -68,9 +69,9 @@ export const Faucet: FC<IFaucetProps> = (props) => {
     }
   }, []);
 
-  const resolvedAddress = useResolveEnsAddress(props.mainnetProvider, recipient ?? '');
+  const [resolvedAddress] = useResolveEnsAddress(props.mainnetAdaptor?.provider, recipient ?? '');
   const toAddress = ethers.utils.isAddress(recipient) ? recipient : resolvedAddress;
-  const localSigner = props.localProvider.getSigner();
+  const localSigner = props.localAdaptor?.signer;
 
   return (
     <span>
@@ -88,8 +89,8 @@ export const Faucet: FC<IFaucetProps> = (props) => {
           <Tooltip title="Faucet: Send local ether to an address.">
             <Button
               onClick={(): void => {
-                if (localSigner && context && ethers.utils.isAddress(toAddress)) {
-                  const tx = transactor(context, localSigner);
+                if (localSigner && ethComponentsSettings && ethers.utils.isAddress(toAddress ?? '')) {
+                  const tx = transactor(ethComponentsSettings, localSigner);
 
                   if (tx && !!recipient) {
                     void tx({
@@ -109,8 +110,8 @@ export const Faucet: FC<IFaucetProps> = (props) => {
             <Wallet
               color="#888888"
               signer={localSigner}
-              localProvider={props.localProvider}
-              ensProvider={props.mainnetProvider}
+              localProvider={props.localAdaptor?.provider}
+              ensProvider={props.mainnetAdaptor?.provider}
               price={props.price}
             />
           </Tooltip>

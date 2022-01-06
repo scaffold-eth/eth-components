@@ -6,6 +6,6 @@ export * from './Blockie';
 export * from './EtherInput';
 export * from './Faucet';
 export * from './GasGauge';
-export * from './generic-contract';
 export * from './PunkBlockie';
 export * from './Wallet';
+export * from './generic-contract';
