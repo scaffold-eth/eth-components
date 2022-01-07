@@ -26,7 +26,7 @@ export const Balance: FC<IBalanceProps> = (props) => {
   const [dollarMode, setDollarMode] = useState(true);
   const [balance] = useBalance(props.address);
 
-  let resolvedBalance = BigNumber.from(balance);
+  let resolvedBalance = BigNumber.from(balance ?? 0);
   if (props.balance != null) {
     resolvedBalance = BigNumber.from(props.balance);
   }
