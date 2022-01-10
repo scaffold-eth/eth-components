@@ -92,6 +92,7 @@ export const GenericContract = <GContract extends BaseContract>(
             <Text style={{ fontSize: fontSize, verticalAlign: 'middle' }}>{props.contractName}</Text>
             <div style={{ float: 'right' }}>
               <Account
+                address={props.contract?.address}
                 signer={props.contract?.signer}
                 ensProvider={props.mainnetAdaptor?.provider}
                 price={props.tokenPrice ?? 0}
@@ -105,7 +106,7 @@ export const GenericContract = <GContract extends BaseContract>(
         }
         size="default"
         style={{ marginTop: 25, width: '100%' }}
-        loading={ethersContext.provider == null || ethersContext.signer == null}>
+        loading={ethersContext.provider == null || ethersContext.signer == null || props.contract?.provider == null}>
         {contractIsDeployed ? (
           contractDisplay
         ) : (
