@@ -23,7 +23,12 @@ export const DisplayVariable: FC<IDisplayVariableProps> = (props) => {
       if (props.contractFunction) {
         // eslint-disable-next-line @typescript-eslint/no-unsafe-assignment
         let result = await props.contractFunction();
-        if (Array.isArray(result) && result.length === 1 && typeof result[0] === 'string') {
+        if (
+          Array.isArray(result) &&
+          result.length === 1 &&
+          (typeof result[0] === 'string' || typeof result[0] === 'number')
+        ) {
+          // unroll ethers.js array
           result = result[0];
         }
         if (isMounted()) {

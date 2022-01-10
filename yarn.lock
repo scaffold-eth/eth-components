@@ -716,7 +716,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@ethersproject/networks@npm:5.5.2, @ethersproject/networks@npm:^5.5.0, @ethersproject/networks@npm:^5.5.1":
+"@ethersproject/networks@npm:5.5.2, @ethersproject/networks@npm:^5.5.0, @ethersproject/networks@npm:^5.5.1, @ethersproject/networks@npm:^5.5.2":
   version: 5.5.2
   resolution: "@ethersproject/networks@npm:5.5.2"
   dependencies:
@@ -744,7 +744,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@ethersproject/providers@npm:5.5.2, @ethersproject/providers@npm:^5.5.1":
+"@ethersproject/providers@npm:5.5.2, @ethersproject/providers@npm:^5.5.1, @ethersproject/providers@npm:^5.5.2":
   version: 5.5.2
   resolution: "@ethersproject/providers@npm:5.5.2"
   dependencies:
@@ -6138,7 +6138,7 @@ __metadata:
     eslint-plugin-react-hooks: ^4.3.0
     eslint-plugin-testing-library: ^5.0.1
     eslint-plugin-unused-imports: ^2.0.0
-    eth-hooks: ^4.0.4
+    eth-hooks: ^4.0.6
     ethereum-waffle: ^3.4.0
     ethers: ^5.5.2
     global-jsdom: ^8.4.0
@@ -6217,16 +6217,16 @@ __metadata:
   languageName: node
   linkType: hard
 
-"eth-hooks@npm:^4.0.4":
-  version: 4.0.4
-  resolution: "eth-hooks@npm:4.0.4"
+"eth-hooks@npm:^4.0.6":
+  version: 4.0.6
+  resolution: "eth-hooks@npm:4.0.6"
   dependencies:
     "@ethersproject/address": ^5.5.0
     "@ethersproject/bignumber": ^5.5.0
     "@ethersproject/bytes": ^5.5.0
     "@ethersproject/contracts": ^5.5.0
-    "@ethersproject/networks": ^5.5.1
-    "@ethersproject/providers": ^5.5.1
+    "@ethersproject/networks": ^5.5.2
+    "@ethersproject/providers": ^5.5.2
     "@ethersproject/signing-key": ^5.5.0
     "@ethersproject/solidity": ^5.5.0
     "@ethersproject/units": ^5.5.0
@@ -6235,20 +6235,20 @@ __metadata:
     "@web3-react/core": ^6.1.9
     "@web3-react/types": ^6.0.7
     axios: ^0.24.0
-    ethers: ^5.5.2
+    ethers: ^5.5.3
     lodash.isequal: ^4.5.0
     merge-anything: ^4.0.2
     react-query: ^3.34.7
     react-use-promise: ^0.4.1
     ts-invariant: ^0.9.4
     use-debounce: ^7.0.1
-    usehooks-ts: ^2.1.1
-    web3modal: ^1.9.4
+    usehooks-ts: ^2.2.0
+    web3modal: ^1.9.5
   peerDependencies:
     "@uniswap/sdk": ^3.0.3
     react: ">=17.0.2"
     react-dom: ">=17.0.2"
-  checksum: cd395777d0e9ec461aab4b23a8e259014e62807b8e0507242204432bc01a93dddee22568185852c4896b8a2f1d85b6e74a29172ad2d841a4a9b5749712e3b550
+  checksum: a22eace3a12f2c25b1ca1d6a16a6506e6f5f8a69c6ad638e7f8bee252afb0cc232ee9e5f944f26042cfdd8897c74168c05faeab766119e30da16c7d19f898300
   languageName: node
   linkType: hard
 
@@ -6724,7 +6724,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"ethers@npm:^5.0.1, ethers@npm:^5.0.2, ethers@npm:^5.4.7, ethers@npm:^5.5.2":
+"ethers@npm:^5.0.1, ethers@npm:^5.0.2, ethers@npm:^5.4.7, ethers@npm:^5.5.2, ethers@npm:^5.5.3":
   version: 5.5.3
   resolution: "ethers@npm:5.5.3"
   dependencies:
@@ -14247,7 +14247,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"styled-components@npm:^5.1.1":
+"styled-components@npm:^5.3.3":
   version: 5.3.3
   resolution: "styled-components@npm:5.3.3"
   dependencies:
@@ -15252,7 +15252,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"usehooks-ts@npm:^2.1.1":
+"usehooks-ts@npm:^2.1.1, usehooks-ts@npm:^2.2.0":
   version: 2.2.0
   resolution: "usehooks-ts@npm:2.2.0"
   peerDependencies:
@@ -15753,17 +15753,17 @@ __metadata:
   languageName: node
   linkType: hard
 
-"web3modal@npm:^1.9.4":
-  version: 1.9.4
-  resolution: "web3modal@npm:1.9.4"
+"web3modal@npm:^1.9.5":
+  version: 1.9.5
+  resolution: "web3modal@npm:1.9.5"
   dependencies:
     detect-browser: ^5.1.0
     prop-types: ^15.7.2
     react: ^16.8.6
     react-dom: ^16.8.6
-    styled-components: ^5.1.1
+    styled-components: ^5.3.3
     tslib: ^1.10.0
-  checksum: 4436ec679c71143cd67c990ec3828912563913e2710d27bcd350ece808cf7561487f8d71b6c99cc85f0a926f4f32c84b0cb434cdf4128cebb2dbd4fe288d82a3
+  checksum: bffb879319cea857bd302c38656596a0a1a5050ccd79948d12332ebcfdb855fb6c3dc9e19e2db43f05499cf2657b66e067d1f943663d82c65e56f770e132b78e
   languageName: node
   linkType: hard
 

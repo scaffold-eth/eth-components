@@ -4,7 +4,7 @@ import { useEthersContext } from 'eth-hooks/context';
 import { TEthersAdaptor } from 'eth-hooks/models';
 import { BaseContract, ContractFunction } from 'ethers';
 import { FunctionFragment } from 'ethers/lib/utils';
-import React, { FC, PropsWithChildren, ReactElement, useState } from 'react';
+import React, { FC, PropsWithChildren, ReactElement, useEffect, useState } from 'react';
 
 import { DisplayVariable } from './DisplayVariable';
 import { FunctionForm } from './FunctionFrom';
@@ -31,8 +31,12 @@ export const GenericContract = <GContract extends BaseContract>(
   props: PropsWithChildren<IGenericContract<GContract>>
 ): ReturnType<FC<IGenericContract<GContract>>> => {
   const ethersContext = useEthersContext();
-  const [contractIsDeployed] = useContractExistsAtAddress(props.contract);
+  const [contractIsDeployed, updateContractIsDeployed] = useContractExistsAtAddress(props.contract);
   const [refreshRequired, setTriggerRefresh] = useState(false);
+
+  useEffect(() => {
+    updateContractIsDeployed();
+  }, [ethersContext.chainId, props.mainnetAdaptor?.chainId, ethersContext.signer, updateContractIsDeployed]);
 
   const displayedContractFunctions = props.contract
     ? Object.values(props.contract.interface.functions).filter(
@@ -40,8 +44,10 @@ export const GenericContract = <GContract extends BaseContract>(
       )
     : [];
 
-  const contractDisplay = displayedContractFunctions.map((fn) => {
-    if (!ethersContext.signer) return <></>;
+  const contractDisplay = displayedContractFunctions.map((fn, index) => {
+    if (!ethersContext.signer) {
+      return null;
+    }
 
     // eslint-disable-next-line @typescript-eslint/no-unsafe-assignment
     const contractFunc: ContractFunction<any> =
@@ -54,7 +60,7 @@ export const GenericContract = <GContract extends BaseContract>(
         // If there are no inputs, just display return value
         return (
           <DisplayVariable
-            key={'DD' + fn.name}
+            key={'DD' + fn.name + `_${index}`}
             contractFunction={props.contract?.functions[fn.name]}
             functionInfo={fn}
             refreshRequired={refreshRequired}
@@ -65,7 +71,7 @@ export const GenericContract = <GContract extends BaseContract>(
       // If there are inputs, display a form to allow users to provide these
       return (
         <FunctionForm
-          key={'FF' + fn.name}
+          key={'FF' + fn.name + `_${index}`}
           contractFunction={contractFunc}
           functionFragment={fn}
           gasPrice={props.gasPrice ?? 0}
