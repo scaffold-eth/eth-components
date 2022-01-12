@@ -6,7 +6,7 @@ import { FunctionFragment } from 'ethers/lib/utils';
 import React, { FC, ReactElement, useMemo, useState } from 'react';
 
 import { DisplayVariable } from './DisplayVariable';
-import { FunctionForm } from './FunctionFrom';
+import { FunctionForm } from './FunctionForm';
 import { NoContractDisplay } from './NoContractDisplay';
 
 import { Account } from '~~/ant';
