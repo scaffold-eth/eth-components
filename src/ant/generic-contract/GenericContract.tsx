@@ -84,6 +84,11 @@ export const GenericContract = <GContract extends BaseContract>(
 
   const fontSize = 24;
 
+  const isLoadingContract =
+    ethersContext.provider == null ||
+    ethersContext.signer == null ||
+    (props.contract != null && props.contract?.provider == null);
+
   return (
     <div style={{ margin: 'auto', width: '70vw' }}>
       <Card
@@ -106,7 +111,7 @@ export const GenericContract = <GContract extends BaseContract>(
         }
         size="default"
         style={{ marginTop: 25, width: '100%' }}
-        loading={ethersContext.provider == null || ethersContext.signer == null || props.contract?.provider == null}>
+        loading={isLoadingContract}>
         {contractIsDeployed ? (
           contractDisplay
         ) : (
