@@ -11,3 +11,4 @@ testresult.xml
 .yalc
 yalc.lock
 .yarn/install-state.gz
+.DS_Store

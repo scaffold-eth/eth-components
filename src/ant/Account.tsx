@@ -16,6 +16,7 @@ export interface IAccountProps {
   ensProvider: StaticJsonRpcProvider | undefined;
   localProvider?: StaticJsonRpcProvider | undefined;
   createLoginConnector?: TCreateEthersModalConnector;
+  address?: string;
   /**
    * if hasContextConnect is true, it will not use this variable
    */
@@ -61,7 +62,8 @@ export const Account: FC<IAccountProps> = (props: IAccountProps) => {
     setConnecting(false);
   }
 
-  const [address] = useSignerAddress(props.signer);
+  const [signerAddress] = useSignerAddress(props.signer);
+  const address = props.address ?? signerAddress;
   // if hasContextConnect = false, do not use context or context connect/login/logout.  only used passed in address
   const [resolvedAddress] = useDebounce<string | undefined>(
     props.hasContextConnect ? ethersContext.account : address,

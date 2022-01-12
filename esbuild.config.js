@@ -1,6 +1,6 @@
-const esbuild = require('esbuild');
+import esbuild from 'esbuild';
 // Automatically exclude all node_modules from the bundled version
-const { nodeExternalsPlugin } = require('esbuild-node-externals');
+import { nodeExternalsPlugin } from 'esbuild-node-externals';
 
 esbuild
   .build({

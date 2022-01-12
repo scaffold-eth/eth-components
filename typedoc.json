@@ -5,10 +5,10 @@
   "cleanOutputDir": true,
   "readme": "none",
   "entryPoints": [
-    "./src/typedoc/hooks.docs.ts",
-    "./src/typedoc/context.docs.ts",
-    "./src/typedoc/models.docs.ts",
-    "./src/typedoc/helpers.docs.ts"
+    "./src/helpers/typedoc/hooks.docs.ts",
+    "./src/helpers/typedoc/ant.docs.ts",
+    "./src/helpers/typedoc/models.docs.ts",
+    "./src/helpers/typedoc/functions.docs.ts"
   ],
   "entryPointStrategy": "expand",
   "out": "./docs/api-typedocs",
