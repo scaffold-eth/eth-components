@@ -32,7 +32,7 @@ export const NoContractDisplay: FC<{ showLoading: boolean }> = (props) => {
         </span>
         Warning: You need to run
         <CodeView>yarn run contracts:build</CodeView>
-        <CodeView>yarn run deloy</CodeView>
+        <CodeView>yarn run deploy</CodeView>
         <i>again</i> after the frontend comes up!
       </div>
     </div>
