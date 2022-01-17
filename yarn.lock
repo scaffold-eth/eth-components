@@ -6153,7 +6153,7 @@ __metadata:
     eslint-plugin-react-hooks: ^4.3.0
     eslint-plugin-testing-library: ^5.0.3
     eslint-plugin-unused-imports: ^2.0.0
-    eth-hooks: ^4.0.16
+    eth-hooks: ^4.0.17
     ethereum-waffle: ^3.4.0
     ethers: ^5.5.3
     global-jsdom: ^8.4.0
@@ -6232,9 +6232,9 @@ __metadata:
   languageName: node
   linkType: hard
 
-"eth-hooks@npm:^4.0.16":
-  version: 4.0.16
-  resolution: "eth-hooks@npm:4.0.16"
+"eth-hooks@npm:^4.0.17":
+  version: 4.0.17
+  resolution: "eth-hooks@npm:4.0.17"
   dependencies:
     "@ethersproject/address": ^5.5.0
     "@ethersproject/bignumber": ^5.5.0
@@ -6262,7 +6262,7 @@ __metadata:
     "@uniswap/sdk": ^3.0.3
     react: ">=17.0.2"
     react-dom: ">=17.0.2"
-  checksum: ec8dd5b7cca5a94fb29fe4965fdd7ee44b4ee2b74989b642fd6651929429e6d9cbf319c330dc4c8c4de33c24a6f09123f400d1437035a0ce51865f9b2d90bf55
+  checksum: a02d7fac4a606996df3fccee8c1ade9d2bd46fda40571bfbcc70aefa8796aeffd3fca49f7d8723c8547e4b80f6014b30bd482a0bba8ee0609be4f93b07a87ccc
   languageName: node
   linkType: hard
 
