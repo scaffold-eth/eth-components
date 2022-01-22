@@ -1,5 +1,6 @@
 import { TransactionRequest, TransactionResponse } from '@ethersproject/providers';
 import { notification } from 'antd';
+import { ArgsProps } from 'antd/lib/notification';
 import Notify, { API, InitOptions } from 'bnc-notify';
 import { parseProviderOrSigner } from 'eth-hooks/functions';
 import { TEthersSigner } from 'eth-hooks/models';
@@ -13,6 +14,23 @@ import {
 
 const callbacks: Record<string, any> = {};
 const DEBUG = true;
+
+export class TransactorError extends Error {
+  rawError: TxErrorType;
+
+  constructor({ message, rawError }: { message?: string; rawError: TxErrorType }) {
+    super();
+    this.message = message ?? 'Generic Error';
+    this.rawError = rawError;
+  }
+}
+
+export type TxErrorType = Error & {
+  data?: {
+    message?: string;
+  };
+};
+
 export type TTransactor = (
   tx: Deferrable<TransactionRequest> | Promise<TransactionResponse>,
   callback?: ((_param: any) => void) | undefined
@@ -26,14 +44,18 @@ export type TTransactor = (
  * @param provider
  * @param gasPrice
  * @param etherscan
- * @returns (transactor) a function to transact which calls a callback method parameter on completion
+ * @param throwOnError - throwOnError default value its false, if true it will throw errors.
+ * @param extractErrorDescription - receive the @link TxErrorType to custom your errors message and description.
+ * @returns (TTransactor) a function to transact which calls a callback method parameter on completion
+ * @throws {@link TransactorError} class
  */
 export const transactor = (
   settings: IEthComponentsSettings,
   signer: TEthersSigner | undefined,
   gasPrice?: number,
   etherscan?: string,
-  throwOnError: boolean = false
+  throwOnError: boolean = false,
+  extractErrorDescription?: (err: TxErrorType, notificationMessage: ArgsProps) => ArgsProps
 ): TTransactor | undefined => {
   if (signer != null) {
     return async (
@@ -141,13 +163,29 @@ export const transactor = (
         return result;
       } catch (e: any) {
         if (DEBUG) console.log(e);
-        // Accounts for Metamask and default signer on all networks
-        notification.error({
-          message: 'Transaction Error',
-          description: e?.message,
-        });
 
-        if (throwOnError) throw e;
+        const err = e as TxErrorType;
+
+        const extractedReason = err.data?.message?.match(/reverted with reason string \'(.*?)\'/);
+        // Accounts for Metamask and default signer on all networks
+
+        let notificationMessage: ArgsProps = {
+          message: 'Transaction Error',
+          description: err.message,
+        };
+
+        if (extractedReason && extractedReason.length > 0) {
+          notificationMessage.description = extractedReason[1];
+        }
+
+        if (extractErrorDescription) {
+          notificationMessage = extractErrorDescription(err, notificationMessage);
+        }
+
+        notification.error(notificationMessage);
+
+        if (throwOnError)
+          throw new TransactorError({ message: notificationMessage.description?.toString(), rawError: err });
       }
     };
   }
