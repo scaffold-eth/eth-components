@@ -16,16 +16,16 @@ const callbacks: Record<string, any> = {};
 const DEBUG = true;
 
 export class TransactorError extends Error {
-  rawError: TxErrorType;
+  rawError: TRawTxError;
 
-  constructor({ message, rawError }: { message?: string; rawError: TxErrorType }) {
+  constructor({ message, rawError }: { message?: string; rawError: TRawTxError }) {
     super();
     this.message = message ?? 'Generic Error';
     this.rawError = rawError;
   }
 }
 
-export type TxErrorType = Error & {
+export type TRawTxError = Error & {
   data?: {
     message?: string;
   };
@@ -36,6 +36,10 @@ export type TTransactor = (
   callback?: ((_param: any) => void) | undefined
 ) => Promise<Record<string, any> | TransactionResponse | undefined>;
 
+export type NotificationMessage = ArgsProps;
+
+export type TFilterErrorMessage = (err: TRawTxError, notificationMessage: NotificationMessage) => NotificationMessage;
+
 /**
  * this should probably just be renamed to "notifier"
  * it is basically just a wrapper around BlockNative's wonderful Notify.js
@@ -45,7 +49,7 @@ export type TTransactor = (
  * @param gasPrice
  * @param etherscan
  * @param throwOnError - throwOnError default value its false, if true it will throw errors.
- * @param extractErrorDescription - receive the @link TxErrorType to custom your errors message and description.
+ * @param filterErrorMessage - receive the @link TxErrorType to custom your errors message and description at notification.
  * @returns (TTransactor) a function to transact which calls a callback method parameter on completion
  * @throws {@link TransactorError} class
  */
@@ -55,7 +59,7 @@ export const transactor = (
   gasPrice?: number,
   etherscan?: string,
   throwOnError: boolean = false,
-  extractErrorDescription?: (err: TxErrorType, notificationMessage: ArgsProps) => ArgsProps
+  filterErrorMessage?: TFilterErrorMessage
 ): TTransactor | undefined => {
   if (signer != null) {
     return async (
@@ -164,7 +168,7 @@ export const transactor = (
       } catch (e: any) {
         if (DEBUG) console.log(e);
 
-        const err = e as TxErrorType;
+        const err = e as TRawTxError;
 
         const extractedReason = err.data?.message?.match(/reverted with reason string \'(.*?)\'/);
         // Accounts for Metamask and default signer on all networks
@@ -178,8 +182,8 @@ export const transactor = (
           notificationMessage.description = extractedReason[1];
         }
 
-        if (extractErrorDescription) {
-          notificationMessage = extractErrorDescription(err, notificationMessage);
+        if (filterErrorMessage) {
+          notificationMessage = filterErrorMessage(err, notificationMessage);
         }
 
         notification.error(notificationMessage);
