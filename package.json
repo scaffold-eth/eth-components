@@ -1,6 +1,6 @@
 {
   "name": "eth-components",
-  "version": "3.0.19",
+  "version": "3.0.20",
   "description": "A set of react components to turbocharge buidling",
   "author": "Austin Griffith <austin@ethereum.org>",
   "repository": "https://github.com/scaffold-eth/eth-components.git",
@@ -23,6 +23,10 @@
     {
       "name": "Shravan Sunder",
       "url": "https://github.com/ShravanSunder"
+    },
+    {
+      "name": "Felipe Novaes Rocha",
+      "url": "https://github.com/kamikazebr"
     }
   ],
   "scripts": {
@@ -32,9 +36,10 @@
     "build": "yarn clean && node esbuild.config.js && ts-patch i -s && tsc -p tsconfig.build.json",
     "package": "shx cp -R package.json ./lib && shx cp -R README.md ./lib",
     "publish:pre": "yarn clean && yarn build && yarn package",
+    "publish:notag": "yarn build && yarn package && cd lib && npm publish",
     "publish:yalc": "yarn build && yarn package && cd lib && yalc publish --no-script --push",
-    "publish:next": "yarn build && yarn package && cd lib && npm publish --tag next",
-    "publish:latest": "yarn build && yarn package && cd lib && npm publish --tag latest",
+    "publish:next": "yarn publish:notag --tag next",
+    "publish:latest": "yarn publish:notag --tag latest",
     "dev:link": "yalc link eth-hooks",
     "dev:unlink": "yalc remove eth-hooks",
     "docs": "yarn typedoc --listInvalidSymbolLinks && shx mv ./docs/api-typedocs/readme.md ./docs/api-typedocs/api-overview.md",
