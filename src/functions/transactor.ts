@@ -1,5 +1,6 @@
 import { TransactionRequest, TransactionResponse } from '@ethersproject/providers';
 import { notification } from 'antd';
+import { ArgsProps } from 'antd/lib/notification';
 import Notify, { API, InitOptions } from 'bnc-notify';
 import { parseProviderOrSigner } from 'eth-hooks/functions';
 import { TEthersSigner } from 'eth-hooks/models';
@@ -13,10 +14,55 @@ import {
 
 const callbacks: Record<string, any> = {};
 const DEBUG = true;
+
+export class TransactorError extends Error {
+  rawError: TRawTxError;
+
+  constructor({ message, rawError }: { message?: string; rawError: TRawTxError }) {
+    super();
+    this.message = message ?? 'Generic Error';
+    this.rawError = rawError;
+  }
+}
+
+export type TRawTxError = Error & {
+  data?: {
+    message?: string;
+  };
+};
+
 export type TTransactor = (
   tx: Deferrable<TransactionRequest> | Promise<TransactionResponse>,
   callback?: ((_param: any) => void) | undefined
 ) => Promise<Record<string, any> | TransactionResponse | undefined>;
+
+/**
+ *  The {@link NotificationMessage} type is an alias to the correct {@link ArgsProps}.
+ *
+ *  Antd lib have 2 ArgsProps definition (check example below)
+ *  That alias avoid the wrong import when using {@link transactor} function
+ *  with the filter callback {@link TFilterErrorMessage}.
+ *  @example
+ *  ```
+ *  import { ArgsProps } from 'antd/lib/notification';
+ *  import { ArgsProps } from 'antd/lib/message';
+ *  ```
+ */
+export type NotificationMessage = ArgsProps;
+
+/**
+ * A filter callback that act like a middleware to notification messages,
+ * ableing custom the notification errors message and descriptions
+ * messages returning {@link NotificationMessage.message}
+ * and {@link NotificationMessage.description} changed.
+ *
+ * @param settings (IEthComponentsContext)
+ * @param err - {@link TRawTxError} original error was throwed by transaction.
+ * @param notificationMessage - {@link NotificationMessage}
+ * inherits from {@link ArgsProps} contains the default message and description
+ * @returns (NotificationMessage) return {@link NotificationMessage} will be used on notification error.
+ */
+export type TFilterErrorMessage = (err: TRawTxError, notificationMessage: NotificationMessage) => NotificationMessage;
 
 /**
  * this should probably just be renamed to "notifier"
@@ -26,14 +72,18 @@ export type TTransactor = (
  * @param provider
  * @param gasPrice
  * @param etherscan
- * @returns (transactor) a function to transact which calls a callback method parameter on completion
+ * @param throwOnError - throwOnError default value its false, if true it will throw errors.
+ * @param filterErrorMessage - receive the {@link TRawTxError} to custom your errors message and description at notification.
+ * @returns (TTransactor) a function to transact which calls a callback method parameter on completion
+ * @throws {@link TransactorError} class
  */
 export const transactor = (
   settings: IEthComponentsSettings,
   signer: TEthersSigner | undefined,
   gasPrice?: number,
   etherscan?: string,
-  throwOnError: boolean = false
+  throwOnError: boolean = false,
+  filterErrorMessage?: TFilterErrorMessage
 ): TTransactor | undefined => {
   if (signer != null) {
     return async (
@@ -141,13 +191,28 @@ export const transactor = (
         return result;
       } catch (e: any) {
         if (DEBUG) console.log(e);
-        // Accounts for Metamask and default signer on all networks
-        notification.error({
-          message: 'Transaction Error',
-          description: e?.message,
-        });
 
-        if (throwOnError) throw e;
+        const err = e as TRawTxError;
+
+        const extractedReason = err.data?.message?.match(/reverted with reason string \'(.*?)\'/);
+
+        let notificationMessage: NotificationMessage = {
+          message: 'Transaction Error',
+          description: err.message,
+        };
+
+        if (extractedReason && extractedReason.length > 0) {
+          notificationMessage.description = extractedReason[1];
+        }
+
+        if (filterErrorMessage) {
+          notificationMessage = filterErrorMessage(err, notificationMessage);
+        }
+
+        notification.error(notificationMessage);
+
+        if (throwOnError)
+          throw new TransactorError({ message: notificationMessage.description?.toString(), rawError: err });
       }
     };
   }
