@@ -1,6 +1,7 @@
 import { TransactionRequest, TransactionResponse } from '@ethersproject/providers';
 import { notification } from 'antd';
 import { ArgsProps } from 'antd/lib/notification';
+import { ArgsProps } from 'antd/lib/message';
 import Notify, { API, InitOptions } from 'bnc-notify';
 import { parseProviderOrSigner } from 'eth-hooks/functions';
 import { TEthersSigner } from 'eth-hooks/models';
@@ -36,8 +37,32 @@ export type TTransactor = (
   callback?: ((_param: any) => void) | undefined
 ) => Promise<Record<string, any> | TransactionResponse | undefined>;
 
+/**
+ *  The {@link NotificationMessage} type is an alias to the correct {@link ArgsProps}.
+ *
+ *  Antd lib have 2 ArgsProps definition (check example below)
+ *  That alias avoid the wrong import when using {@link transactor} function
+ *  with the filter callback {@link TFilterErrorMessage}.
+ *  @example
+ *  ```
+ *  import { ArgsProps } from 'antd/lib/notification';
+ *  import { ArgsProps } from 'antd/lib/message';
+ *  ```
+ */
 export type NotificationMessage = ArgsProps;
 
+/**
+ * A filter callback that act like a middleware to notification messages,
+ * ableing custom the notification errors message and descriptions
+ * messages returning {@link NotificationMessage.message}
+ * and {@link NotificationMessage.description} changed.
+ *
+ * @param settings (IEthComponentsContext)
+ * @param err - {@link TRawTxError} original error was throwed by transaction.
+ * @param notificationMessage - {@link NotificationMessage}
+ * inherits from {@link ArgsProps} contains the default message and description
+ * @returns (NotificationMessage) return {@link NotificationMessage} will be used on notification error.
+ */
 export type TFilterErrorMessage = (err: TRawTxError, notificationMessage: NotificationMessage) => NotificationMessage;
 
 /**
@@ -49,7 +74,7 @@ export type TFilterErrorMessage = (err: TRawTxError, notificationMessage: Notifi
  * @param gasPrice
  * @param etherscan
  * @param throwOnError - throwOnError default value its false, if true it will throw errors.
- * @param filterErrorMessage - receive the @link TxErrorType to custom your errors message and description at notification.
+ * @param filterErrorMessage - receive the {@link TRawTxError} to custom your errors message and description at notification.
  * @returns (TTransactor) a function to transact which calls a callback method parameter on completion
  * @throws {@link TransactorError} class
  */
@@ -171,7 +196,6 @@ export const transactor = (
         const err = e as TRawTxError;
 
         const extractedReason = err.data?.message?.match(/reverted with reason string \'(.*?)\'/);
-        // Accounts for Metamask and default signer on all networks
 
         let notificationMessage: NotificationMessage = {
           message: 'Transaction Error',
