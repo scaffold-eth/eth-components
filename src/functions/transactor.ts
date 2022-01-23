@@ -173,7 +173,7 @@ export const transactor = (
         const extractedReason = err.data?.message?.match(/reverted with reason string \'(.*?)\'/);
         // Accounts for Metamask and default signer on all networks
 
-        let notificationMessage: ArgsProps = {
+        let notificationMessage: NotificationMessage = {
           message: 'Transaction Error',
           description: err.message,
         };
