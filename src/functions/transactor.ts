@@ -1,7 +1,6 @@
 import { TransactionRequest, TransactionResponse } from '@ethersproject/providers';
 import { notification } from 'antd';
 import { ArgsProps } from 'antd/lib/notification';
-import { ArgsProps } from 'antd/lib/message';
 import Notify, { API, InitOptions } from 'bnc-notify';
 import { parseProviderOrSigner } from 'eth-hooks/functions';
 import { TEthersSigner } from 'eth-hooks/models';
