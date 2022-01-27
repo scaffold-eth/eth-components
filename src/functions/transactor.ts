@@ -188,7 +188,10 @@ export const transactor = (
 
         const err = e as TRawTxError;
 
-        const extractedReason = err.data?.message?.match(/reverted with reason string \'(.*?)\'/);
+        const errorContent = err.data ? err.data.message ?? err.message : err.message;
+
+        const extractedReason = new RegExp(/reverted with reason string \'(.*?)\'/).exec(errorContent);
+
 
         let notificationMessage: NotificationMessage = {
           message: 'Transaction Error',
