@@ -32,6 +32,7 @@ export const DisplayVariable: FC<IDisplayVariableProps> = (props) => {
           result = result[0];
         }
         if (isMounted()) {
+          // eslint-disable-next-line @typescript-eslint/no-unsafe-argument
           setVariable(result);
           props.setTriggerRefresh(false);
         }
