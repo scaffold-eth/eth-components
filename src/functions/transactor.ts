@@ -192,7 +192,6 @@ export const transactor = (
 
         const extractedReason = new RegExp(/reverted with reason string \'(.*?)\'/).exec(errorContent);
 
-
         let notificationMessage: NotificationMessage = {
           message: 'Transaction Error',
           description: err.message,

@@ -149,6 +149,14 @@
     "mocha/no-mocha-arrows": "off",
     "mocha/no-hooks-for-single-case": "off"
   },
+  "overrides": [
+    {
+      "files": ["*.test.ts", "*.test.tsx"],
+      "rules": {
+        "@typescript-eslint/no-non-null-assertion": "off"
+      }
+    }
+  ],
   "settings": {
     "react": {
       "createClass": "createReactClass", // Regex for Component Factory to use,
