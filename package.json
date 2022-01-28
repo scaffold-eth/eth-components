@@ -1,6 +1,6 @@
 {
   "name": "eth-components",
-  "version": "3.0.21",
+  "version": "3.0.24",
   "description": "A set of react components to turbocharge buidling",
   "author": "Austin Griffith <austin@ethereum.org>",
   "repository": "https://github.com/scaffold-eth/eth-components.git",
@@ -52,11 +52,7 @@
     "test:mocha": "yarn hh:env yarn mocha --config .mocharc.js",
     "hh:run": "yarn hh:env yarn hardhat",
     "hh:chain": "yarn hh:run node",
-    "hh:env": "cross-env TS_NODE_PROJECT=tsconfig.testing.json TS_NODE_TRANSPILE_ONLY=1",
-    "postinstall": "husky install",
-    "prepublishOnly": "cd .. && pinst --disable",
-    "postpublish": "cd .. && pinst --enable",
-    "prepare": "cd .. && husky install"
+    "hh:env": "cross-env TS_NODE_PROJECT=tsconfig.testing.json TS_NODE_TRANSPILE_ONLY=1"
   },
   "dependencies": {
     "@ethersproject/abstract-signer": "^5.5.0",
@@ -72,7 +68,7 @@
     "@uniswap/token-lists": "^1.0.0-beta.27",
     "axios": "^0.25.0",
     "bnc-notify": "^1.9.3",
-    "eth-hooks": "^4.0.19",
+    "eth-hooks": "^4.0.21",
     "ethers": "^5.5.3",
     "qrcode.react": "^1.0.1",
     "react-blockies": "^1.4.1",
