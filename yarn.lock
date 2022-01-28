@@ -2672,15 +2672,6 @@ __metadata:
   languageName: node
   linkType: hard
 
-"axios@npm:^0.24.0":
-  version: 0.24.0
-  resolution: "axios@npm:0.24.0"
-  dependencies:
-    follow-redirects: ^1.14.4
-  checksum: 468cf496c08a6aadfb7e699bebdac02851e3043d4e7d282350804ea8900e30d368daa6e3cd4ab83b8ddb5a3b1e17a5a21ada13fc9cebd27b74828f47a4236316
-  languageName: node
-  linkType: hard
-
 "axios@npm:^0.25.0":
   version: 0.25.0
   resolution: "axios@npm:0.25.0"
@@ -6150,7 +6141,7 @@ __metadata:
     eslint-plugin-react-hooks: ^4.3.0
     eslint-plugin-testing-library: ^5.0.4
     eslint-plugin-unused-imports: ^2.0.0
-    eth-hooks: ^4.0.18
+    eth-hooks: ^4.0.19
     ethereum-waffle: ^3.4.0
     ethers: ^5.5.3
     global-jsdom: ^8.4.0
@@ -6162,6 +6153,7 @@ __metadata:
     mocha: ^9.2.0
     mocha-github-actions-reporter: ^0.2.4
     mocha-junit-reporter: ^2.0.2
+    pinst: ^2.1.6
     prettier: ^2.5.1
     prettier-eslint: ^13.0.0
     qrcode.react: ^1.0.1
@@ -6229,9 +6221,9 @@ __metadata:
   languageName: node
   linkType: hard
 
-"eth-hooks@npm:^4.0.18":
-  version: 4.0.18
-  resolution: "eth-hooks@npm:4.0.18"
+"eth-hooks@npm:^4.0.19":
+  version: 4.0.19
+  resolution: "eth-hooks@npm:4.0.19"
   dependencies:
     "@ethersproject/address": ^5.5.0
     "@ethersproject/bignumber": ^5.5.0
@@ -6246,20 +6238,20 @@ __metadata:
     "@web3-react/abstract-connector": ^6.0.7
     "@web3-react/core": ^6.1.9
     "@web3-react/types": ^6.0.7
-    axios: ^0.24.0
+    axios: ^0.25.0
     ethers: ^5.5.3
     lodash.isequal: ^4.5.0
-    merge-anything: ^4.0.2
-    react-query: ^3.34.7
+    merge-anything: ^5.0.2
+    react-query: ^3.34.12
     ts-invariant: ^0.9.4
     use-debounce: ^7.0.1
-    usehooks-ts: ^2.2.0
+    usehooks-ts: ^2.2.2
     web3modal: ^1.9.5
   peerDependencies:
     "@uniswap/sdk": ^3.0.3
     react: ">=17.0.2"
     react-dom: ">=17.0.2"
-  checksum: ce45cf15c2f2610446abf6d40e5bcd9f120edddd88d44257bed223e6fce9b8ea0edd38d3c59fcae54c20471cea4cad0ca7f012442602c7e7d58c56dcce5b7c62
+  checksum: ae5587b6a31c6bda4b00de41a9778f2a7afa3dad71b2562958eb8d58ab9edfc91fa14d98c2b7b155c28f519438f9aa1946ea054a0f6895dc4357e849c6b1dcc1
   languageName: node
   linkType: hard
 
@@ -7198,7 +7190,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"follow-redirects@npm:^1.12.1, follow-redirects@npm:^1.14.4, follow-redirects@npm:^1.14.7":
+"follow-redirects@npm:^1.12.1, follow-redirects@npm:^1.14.7":
   version: 1.14.7
   resolution: "follow-redirects@npm:1.14.7"
   peerDependenciesMeta:
@@ -7309,6 +7301,13 @@ __metadata:
   version: 0.5.2
   resolution: "fresh@npm:0.5.2"
   checksum: 13ea8b08f91e669a64e3ba3a20eb79d7ca5379a81f1ff7f4310d54e2320645503cc0c78daedc93dfb6191287295f6479544a649c64d8e41a1c0fb0c221552346
+  languageName: node
+  linkType: hard
+
+"fromentries@npm:^1.3.2":
+  version: 1.3.2
+  resolution: "fromentries@npm:1.3.2"
+  checksum: 33729c529ce19f5494f846f0dd4945078f4e37f4e8955f4ae8cc7385c218f600e9d93a7d225d17636c20d1889106fd87061f911550861b7072f53bf891e6b341
   languageName: node
   linkType: hard
 
@@ -8803,10 +8802,10 @@ __metadata:
   languageName: node
   linkType: hard
 
-"is-what@npm:^3.14.1":
-  version: 3.14.1
-  resolution: "is-what@npm:3.14.1"
-  checksum: a9a6ce92d33799f1ae0916c7afb6f8128a23ce9d28bd69d9ec3ec88910e7a1f68432e6236c3c8a4d544cf0b864675e5d828437efde60ee0cf8102061d395c1df
+"is-what@npm:^4.1.6":
+  version: 4.1.7
+  resolution: "is-what@npm:4.1.7"
+  checksum: aade39dcc45a209d6cb2f2d5dbcf0e63ed894aadbae37bd5693c64e9876a27632431b43fc9d9332ebf0795eddd2abc11a2d0f3c6fa41c36330616a645660530e
   languageName: node
   linkType: hard
 
@@ -10061,13 +10060,13 @@ __metadata:
   languageName: node
   linkType: hard
 
-"merge-anything@npm:^4.0.2":
-  version: 4.0.5
-  resolution: "merge-anything@npm:4.0.5"
+"merge-anything@npm:^5.0.2":
+  version: 5.0.2
+  resolution: "merge-anything@npm:5.0.2"
   dependencies:
-    is-what: ^3.14.1
+    is-what: ^4.1.6
     ts-toolbelt: ^9.6.0
-  checksum: 003e1a43c1159286cc8d735783ac4f67a61be171cf39cc689e05663f5857a536fc6f9670f9c2cd9b4a9885e77e9da61e35e5e38161fbc761bf7e45020807a0a6
+  checksum: 5dccdb681e707177a110825f8f1a8b2618b3a3e3f204ab69288a32383de0d6e906bed40beace75104e805ceef1a06c0bde0933f7cdb6952242e3b739672998c7
   languageName: node
   linkType: hard
 
@@ -11521,6 +11520,17 @@ __metadata:
   languageName: node
   linkType: hard
 
+"pinst@npm:^2.1.6":
+  version: 2.1.6
+  resolution: "pinst@npm:2.1.6"
+  dependencies:
+    fromentries: ^1.3.2
+  bin:
+    pinst: bin.js
+  checksum: 3644c352a7a956a0a299012609783456e055b2c4dab274bcbe8ea86d3347355a0552da31a7f3fb6ce91d6102f27b6dde64edd69c2cdaaeb811b87bf205655e36
+  languageName: node
+  linkType: hard
+
 "posix-character-classes@npm:^0.1.0":
   version: 0.1.1
   resolution: "posix-character-classes@npm:0.1.1"
@@ -12592,7 +12602,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"react-query@npm:^3.34.7":
+"react-query@npm:^3.34.12":
   version: 3.34.12
   resolution: "react-query@npm:3.34.12"
   dependencies:
@@ -15248,7 +15258,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"usehooks-ts@npm:^2.2.0, usehooks-ts@npm:^2.2.2":
+"usehooks-ts@npm:^2.2.2":
   version: 2.2.2
   resolution: "usehooks-ts@npm:2.2.2"
   peerDependencies:
