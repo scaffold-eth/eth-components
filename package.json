@@ -1,6 +1,6 @@
 {
   "name": "eth-components",
-  "version": "3.0.24",
+  "version": "3.0.26",
   "description": "A set of react components to turbocharge buidling",
   "author": "Austin Griffith <austin@ethereum.org>",
   "repository": "https://github.com/scaffold-eth/eth-components.git",
@@ -43,7 +43,6 @@
     "dev:link": "yalc link eth-hooks",
     "dev:unlink": "yalc remove eth-hooks",
     "docs": "yarn typedoc --listInvalidSymbolLinks && shx mv ./docs/api-typedocs/readme.md ./docs/api-typedocs/api-overview.md",
-    "deprecate": "npm deprecate",
     "lint": "eslint --config ./.eslintrc --ignore-path ./.eslintignore ./src/**/*.(ts|tsx|js|jsx) ",
     "format": "yarn prettier -w ./src ",
     "format:check": "yarn prettier -c ./src ",
@@ -52,7 +51,11 @@
     "test:mocha": "yarn hh:env yarn mocha --config .mocharc.js",
     "hh:run": "yarn hh:env yarn hardhat",
     "hh:chain": "yarn hh:run node",
-    "hh:env": "cross-env TS_NODE_PROJECT=tsconfig.testing.json TS_NODE_TRANSPILE_ONLY=1"
+    "hh:env": "cross-env TS_NODE_PROJECT=tsconfig.testing.json TS_NODE_TRANSPILE_ONLY=1",
+    "prepare": "cd .. && yarn husky install",
+    "postinstall": "husky install",
+    "prepublishOnly": "pinst --disable",
+    "postpublish": "pinst --enable"
   },
   "dependencies": {
     "@ethersproject/abstract-signer": "^5.5.0",
@@ -68,7 +71,7 @@
     "@uniswap/token-lists": "^1.0.0-beta.27",
     "axios": "^0.25.0",
     "bnc-notify": "^1.9.3",
-    "eth-hooks": "^4.0.21",
+    "eth-hooks": "^4.0.24",
     "ethers": "^5.5.3",
     "qrcode.react": "^1.0.1",
     "react-blockies": "^1.4.1",
