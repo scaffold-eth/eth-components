@@ -45,13 +45,9 @@ export const GenericContract = <GContract extends BaseContract>(
     : [];
 
   const contractDisplay = displayedContractFunctions.map((fn, index) => {
-    if (!ethersContext.signer) {
-      return null;
-    }
-
     // eslint-disable-next-line @typescript-eslint/no-unsafe-assignment
     const contractFunc: ContractFunction<any> =
-      fn.stateMutability === 'view' || fn.stateMutability === 'pure'
+      fn.stateMutability === 'view' || fn.stateMutability === 'pure' || ethersContext.signer == null
         ? props.contract?.functions[fn.name]
         : props.contract?.connect(ethersContext.signer)?.[fn.name];
 
@@ -68,6 +64,7 @@ export const GenericContract = <GContract extends BaseContract>(
           />
         );
       }
+
       // If there are inputs, display a form to allow users to provide these
       return (
         <FunctionForm
@@ -84,17 +81,18 @@ export const GenericContract = <GContract extends BaseContract>(
 
   const fontSize = 24;
 
-  const isLoadingContract =
-    ethersContext.provider == null ||
-    ethersContext.signer == null ||
-    (props.contract != null && props.contract?.provider == null);
+  const isLoadingContract = props.contract != null && props.contract?.provider == null;
+
+  const readonlyText = ethersContext.signer == null ? '  [Read-only]' : '';
 
   return (
     <div style={{ margin: 'auto', width: '70vw' }}>
       <Card
         title={
           <div>
-            <Text style={{ fontSize: fontSize, verticalAlign: 'middle' }}>{props.contractName}</Text>
+            <Text style={{ fontSize: fontSize, verticalAlign: 'middle' }}>
+              {props.contractName} {readonlyText}
+            </Text>
             <div style={{ float: 'right' }}>
               <Account
                 address={props.contract?.address}
