@@ -4,6 +4,7 @@ import { useResolveEnsName } from 'eth-hooks/dapps';
 import React, { FC } from 'react';
 import Blockies from 'react-blockies';
 import { useThemeSwitcher } from 'react-css-theme-switcher';
+import './Address.css';
 
 import { PunkBlockie } from '.';
 
@@ -116,7 +117,7 @@ export const Address: FC<IAddressProps> = ({ minimized = false, punkBlockie = fa
 
   if (props.punkBlockie) {
     return (
-      <span style={{ position: 'relative' }}>
+      <span className="Address" style={{ position: 'relative' }}>
         <span style={{ verticalAlign: 'middle' }}>
           <div style={{ position: 'absolute', left: -213, top: -62 }}>
             <PunkBlockie withQr={false} address={address.toLowerCase()} scale={0.4} />
@@ -129,9 +130,15 @@ export const Address: FC<IAddressProps> = ({ minimized = false, punkBlockie = fa
     );
   } else {
     return (
-      <span style={{ display: 'inline-flex', alignItems: 'center' }}>
+      <span className="Address" style={{ display: 'inline-flex', alignItems: 'center' }}>
         <Blockies seed={address.toLowerCase()} size={8} scale={props.fontSize ? props.fontSize / 7 : 4} />
-        <span style={{ verticalAlign: 'middle', paddingLeft: 5, fontSize: props.fontSize ? props.fontSize : 28 }}>
+        <span
+          style={{
+            display: 'inline-flex',
+            alignItems: 'center',
+            paddingLeft: 5,
+            fontSize: props.fontSize ? props.fontSize : 28,
+          }}>
           {text}
         </span>
       </span>

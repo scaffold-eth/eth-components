@@ -1,0 +1,8 @@
+.Address .ant-typography-copy {
+  transform: translateY(-14%);
+}
+
+.Address {
+  font-family: 'Roboto Mono', 'SFMono-Regular', Consolas, 'Liberation Mono', Menlo, Courier, monospace;
+  font-weight: 300;
+}

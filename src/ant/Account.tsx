@@ -131,26 +131,38 @@ export const Account: FC<IAccountProps> = (props: IAccountProps) => {
   const display = (
     <span>
       {resolvedAddress != null && (
-        <>
+        <div
+          style={{
+            display: 'flex',
+            alignItems: 'center',
+          }}>
           <Address
             punkBlockie
             address={resolvedAddress}
-            fontSize={props.fontSize}
+            fontSize={props.fontSize ?? 18}
             ensProvider={props.ensProvider}
             blockExplorer={props.blockExplorer}
             minimized={false}
           />
-          <Balance address={resolvedAddress} price={props.price} />
-          {resolvedSigner && (
-            <Wallet
-              signer={resolvedSigner}
-              ensProvider={props.ensProvider}
-              localProvider={props.localProvider}
-              price={props.price}
-              color={currentTheme === 'light' ? '#1890ff' : '#2caad9'}
-            />
-          )}
-        </>
+          <div
+            style={{
+              display: 'flex',
+              alignItems: 'center',
+            }}>
+            <Balance address={resolvedAddress} price={props.price} fontSize={18} padding=".25rem 0 .25rem .5rem" />
+            {resolvedSigner && (
+              <Wallet
+                fontSize={24}
+                modalFontSize={20}
+                signer={resolvedSigner}
+                ensProvider={props.ensProvider}
+                localProvider={props.localProvider}
+                price={props.price}
+                color={currentTheme === 'light' ? '#1890ff' : '#2caad9'}
+              />
+            )}
+          </div>
+        </div>
       )}
     </span>
   );
