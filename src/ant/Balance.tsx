@@ -2,6 +2,7 @@ import { formatEther } from '@ethersproject/units';
 import { useBalance } from 'eth-hooks';
 import { BigNumber } from 'ethers';
 import React, { FC, useState } from 'react';
+import './Balance.css';
 
 interface IBalanceProps {
   address: string | undefined;
@@ -9,6 +10,8 @@ interface IBalanceProps {
   balance?: BigNumber;
   dollarMultiplier?: number;
   size?: 'short' | 'long';
+  fontSize?: number;
+  padding?: string | number;
 }
 
 /**
@@ -19,6 +22,7 @@ interface IBalanceProps {
   - Provide address={address} and get balance corresponding to given address
   - Provide provider={mainnetProvider} to access balance on mainnet or any other network (ex. localProvider)
   - Provide price={price} of ether and get your balance converted to dollars
+  - Provide fontSize and padding to set thes css properties of the wrapper span
  * @param props
  * @returns (FC)
  */
@@ -45,10 +49,11 @@ export const Balance: FC<IBalanceProps> = (props) => {
 
   return (
     <span
+      className="Balance"
       style={{
         verticalAlign: 'middle',
-        fontSize: props.size ?? 24,
-        padding: 8,
+        fontSize: props.fontSize ?? 24,
+        padding: props.padding ?? 8,
         cursor: 'pointer',
       }}
       onClick={(): void => {

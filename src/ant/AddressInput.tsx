@@ -36,7 +36,7 @@ export const AddressInput: FC<IAddressInputProps> = (props) => {
 
   const scannerButton = (
     <div
-      style={{ marginTop: 4, cursor: 'pointer' }}
+      style={{ marginTop: 4, cursor: 'pointer', display: 'flex', alignItems: 'center', gap: '0.25rem' }}
       onClick={(): void => {
         setScan(!scan);
       }}>

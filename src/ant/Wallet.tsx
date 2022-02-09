@@ -22,6 +22,8 @@ interface IWalletProps {
   localProvider: StaticJsonRpcProvider | undefined;
   price: number;
   color: string;
+  fontSize?: number;
+  modalFontSize?: number;
 }
 
 /**
@@ -37,6 +39,8 @@ interface IWalletProps {
               (ex. "0xa870" => "user.eth") or you can enter directly ENS name instead of address
   - Provide price={price} of ether and easily convert between USD and ETH
   - Provide color to specify the color of wallet icon
+  - Provide fontSize to specify the size of the wallet Icon
+  - Provide modalFontSize to specify font size for Balance and Address in the wallet modal
  * @param props 
  * @returns (FC)
  */
@@ -51,6 +55,8 @@ export const Wallet: FC<IWalletProps> = (props: IWalletProps) => {
   const [toAddress, setToAddress] = useState<string>('');
   const [publicKey, setPublicKey] = useState<BytesLike>();
 
+  const buttonStyle = { minWidth: '7rem', display: 'inline-flex', alignItems: 'center', justifyContent: 'center' };
+
   const providerSend = props.signer ? (
     <Tooltip title="Wallet">
       <WalletOutlined
@@ -62,7 +68,7 @@ export const Wallet: FC<IWalletProps> = (props: IWalletProps) => {
           padding: 7,
           color: props.color ? props.color : '',
           cursor: 'pointer',
-          fontSize: 28,
+          fontSize: props.fontSize ?? 28,
           verticalAlign: 'middle',
         }}
       />
@@ -93,6 +99,7 @@ export const Wallet: FC<IWalletProps> = (props: IWalletProps) => {
     receiveButton = (
       <Button
         key="hide"
+        style={buttonStyle}
         onClick={(): void => {
           setQr('');
         }}>
@@ -102,6 +109,7 @@ export const Wallet: FC<IWalletProps> = (props: IWalletProps) => {
     privateKeyButton = (
       <Button
         key="hide"
+        style={buttonStyle}
         onClick={(): void => {
           setPublicKey(account);
           setQr('');
@@ -168,6 +176,7 @@ export const Wallet: FC<IWalletProps> = (props: IWalletProps) => {
     receiveButton = (
       <Button
         key="receive"
+        style={buttonStyle}
         onClick={(): void => {
           setQr(account);
           setPublicKey('');
@@ -178,6 +187,7 @@ export const Wallet: FC<IWalletProps> = (props: IWalletProps) => {
     privateKeyButton = (
       <Button
         key="hide"
+        style={buttonStyle}
         onClick={(): void => {
           setPublicKey('');
           setQr('');
@@ -215,6 +225,7 @@ export const Wallet: FC<IWalletProps> = (props: IWalletProps) => {
     receiveButton = (
       <Button
         key="receive"
+        style={buttonStyle}
         onClick={(): void => {
           setQr(account);
           setPublicKey('');
@@ -225,6 +236,7 @@ export const Wallet: FC<IWalletProps> = (props: IWalletProps) => {
     privateKeyButton = (
       <Button
         key="hide"
+        style={buttonStyle}
         onClick={(): void => {
           setPublicKey(account);
           setQr('');
@@ -235,6 +247,7 @@ export const Wallet: FC<IWalletProps> = (props: IWalletProps) => {
   }
 
   const disableSend = amount == null || toAddress == null || (qr != null && qr !== '');
+  const modalFs = props.modalFontSize ?? 20;
 
   return (
     <span>
@@ -242,10 +255,18 @@ export const Wallet: FC<IWalletProps> = (props: IWalletProps) => {
       <Modal
         visible={open}
         title={
-          <div>
-            {account ? <Address address={account} ensProvider={props.ensProvider} /> : <Spin />}
+          <div
+            style={{
+              lineHeight: `${modalFs * 1.5}px`,
+              height: `${modalFs * 1.5}px`,
+              minHeight: 28,
+              display: 'flex',
+              alignItems: 'center',
+              justifyContent: 'space-between',
+            }}>
+            {account ? <Address address={account} fontSize={modalFs} ensProvider={props.ensProvider} /> : <Spin />}
             <div style={{ float: 'right', paddingRight: 25 }}>
-              <Balance address={account} dollarMultiplier={props.price} />
+              <Balance address={account} dollarMultiplier={props.price} fontSize={modalFs} />
             </div>
           </div>
         }
@@ -263,6 +284,7 @@ export const Wallet: FC<IWalletProps> = (props: IWalletProps) => {
           privateKeyButton,
           receiveButton,
           <Button
+            style={buttonStyle}
             key="submit"
             type="primary"
             disabled={disableSend}
