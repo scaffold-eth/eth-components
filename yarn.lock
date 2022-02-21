@@ -535,7 +535,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@ethersproject/abstract-provider@npm:5.5.1, @ethersproject/abstract-provider@npm:^5.5.0":
+"@ethersproject/abstract-provider@npm:5.5.1, @ethersproject/abstract-provider@npm:^5.5.0, @ethersproject/abstract-provider@npm:^5.5.1":
   version: 5.5.1
   resolution: "@ethersproject/abstract-provider@npm:5.5.1"
   dependencies:
@@ -768,6 +768,33 @@ __metadata:
     bech32: 1.1.4
     ws: 7.4.6
   checksum: f03b78017ffa39880508cfb4f811ef3b5983d222303af06b4ab47b6296a3fa67dcd058534e5e167302e4e3af41c4aa44f8c113a974b84fbaa65c62959c098558
+  languageName: node
+  linkType: hard
+
+"@ethersproject/providers@npm:5.5.3, @ethersproject/providers@npm:^5.5.3":
+  version: 5.5.3
+  resolution: "@ethersproject/providers@npm:5.5.3"
+  dependencies:
+    "@ethersproject/abstract-provider": ^5.5.0
+    "@ethersproject/abstract-signer": ^5.5.0
+    "@ethersproject/address": ^5.5.0
+    "@ethersproject/basex": ^5.5.0
+    "@ethersproject/bignumber": ^5.5.0
+    "@ethersproject/bytes": ^5.5.0
+    "@ethersproject/constants": ^5.5.0
+    "@ethersproject/hash": ^5.5.0
+    "@ethersproject/logger": ^5.5.0
+    "@ethersproject/networks": ^5.5.0
+    "@ethersproject/properties": ^5.5.0
+    "@ethersproject/random": ^5.5.0
+    "@ethersproject/rlp": ^5.5.0
+    "@ethersproject/sha2": ^5.5.0
+    "@ethersproject/strings": ^5.5.0
+    "@ethersproject/transactions": ^5.5.0
+    "@ethersproject/web": ^5.5.0
+    bech32: 1.1.4
+    ws: 7.4.6
+  checksum: abe27d424361b9499926c45f167c62e81eea611bb7b40d22d427ac1bc6501fff530932c3e0d1effd110be3a8a8f48aed9c48c7d3d478db60f6ed245d724e2dcc
   languageName: node
   linkType: hard
 
@@ -6141,7 +6168,7 @@ __metadata:
     eslint-plugin-react-hooks: ^4.3.0
     eslint-plugin-testing-library: ^5.0.4
     eslint-plugin-unused-imports: ^2.0.0
-    eth-hooks: ^4.0.30
+    eth-hooks: ^4.0.43
     ethereum-waffle: ^3.4.0
     ethers: ^5.5.3
     global-jsdom: ^8.4.0
@@ -6221,16 +6248,18 @@ __metadata:
   languageName: node
   linkType: hard
 
-"eth-hooks@npm:^4.0.30":
-  version: 4.0.30
-  resolution: "eth-hooks@npm:4.0.30"
+"eth-hooks@npm:^4.0.43":
+  version: 4.0.43
+  resolution: "eth-hooks@npm:4.0.43"
   dependencies:
+    "@ethersproject/abi": ^5.5.0
+    "@ethersproject/abstract-provider": ^5.5.1
     "@ethersproject/address": ^5.5.0
     "@ethersproject/bignumber": ^5.5.0
     "@ethersproject/bytes": ^5.5.0
     "@ethersproject/contracts": ^5.5.0
     "@ethersproject/networks": ^5.5.2
-    "@ethersproject/providers": ^5.5.2
+    "@ethersproject/providers": ^5.5.3
     "@ethersproject/signing-key": ^5.5.0
     "@ethersproject/solidity": ^5.5.0
     "@ethersproject/units": ^5.5.0
@@ -6239,10 +6268,10 @@ __metadata:
     "@web3-react/core": ^6.1.9
     "@web3-react/types": ^6.0.7
     axios: ^0.25.0
-    ethers: ^5.5.3
+    ethers: ^5.5.4
     lodash.isequal: ^4.5.0
     merge-anything: ^5.0.2
-    react-query: ^3.34.12
+    react-query: ^3.34.16
     ts-invariant: ^0.9.4
     use-debounce: ^7.0.1
     usehooks-ts: ^2.2.2
@@ -6251,7 +6280,7 @@ __metadata:
     "@uniswap/sdk": ^3.0.3
     react: ">=17.0.2"
     react-dom: ">=17.0.2"
-  checksum: a5489e7c1fe73ffc9119bb46fa8e225f2480da91908887cea28e2cd9b011bf40e2f45d7b80bfe0945997a2c95e4e9d457565d9ffdee7d7cf430b7dd36d786947
+  checksum: d1026038124d194f7fb1cd28579146978f1e9f8ec715dadf3775cee077c701633330e5d9ec39db5261864363396c7375551b999089dc8124b7a7ca2a9ab53065
   languageName: node
   linkType: hard
 
@@ -6762,6 +6791,44 @@ __metadata:
     "@ethersproject/web": 5.5.1
     "@ethersproject/wordlists": 5.5.0
   checksum: 0ac0a9e3d37468894d5f283bb06a60c78a8c82fc43e834004b97046b93df35d2aed83c07e7dc8c4a664fa6b25989a47d303e58ee25e7ad6490b11cc50e74d54a
+  languageName: node
+  linkType: hard
+
+"ethers@npm:^5.5.4":
+  version: 5.5.4
+  resolution: "ethers@npm:5.5.4"
+  dependencies:
+    "@ethersproject/abi": 5.5.0
+    "@ethersproject/abstract-provider": 5.5.1
+    "@ethersproject/abstract-signer": 5.5.0
+    "@ethersproject/address": 5.5.0
+    "@ethersproject/base64": 5.5.0
+    "@ethersproject/basex": 5.5.0
+    "@ethersproject/bignumber": 5.5.0
+    "@ethersproject/bytes": 5.5.0
+    "@ethersproject/constants": 5.5.0
+    "@ethersproject/contracts": 5.5.0
+    "@ethersproject/hash": 5.5.0
+    "@ethersproject/hdnode": 5.5.0
+    "@ethersproject/json-wallets": 5.5.0
+    "@ethersproject/keccak256": 5.5.0
+    "@ethersproject/logger": 5.5.0
+    "@ethersproject/networks": 5.5.2
+    "@ethersproject/pbkdf2": 5.5.0
+    "@ethersproject/properties": 5.5.0
+    "@ethersproject/providers": 5.5.3
+    "@ethersproject/random": 5.5.1
+    "@ethersproject/rlp": 5.5.0
+    "@ethersproject/sha2": 5.5.0
+    "@ethersproject/signing-key": 5.5.0
+    "@ethersproject/solidity": 5.5.0
+    "@ethersproject/strings": 5.5.0
+    "@ethersproject/transactions": 5.5.0
+    "@ethersproject/units": 5.5.0
+    "@ethersproject/wallet": 5.5.0
+    "@ethersproject/web": 5.5.1
+    "@ethersproject/wordlists": 5.5.0
+  checksum: 5981da616471a35baf0a5919e851cd0e755eaa7d8d7ed5e54da03a50cafc38fe160f6c5e92ab953ab583778c53d8b4132ade9a157bcbb2fc05ace647db802ec3
   languageName: node
   linkType: hard
 
@@ -12602,9 +12669,9 @@ __metadata:
   languageName: node
   linkType: hard
 
-"react-query@npm:^3.34.12":
-  version: 3.34.12
-  resolution: "react-query@npm:3.34.12"
+"react-query@npm:^3.34.16":
+  version: 3.34.16
+  resolution: "react-query@npm:3.34.16"
   dependencies:
     "@babel/runtime": ^7.5.5
     broadcast-channel: ^3.4.1
@@ -12616,7 +12683,7 @@ __metadata:
       optional: true
     react-native:
       optional: true
-  checksum: 2a4284d79abe106d7d1f38bf02da52f53567a07694c18581e096b90d0d4b61e1801929c9c9c950df3acdf099cff38c710014bc30d31ee738cc4ad724c173a6c7
+  checksum: 77f5ee7279fa82642d5210b785f7b9eccc6e81c5b27b59bf112101b14e90737efeb8b73f9597bff56a08c5792ec5fa6889e14913aa196f5086ff4faeb077abd8
   languageName: node
   linkType: hard
 

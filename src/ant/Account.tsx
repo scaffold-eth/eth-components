@@ -6,7 +6,7 @@ import { TCreateEthersModalConnector } from 'eth-hooks/models';
 import { Signer } from 'ethers';
 import React, { FC, useState } from 'react';
 import { useThemeSwitcher } from 'react-css-theme-switcher';
-import invariant from 'ts-invariant';
+import { invariant } from 'ts-invariant';
 import { useDebounce } from 'use-debounce';
 import { useIsMounted } from 'usehooks-ts';
 
