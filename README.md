@@ -1,4 +1,4 @@
-# 🖇 Eth-Components Overview
+# 🎨 Eth-Components Overview
 
 React library of commonly used Ethereum components.
 
