@@ -1,5 +1,5 @@
 import { Col, Divider, Row } from 'antd';
-import { ContractFunction } from 'ethers';
+import { BigNumber, ContractFunction } from 'ethers';
 import { FunctionFragment } from 'ethers/lib/utils';
 import React, { FC, SetStateAction, useCallback, useEffect, useState, Dispatch } from 'react';
 import invariant from 'ts-invariant';
@@ -26,7 +26,7 @@ export const DisplayVariable: FC<IDisplayVariableProps> = (props) => {
         if (
           Array.isArray(result) &&
           result.length === 1 &&
-          (typeof result[0] === 'string' || typeof result[0] === 'number')
+          (typeof result[0] === 'string' || typeof result[0] === 'number' || BigNumber.isBigNumber(result[0]))
         ) {
           // unroll ethers.js array
           result = result[0];
