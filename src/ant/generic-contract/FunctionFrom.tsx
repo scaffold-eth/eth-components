@@ -203,14 +203,14 @@ export const FunctionForm: FC<IFunctionForm> = (props) => {
                 return value;
               });
 
-              let result: string | ReactElement | number | undefined = undefined;
+              let contractReturnValue: string | BigNumber | ReactElement | number | undefined = undefined;
               if (
                 props.functionFragment.stateMutability === 'view' ||
                 props.functionFragment.stateMutability === 'pure'
               ) {
                 try {
                   const returned = await props.contractFunction(...args);
-                  result = tryToDisplay(returned);
+                  contractReturnValue = tryToDisplay(returned);
                 } catch (err) {
                   console.error(err);
                 }
@@ -229,12 +229,12 @@ export const FunctionForm: FC<IFunctionForm> = (props) => {
                 const tx = transactor(ethComponentsSettings, ethersContext.signer, props.gasPrice);
                 if (tx && ethersContext?.chainId != null) {
                   const returned = await tx(props.contractFunction(...args, overrides));
-                  result = tryToDisplay(returned);
+                  contractReturnValue = tryToDisplay(returned);
                 }
               }
 
               // console.log('SETTING RESULT:', result);
-              setReturnValue(result);
+              setReturnValue(contractReturnValue);
               props.setTriggerRefresh(true);
             }}>
             {buttonIcon}
