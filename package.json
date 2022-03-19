@@ -1,6 +1,6 @@
 {
   "name": "eth-components",
-  "version": "3.0.39",
+  "version": "3.0.41",
   "description": "A set of react components to turbocharge buidling",
   "author": "Shravan Sunder <shravan.sunder.dev@gmail.com>",
   "repository": "https://github.com/scaffold-eth/eth-components.git",
@@ -70,7 +70,7 @@
     "@uniswap/token-lists": "^1.0.0-beta.27",
     "axios": "^0.25.0",
     "bnc-notify": "^1.9.3",
-    "eth-hooks": "^4.0.44",
+    "eth-hooks": "^4.0.45",
     "ethers": "^5.5.3",
     "qrcode.react": "^1.0.1",
     "react-blockies": "^1.4.1",
