@@ -6,18 +6,29 @@ import React, { ReactElement } from 'react';
 import { Address } from '~~/ant/Address';
 
 export const tryToDisplay = (
-  thing: string | BigNumber | Record<string, any> | TransactionResponse | undefined
+  thing: string | number | BigNumber | Record<string, any> | TransactionResponse | undefined
 ): string | ReactElement | number => {
-  if (thing == null) return '';
-  if (thing && thing instanceof BigNumber) {
+  let displayContent = thing;
+  if (displayContent == null) return '';
+  if (
+    Array.isArray(displayContent) &&
+    displayContent.length === 1 &&
+    (typeof displayContent[0] === 'string' ||
+      typeof displayContent[0] === 'number' ||
+      BigNumber.isBigNumber(displayContent[0]))
+  ) {
+    // unroll ethers.js array
+    displayContent = displayContent[0];
+  }
+  if (BigNumber.isBigNumber(displayContent)) {
     try {
-      return thing.toNumber();
+      return displayContent.toNumber();
     } catch (e) {
-      return 'Ξ' + formatUnits(thing, 'ether');
+      return 'Ξ' + formatUnits(displayContent, 'ether');
     }
   }
-  if (thing && typeof thing === 'string' && thing.indexOf('0x') === 0 && thing.length === 42) {
-    return <Address address={thing} fontSize={22} />;
+  if (typeof displayContent === 'string' && displayContent.indexOf('0x') === 0 && displayContent.length === 42) {
+    return <Address address={displayContent} fontSize={22} />;
   }
   return JSON.stringify(thing);
 };

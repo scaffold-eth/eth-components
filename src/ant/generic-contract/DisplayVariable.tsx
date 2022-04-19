@@ -22,18 +22,10 @@ export const DisplayVariable: FC<IDisplayVariableProps> = (props) => {
     try {
       if (props.contractFunction) {
         // eslint-disable-next-line @typescript-eslint/no-unsafe-assignment
-        let result = await props.contractFunction();
-        if (
-          Array.isArray(result) &&
-          result.length === 1 &&
-          (typeof result[0] === 'string' || typeof result[0] === 'number')
-        ) {
-          // unroll ethers.js array
-          result = result[0];
-        }
+        const contractReturnValue = await props.contractFunction();
         if (isMounted()) {
           // eslint-disable-next-line @typescript-eslint/no-unsafe-argument
-          setVariable(result);
+          setVariable(contractReturnValue);
           props.setTriggerRefresh(false);
         }
       }
