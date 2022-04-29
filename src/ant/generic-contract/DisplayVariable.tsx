@@ -64,7 +64,11 @@ export const DisplayVariable: FC<IDisplayVariableProps> = (props) => {
         </Col>
         <Col span={2}>
           <h2>
-            <a href="#" onClick={refresh}>
+            <a
+              href="#"
+              onClick={(): void => {
+                void refresh;
+              }}>
               🔄
             </a>
           </h2>

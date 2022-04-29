@@ -174,6 +174,55 @@ export const FunctionForm: FC<IFunctionForm> = (props) => {
       <Button style={{ marginLeft: -32 }}>Send💸</Button>
     );
 
+  const onClick = async (): Promise<void> => {
+    const args = props.functionFragment.inputs.map((input, inputIndex) => {
+      const key = getFunctionInputKey(props.functionFragment, input, inputIndex);
+      let value = form[key];
+      if (input.baseType === 'array') {
+        value = JSON.parse(value);
+      } else if (input.type === 'bool') {
+        if (value === 'true' || value === '1' || value === '0x1' || value === '0x01' || value === '0x0001') {
+          value = 1;
+        } else {
+          value = 0;
+        }
+      }
+      // eslint-disable-next-line @typescript-eslint/no-unsafe-return
+      return value;
+    });
+
+    let result: string | ReactElement | number | undefined = undefined;
+    if (props.functionFragment.stateMutability === 'view' || props.functionFragment.stateMutability === 'pure') {
+      try {
+        const returned = await props.contractFunction(...args);
+        result = tryToDisplay(returned);
+      } catch (err) {
+        console.error(err);
+      }
+    } else {
+      const overrides: Record<string, any> = {};
+      if (txValue) {
+        overrides.value = txValue; // ethers.utils.parseEther()
+      }
+      if (props.gasPrice) {
+        overrides.gasPrice = props.gasPrice;
+      }
+      // Uncomment this if you want to skip the gas estimation for each transaction
+      // overrides.gasLimit = hexlify(1200000);
+
+      // console.log("Running with extras",extras)
+      const tx = transactor(ethComponentsSettings, ethersContext.signer, props.gasPrice);
+      if (tx && ethersContext?.chainId != null) {
+        const returned = await tx(props.contractFunction(...args, overrides));
+        result = tryToDisplay(returned);
+      }
+    }
+
+    // console.log('SETTING RESULT:', result);
+    setReturnValue(result);
+    props.setTriggerRefresh(true);
+  };
+
   inputs.push(
     <div style={{ cursor: 'pointer', margin: 2 }} key="goButton">
       <Input
@@ -186,56 +235,8 @@ export const FunctionForm: FC<IFunctionForm> = (props) => {
           <div
             style={{ width: 50, height: 30, margin: 0 }}
             // type="default"
-            onClick={async (): Promise<any> => {
-              const args = props.functionFragment.inputs.map((input, inputIndex) => {
-                const key = getFunctionInputKey(props.functionFragment, input, inputIndex);
-                let value = form[key];
-                if (input.baseType === 'array') {
-                  value = JSON.parse(value);
-                } else if (input.type === 'bool') {
-                  if (value === 'true' || value === '1' || value === '0x1' || value === '0x01' || value === '0x0001') {
-                    value = 1;
-                  } else {
-                    value = 0;
-                  }
-                }
-                // eslint-disable-next-line @typescript-eslint/no-unsafe-return
-                return value;
-              });
-
-              let result: string | ReactElement | number | undefined = undefined;
-              if (
-                props.functionFragment.stateMutability === 'view' ||
-                props.functionFragment.stateMutability === 'pure'
-              ) {
-                try {
-                  const returned = await props.contractFunction(...args);
-                  result = tryToDisplay(returned);
-                } catch (err) {
-                  console.error(err);
-                }
-              } else {
-                const overrides: Record<string, any> = {};
-                if (txValue) {
-                  overrides.value = txValue; // ethers.utils.parseEther()
-                }
-                if (props.gasPrice) {
-                  overrides.gasPrice = props.gasPrice;
-                }
-                // Uncomment this if you want to skip the gas estimation for each transaction
-                // overrides.gasLimit = hexlify(1200000);
-
-                // console.log("Running with extras",extras)
-                const tx = transactor(ethComponentsSettings, ethersContext.signer, props.gasPrice);
-                if (tx && ethersContext?.chainId != null) {
-                  const returned = await tx(props.contractFunction(...args, overrides));
-                  result = tryToDisplay(returned);
-                }
-              }
-
-              // console.log('SETTING RESULT:', result);
-              setReturnValue(result);
-              props.setTriggerRefresh(true);
+            onClick={(): void => {
+              void onClick();
             }}>
             {buttonIcon}
           </div>

@@ -1,6 +1,6 @@
-import React, { FC } from 'react';
+import React, { FC, ReactNode } from 'react';
 
-const CodeView: FC = (props) => (
+const CodeView: FC<{ children: ReactNode }> = (props) => (
   <span
     className="highlight"
     style={{

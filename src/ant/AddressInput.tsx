@@ -3,8 +3,8 @@ import { StaticJsonRpcProvider } from '@ethersproject/providers';
 import { Badge, Input } from 'antd';
 import { useResolveEnsName } from 'eth-hooks/dapps';
 import React, { Dispatch, FC, SetStateAction, useCallback, useState } from 'react';
-import QrReader from 'react-qr-reader';
-import invariant from 'ts-invariant';
+import { QrReader } from 'react-qr-reader';
+import { invariant } from 'ts-invariant';
 
 import { Blockie } from '.';
 
@@ -80,25 +80,28 @@ export const AddressInput: FC<IAddressInputProps> = (props) => {
         setScan(false);
       }}>
       <QrReader
-        delay={250}
-        resolution={1200}
-        onError={(e: Error): void => {
-          invariant.log('SCAN ERROR', e);
-          setScan(false);
-        }}
-        onScan={(newValue: string | null): void => {
-          if (newValue) {
-            invariant.log('SCAN VALUE', newValue);
-            let possibleNewValue = newValue;
-            if (possibleNewValue.indexOf('/') >= 0) {
-              possibleNewValue = possibleNewValue.substr(possibleNewValue.lastIndexOf('0x'));
-              invariant.log('CLEANED VALUE', possibleNewValue);
+        scanDelay={250}
+        constraints={{}}
+        onResult={(result, error): void => {
+          if (!!result) {
+            const newValue: string = result.getText();
+            if (newValue) {
+              invariant.log('SCAN VALUE', newValue);
+              let possibleNewValue: string = newValue;
+              if (possibleNewValue.indexOf('/') >= 0) {
+                possibleNewValue = possibleNewValue.substr(possibleNewValue.lastIndexOf('0x'));
+                invariant.log('CLEANED VALUE', possibleNewValue);
+              }
+              setScan(false);
+              void updateAddress(possibleNewValue);
             }
+          }
+          if (!!error) {
+            invariant.log('SCAN ERROR', error);
             setScan(false);
-            void updateAddress(possibleNewValue);
           }
         }}
-        style={{ width: '100%' }}
+        containerStyle={{ width: '100%' }}
       />
     </div>
   ) : (
