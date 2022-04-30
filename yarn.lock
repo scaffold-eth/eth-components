@@ -6492,7 +6492,7 @@ __metadata:
     eslint-plugin-react-hooks: ^4.5.0
     eslint-plugin-testing-library: ^5.3.1
     eslint-plugin-unused-imports: ^2.0.0
-    eth-hooks: ^4.2.2
+    eth-hooks: ^4.2.5
     ethereum-waffle: ^3.4.4
     ethers: ^5.6.4
     global-jsdom: ^8.4.0
@@ -6525,11 +6525,11 @@ __metadata:
     use-debounce: ^7.0.1
     usehooks-ts: ^2.5.1
   peerDependencies:
-    "@ant-design/icons": ^4.2.2
-    antd: ^4.7.0
-    react: ">=17.0.2"
+    "@ant-design/icons": ^4.2
+    antd: ^4.7
+    react: ">=17"
     react-css-theme-switcher: ^0.3.0
-    react-dom: ">=17.0.2"
+    react-dom: ">=17"
   languageName: unknown
   linkType: soft
 
@@ -6571,9 +6571,9 @@ __metadata:
   languageName: node
   linkType: hard
 
-"eth-hooks@npm:^4.2.2":
-  version: 4.2.2
-  resolution: "eth-hooks@npm:4.2.2"
+"eth-hooks@npm:^4.2.5":
+  version: 4.2.5
+  resolution: "eth-hooks@npm:4.2.5"
   dependencies:
     "@ethersproject/abi": ^5.6.1
     "@ethersproject/abstract-provider": ^5.6.0
@@ -6600,10 +6600,10 @@ __metadata:
     usehooks-ts: ^2.5.1
     web3modal: ^1.9.7
   peerDependencies:
-    "@uniswap/sdk": ^3.0.3
-    react: ">=17.0.2"
-    react-dom: ">=17.0.2"
-  checksum: 90efa9807bac4f70ba039202216c2fb74e7ca42b5729698b31072c67b9608f44fc66cae7350f7d5e5d5deb2e24c8106c43f6f7b7dbbed002fc41617b18fd3b4c
+    "@uniswap/sdk": ^3
+    react: ">=17"
+    react-dom: ">=17"
+  checksum: dbe73035c9de79435286427edda2ef2c4c1876a0fc44c8651cd383af3230f81028dcbab33d0799ad774efb371457dc01c21035295bf735ffc84524877dc7bdaf
   languageName: node
   linkType: hard
 
