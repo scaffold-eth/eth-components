@@ -236,7 +236,7 @@ export const FunctionForm: FC<IFunctionForm> = (props) => {
             style={{ width: 50, height: 30, margin: 0 }}
             // type="default"
             onClick={(): void => {
-              void inputsOnClick;
+              void inputsOnClick();
             }}>
             {buttonIcon}
           </div>

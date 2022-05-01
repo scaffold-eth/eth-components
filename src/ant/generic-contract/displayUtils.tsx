@@ -8,8 +8,11 @@ import { Address } from '~~/ant/Address';
 export const tryToDisplay = (
   thing: string | number | BigNumber | Record<string, any> | TransactionResponse | undefined
 ): string | ReactElement | number => {
+  if (thing == null) {
+    return '';
+  }
+
   let displayContent = thing;
-  if (displayContent == null) return '';
   if (
     Array.isArray(displayContent) &&
     displayContent.length === 1 &&
@@ -20,15 +23,16 @@ export const tryToDisplay = (
     // unroll ethers.js array
     displayContent = displayContent[0];
   }
+
   if (BigNumber.isBigNumber(displayContent)) {
     try {
       return displayContent.toNumber();
     } catch (e) {
       return 'Ξ' + formatUnits(displayContent, 'ether');
     }
-  }
-  if (typeof displayContent === 'string' && displayContent.indexOf('0x') === 0 && displayContent.length === 42) {
+  } else if (typeof displayContent === 'string' && displayContent.indexOf('0x') === 0 && displayContent.length === 42) {
     return <Address address={displayContent} fontSize={22} />;
+  } else {
+    return JSON.stringify(displayContent);
   }
-  return JSON.stringify(thing);
 };
