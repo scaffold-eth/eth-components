@@ -1,6 +1,6 @@
 {
   "name": "eth-components",
-  "version": "3.2.4",
+  "version": "3.2.5",
   "description": "A set of react components to turbocharge buidling",
   "author": "Shravan Sunder <shravan.sunder.dev@gmail.com>",
   "repository": "https://github.com/scaffold-eth/eth-components.git",
@@ -26,6 +26,10 @@
     {
       "name": "Felipe Novaes Rocha",
       "url": "https://github.com/kamikazebr"
+    },
+    {
+      "name": "Pontus",
+      "url": "https://github.com/pontus-dev"
     }
   ],
   "scripts": {
