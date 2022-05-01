@@ -2,7 +2,7 @@ import { Col, Divider, Row } from 'antd';
 import { ContractFunction } from 'ethers';
 import { FunctionFragment } from 'ethers/lib/utils';
 import React, { FC, SetStateAction, useCallback, useEffect, useState, Dispatch } from 'react';
-import invariant from 'ts-invariant';
+import { invariant } from 'ts-invariant';
 import { useIsMounted } from 'usehooks-ts';
 
 import { tryToDisplay } from './displayUtils';
@@ -56,7 +56,11 @@ export const DisplayVariable: FC<IDisplayVariableProps> = (props) => {
         </Col>
         <Col span={2}>
           <h2>
-            <a href="#" onClick={refresh}>
+            <a
+              href="#"
+              onClick={(): void => {
+                void refresh;
+              }}>
               🔄
             </a>
           </h2>

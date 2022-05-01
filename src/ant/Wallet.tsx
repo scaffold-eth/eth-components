@@ -92,7 +92,7 @@ export const Wallet: FC<IWalletProps> = (props: IWalletProps) => {
           level="H"
           includeMargin
           renderAs="svg"
-          imageSettings={{ excavate: false, src: 'copy' }}
+          imageSettings={{ excavate: false, src: 'copy', width: 450, height: 450 }}
         />
       </div>
     );
@@ -145,7 +145,7 @@ export const Wallet: FC<IWalletProps> = (props: IWalletProps) => {
           <b>Private Key:</b>
 
           <div>
-            <Text copyable>{burnerPrivateKey}</Text>
+            <Text copyable>{burnerPrivateKey.toString()}</Text>
           </div>
 
           <hr />
@@ -163,7 +163,7 @@ export const Wallet: FC<IWalletProps> = (props: IWalletProps) => {
             level="H"
             includeMargin
             renderAs="svg"
-            imageSettings={{ excavate: false, src: 'dai' }}
+            imageSettings={{ excavate: false, src: 'dai', width: 450, height: 450 }}
           />
 
           <Paragraph style={{ fontSize: '16' }} copyable>
