@@ -1859,10 +1859,10 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@types/node@npm:^16.11.32":
-  version: 16.11.32
-  resolution: "@types/node@npm:16.11.32"
-  checksum: 21f1bcd4f47a443f8a78a58b6ca3488dd9418c71b1185ba067d02222047fb194a3bfba244c32259bcb0cae4d55870b43a908b1f2832ec4aa4f31158f809625fe
+"@types/node@npm:^16.11.33":
+  version: 16.11.33
+  resolution: "@types/node@npm:16.11.33"
+  checksum: 5c86d3f1e3b996607b41405d368d2e19d410eee0054595cef73d230368a609a2863926e75ad19f5091f0fd742cd018b667d54c51292018dd8020a202a5b29fa9
   languageName: node
   linkType: hard
 
@@ -2654,9 +2654,9 @@ __metadata:
   languageName: node
   linkType: hard
 
-"antd@npm:^4.20.1":
-  version: 4.20.1
-  resolution: "antd@npm:4.20.1"
+"antd@npm:^4.20.2":
+  version: 4.20.2
+  resolution: "antd@npm:4.20.2"
   dependencies:
     "@ant-design/colors": ^6.0.0
     "@ant-design/icons": ^4.7.0
@@ -2687,7 +2687,7 @@ __metadata:
     rc-progress: ~3.2.1
     rc-rate: ~2.9.0
     rc-resize-observer: ^1.2.0
-    rc-segmented: ~2.0.0
+    rc-segmented: "~2.1.0 "
     rc-select: ~14.1.1
     rc-slider: ~10.0.0
     rc-steps: ~4.1.0
@@ -2705,7 +2705,7 @@ __metadata:
   peerDependencies:
     react: ">=16.9.0"
     react-dom: ">=16.9.0"
-  checksum: 386cd6b0f59d0081e0953ac42380c9d91dd4d12f41a1e75355af8ef61df7bc2160ea7014932e40453336024c9587903e92ad23d903262296d4f25e1e5b65f7f3
+  checksum: b85aee4e0d324fe4b8aa5ac139b81bb115ec9e9e9530283fdba4c9d7550bfa1caef326cc0ac6cad1144da6993d55c72f4a92a9b63bdcf254af98fc16e89e0d85
   languageName: node
   linkType: hard
 
@@ -5138,6 +5138,18 @@ __metadata:
   languageName: node
   linkType: hard
 
+"debug@npm:4.3.4":
+  version: 4.3.4
+  resolution: "debug@npm:4.3.4"
+  dependencies:
+    ms: 2.1.2
+  peerDependenciesMeta:
+    supports-color:
+      optional: true
+  checksum: 3dbad3f94ea64f34431a9cbf0bafb61853eda57bff2880036153438f50fb5a84f27683ba0d8e5426bf41a8c6ff03879488120cf5b3a761e77953169c0600a708
+  languageName: node
+  linkType: hard
+
 "debug@npm:^3.1.0, debug@npm:^3.2.7":
   version: 3.2.7
   resolution: "debug@npm:3.2.7"
@@ -6461,7 +6473,7 @@ __metadata:
     "@testing-library/user-event": ^14.1.1
     "@types/chai": ^4.3.1
     "@types/mocha": ^9.1.1
-    "@types/node": ^16.11.32
+    "@types/node": ^16.11.33
     "@types/pretty-time": ^1.1.2
     "@types/qrcode.react": ^1.0.2
     "@types/react": ^18.0.8
@@ -6472,7 +6484,7 @@ __metadata:
     "@types/react-stack-grid": ^0.7.3
     "@typescript-eslint/eslint-plugin": ^5.21.0
     "@typescript-eslint/parser": ^5.21.0
-    antd: ^4.20.1
+    antd: ^4.20.2
     axios: ^0.27.2
     bnc-notify: ^1.9.4
     chai: ^4.3.6
@@ -6492,7 +6504,7 @@ __metadata:
     eslint-plugin-react-hooks: ^4.5.0
     eslint-plugin-testing-library: ^5.3.1
     eslint-plugin-unused-imports: ^2.0.0
-    eth-hooks: ^4.2.6
+    eth-hooks: ^4.2.10
     ethereum-waffle: ^3.4.4
     ethers: ^5.6.4
     global-jsdom: ^8.4.0
@@ -6501,7 +6513,7 @@ __metadata:
     husky: ^7.0.4
     jsdom: ^19.0.0
     lint-staged: ^12.4.1
-    mocha: ^9.2.2
+    mocha: ^10.0.0
     mocha-github-actions-reporter: ^0.2.4
     mocha-junit-reporter: ^2.0.2
     pinst: ^3.0.0
@@ -6522,8 +6534,8 @@ __metadata:
     typedoc-plugin-markdown: ^3.12.1
     typescript: ^4.6.4
     typescript-transform-paths: ^3.3.1
-    use-debounce: ^7.0.1
-    usehooks-ts: ^2.5.1
+    use-debounce: ^8.0.0
+    usehooks-ts: ^2.5.2
   peerDependencies:
     "@ant-design/icons": ^4.2
     antd: ^4.7
@@ -6571,9 +6583,9 @@ __metadata:
   languageName: node
   linkType: hard
 
-"eth-hooks@npm:^4.2.6":
-  version: 4.2.6
-  resolution: "eth-hooks@npm:4.2.6"
+"eth-hooks@npm:^4.2.10":
+  version: 4.2.10
+  resolution: "eth-hooks@npm:4.2.10"
   dependencies:
     "@ethersproject/abi": ^5.6.1
     "@ethersproject/abstract-provider": ^5.6.0
@@ -6594,16 +6606,16 @@ __metadata:
     ethers: ^5.6.4
     lodash.isequal: ^4.5.0
     merge-anything: ^5.0.2
-    react-query: ^3.38.0
+    react-query: ^3.38.*
     ts-invariant: ^0.9.4
-    use-debounce: ^7.0.1
-    usehooks-ts: ^2.5.1
+    use-debounce: ^8.0.0
+    usehooks-ts: ^2.5.2
     web3modal: ^1.9.7
   peerDependencies:
     "@uniswap/sdk": ^3
     react: ">=17"
     react-dom: ">=17"
-  checksum: 5cdde2c3271de7d0990416f024ba93764afa6002bc136f483cc78b96ea4ad02245f4116f7baa3186f1ec51f0a9a38299e066af7776d30b48728b6c8b989a70fb
+  checksum: 675bdad908f1e781570a2e832b66d3b0ae9170991ad8538c061168cf8904b3323fae395dbbcb89fd290bd7c6272568ac75809a5e9d3eed33d799e4be91d9dbb2
   languageName: node
   linkType: hard
 
@@ -10610,12 +10622,12 @@ __metadata:
   languageName: node
   linkType: hard
 
-"minimatch@npm:4.2.1":
-  version: 4.2.1
-  resolution: "minimatch@npm:4.2.1"
+"minimatch@npm:5.0.1, minimatch@npm:^5.0.1":
+  version: 5.0.1
+  resolution: "minimatch@npm:5.0.1"
   dependencies:
-    brace-expansion: ^1.1.7
-  checksum: 2b1514e3d0f29a549912f0db7ae7b82c5cab4a8f2dd0369f1c6451a325b3f12b2cf473c95873b6157bb8df183d6cf6db82ff03614b6adaaf1d7e055beccdfd01
+    brace-expansion: ^2.0.1
+  checksum: b34b98463da4754bc526b244d680c69d4d6089451ebe512edaf6dd9eeed0279399cfa3edb19233513b8f830bf4bfcad911dddcdf125e75074100d52f724774f0
   languageName: node
   linkType: hard
 
@@ -10625,15 +10637,6 @@ __metadata:
   dependencies:
     brace-expansion: ^1.1.7
   checksum: c154e566406683e7bcb746e000b84d74465b3a832c45d59912b9b55cd50dee66e5c4b1e5566dba26154040e51672f9aa450a9aef0c97cfc7336b78b7afb9540a
-  languageName: node
-  linkType: hard
-
-"minimatch@npm:^5.0.1":
-  version: 5.0.1
-  resolution: "minimatch@npm:5.0.1"
-  dependencies:
-    brace-expansion: ^2.0.1
-  checksum: b34b98463da4754bc526b244d680c69d4d6089451ebe512edaf6dd9eeed0279399cfa3edb19233513b8f830bf4bfcad911dddcdf125e75074100d52f724774f0
   languageName: node
   linkType: hard
 
@@ -10849,6 +10852,39 @@ __metadata:
   languageName: node
   linkType: hard
 
+"mocha@npm:^10.0.0":
+  version: 10.0.0
+  resolution: "mocha@npm:10.0.0"
+  dependencies:
+    "@ungap/promise-all-settled": 1.1.2
+    ansi-colors: 4.1.1
+    browser-stdout: 1.3.1
+    chokidar: 3.5.3
+    debug: 4.3.4
+    diff: 5.0.0
+    escape-string-regexp: 4.0.0
+    find-up: 5.0.0
+    glob: 7.2.0
+    he: 1.2.0
+    js-yaml: 4.1.0
+    log-symbols: 4.1.0
+    minimatch: 5.0.1
+    ms: 2.1.3
+    nanoid: 3.3.3
+    serialize-javascript: 6.0.0
+    strip-json-comments: 3.1.1
+    supports-color: 8.1.1
+    workerpool: 6.2.1
+    yargs: 16.2.0
+    yargs-parser: 20.2.4
+    yargs-unparser: 2.0.0
+  bin:
+    _mocha: bin/_mocha
+    mocha: bin/mocha.js
+  checksum: ba49ddcf8015a467e744b06c396aab361b1281302e38e7c1269af25ba51ff9ab681a9c36e9046bb7491e751cd7d5ce85e276a00ce7e204f96b2c418e4595edfe
+  languageName: node
+  linkType: hard
+
 "mocha@npm:^7.1.1":
   version: 7.2.0
   resolution: "mocha@npm:7.2.0"
@@ -10916,41 +10952,6 @@ __metadata:
     _mocha: bin/_mocha
     mocha: bin/mocha
   checksum: 10debdf2ee2232368852d80d8a7650a2c10d2bf5f47022c4d8111323b7fcd3115b2153f760b841d39207347a4d2df602fe96013f855587d80ff23332261b260e
-  languageName: node
-  linkType: hard
-
-"mocha@npm:^9.2.2":
-  version: 9.2.2
-  resolution: "mocha@npm:9.2.2"
-  dependencies:
-    "@ungap/promise-all-settled": 1.1.2
-    ansi-colors: 4.1.1
-    browser-stdout: 1.3.1
-    chokidar: 3.5.3
-    debug: 4.3.3
-    diff: 5.0.0
-    escape-string-regexp: 4.0.0
-    find-up: 5.0.0
-    glob: 7.2.0
-    growl: 1.10.5
-    he: 1.2.0
-    js-yaml: 4.1.0
-    log-symbols: 4.1.0
-    minimatch: 4.2.1
-    ms: 2.1.3
-    nanoid: 3.3.1
-    serialize-javascript: 6.0.0
-    strip-json-comments: 3.1.1
-    supports-color: 8.1.1
-    which: 2.0.2
-    workerpool: 6.2.0
-    yargs: 16.2.0
-    yargs-parser: 20.2.4
-    yargs-unparser: 2.0.0
-  bin:
-    _mocha: bin/_mocha
-    mocha: bin/mocha
-  checksum: 4d5ca4ce33fc66627e63acdf09a634e2358c9a00f61de7788b1091b6aad430da04f97f9ecb82d56dc034b623cb833b65576136fd010d77679c03fcea5bc1e12d
   languageName: node
   linkType: hard
 
@@ -11096,12 +11097,12 @@ __metadata:
   languageName: node
   linkType: hard
 
-"nanoid@npm:3.3.1":
-  version: 3.3.1
-  resolution: "nanoid@npm:3.3.1"
+"nanoid@npm:3.3.3":
+  version: 3.3.3
+  resolution: "nanoid@npm:3.3.3"
   bin:
     nanoid: bin/nanoid.cjs
-  checksum: 4ef0969e1bbe866fc223eb32276cbccb0961900bfe79104fa5abe34361979dead8d0e061410a5c03bc3d47455685adf32c09d6f27790f4a6898fb51f7df7ec86
+  checksum: ada019402a07464a694553c61d2dca8a4353645a7d92f2830f0d487fedff403678a0bee5323a46522752b2eab95a0bc3da98b6cccaa7c0c55cd9975130e6d6f0
   languageName: node
   linkType: hard
 
@@ -12746,9 +12747,9 @@ __metadata:
   languageName: node
   linkType: hard
 
-"rc-segmented@npm:~2.0.0":
-  version: 2.0.0
-  resolution: "rc-segmented@npm:2.0.0"
+"rc-segmented@npm:~2.1.0 ":
+  version: 2.1.0
+  resolution: "rc-segmented@npm:2.1.0"
   dependencies:
     "@babel/runtime": ^7.11.1
     classnames: ^2.2.1
@@ -12757,7 +12758,7 @@ __metadata:
   peerDependencies:
     react: ">=16.0.0"
     react-dom: ">=16.0.0"
-  checksum: db625ec62b4247cdf08dafc72c74d8ecec954da0fc069954db23ca17e5217b1f162baea183b0f4cc8287b1af83e634259bd2ff47bbb0ca3c41b0787f5708c1a3
+  checksum: 4f61ba5da980ee2056dfc330c456710c3c76982a50aeee25210cda3172da6974ec013ac82db0fb307546b6f070482d770fe499093409eb8a966e878447e377d5
   languageName: node
   linkType: hard
 
@@ -13088,9 +13089,9 @@ __metadata:
   languageName: node
   linkType: hard
 
-"react-query@npm:^3.38.0":
-  version: 3.38.0
-  resolution: "react-query@npm:3.38.0"
+"react-query@npm:^3.38.*":
+  version: 3.38.1
+  resolution: "react-query@npm:3.38.1"
   dependencies:
     "@babel/runtime": ^7.5.5
     broadcast-channel: ^3.4.1
@@ -13102,7 +13103,7 @@ __metadata:
       optional: true
     react-native:
       optional: true
-  checksum: 9318952a3e09f1716edd7f934c6d78b8bb94d1b1cce2d6e8fe5b9298009394da0ef16c5ad57797561bb2bee894a9bce9ffeacdf9276466270e5ed232f5d5097f
+  checksum: 2edb95dbc0184aa1858e7a47161372c871d0077583e439cfce4473231f426a222990ad313ad1eaf6fca1025e502d006f4f92008b346a83900be148a7e3ededc2
   languageName: node
   linkType: hard
 
@@ -15718,12 +15719,12 @@ __metadata:
   languageName: node
   linkType: hard
 
-"use-debounce@npm:^7.0.1":
-  version: 7.0.1
-  resolution: "use-debounce@npm:7.0.1"
+"use-debounce@npm:^8.0.0":
+  version: 8.0.0
+  resolution: "use-debounce@npm:8.0.0"
   peerDependencies:
     react: ">=16.8.0"
-  checksum: c5c1c34ccef6c11fe25fecef983a07f5a7260fce77b58f0f648f6ae08693a22a9077b5362b96154896e9ea756e6aaea303eb44550a293456cecb6f15cf87d73b
+  checksum: 754dde0a9948ce48f083c0d6504b02186b8a6e11480f4eeb20b2154db5616d0f0fec1d541bbe593bf0f59b009b5bf56d433ec655021bad37fc6211aba1301a10
   languageName: node
   linkType: hard
 
@@ -15734,12 +15735,12 @@ __metadata:
   languageName: node
   linkType: hard
 
-"usehooks-ts@npm:^2.5.1":
-  version: 2.5.1
-  resolution: "usehooks-ts@npm:2.5.1"
+"usehooks-ts@npm:^2.5.2":
+  version: 2.5.2
+  resolution: "usehooks-ts@npm:2.5.2"
   peerDependencies:
     react: ">=16.8.0"
-  checksum: ed68dad0fab3982482c9072c058f69244a75552e5368e6ceb1e98083c643727fe639463dfc99da61e48e0dd68519a37acbc83f277b103e231c282c46b229ed1d
+  checksum: f9109c65b7c07f07c044156cef1fd7f35e441c5e6d999ef5df4c8d7ac9d972c5d1d1daec89beb9468b026891ffab83eabc81d0a2e36763690c47adc4883f7895
   languageName: node
   linkType: hard
 
@@ -16443,6 +16444,13 @@ __metadata:
   version: 6.2.0
   resolution: "workerpool@npm:6.2.0"
   checksum: 3493b4f0ef979a23d2c1583d7ef85f62fc9463cc02f82829d3e7e663b517f8ae9707da0249b382e46ac58986deb0ca2232ee1081713741211bda9254b429c9bb
+  languageName: node
+  linkType: hard
+
+"workerpool@npm:6.2.1":
+  version: 6.2.1
+  resolution: "workerpool@npm:6.2.1"
+  checksum: c2c6eebbc5225f10f758d599a5c016fa04798bcc44e4c1dffb34050cd361d7be2e97891aa44419e7afe647b1f767b1dc0b85a5e046c409d890163f655028b09d
   languageName: node
   linkType: hard
 

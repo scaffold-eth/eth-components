@@ -15,7 +15,18 @@ import { Address, Balance, Wallet } from '.';
 export interface IAccountProps {
   ensProvider: StaticJsonRpcProvider | undefined;
   localProvider?: StaticJsonRpcProvider | undefined;
+  /**
+   * This is funciton will be called to create a web3 connector.  This conector is used when login button is clicked inorder to invoke the ethers.openModal (web3 react modal) with that connector.
+   */
   createLoginConnector?: TCreateEthersModalConnector;
+  /**
+   * A callback to invoke when login fails
+   */
+  loginOnError?: (error: Error) => void;
+  /**
+   * A callback to invoke when logout succeeds
+   */
+  logoutOnSuccess?: () => void;
   address?: string;
   /**
    * if hasContextConnect is true, it will not use this variable
@@ -88,7 +99,7 @@ export const Account: FC<IAccountProps> = (props: IAccountProps) => {
         invariant.log('openModal: no longer mounted');
       } else if (connector) {
         setConnecting(true);
-        ethersContext.openModal(connector);
+        ethersContext.openModal(connector, props.loginOnError);
       } else {
         invariant.warn('openModal: A valid EthersModalConnector was not provided');
       }
@@ -119,7 +130,7 @@ export const Account: FC<IAccountProps> = (props: IAccountProps) => {
           style={{ verticalAlign: 'top', marginLeft: 8, marginTop: 4 }}
           shape="round"
           size="large"
-          onClick={ethersContext.disconnectModal}>
+          onClick={(): void => ethersContext.disconnectModal(props.logoutOnSuccess)}>
           logout
         </Button>
       )}
