@@ -29,7 +29,7 @@ export const FunctionForm: FC<IFunctionForm> = (props) => {
   const [txValue, setTxValue] = useState<string>('');
   const [returnValue, setReturnValue] = useState<string | ReactElement | number | undefined>();
 
-  const ethersContext = useEthersAppContext();
+  const ethersAppContext = useEthersAppContext();
   const ethComponentsSettings = useContext(EthComponentsSettingsContext);
 
   const inputs = props.functionFragment.inputs.map((input, inputIndex) => {
@@ -211,8 +211,8 @@ export const FunctionForm: FC<IFunctionForm> = (props) => {
       // overrides.gasLimit = hexlify(1200000);
 
       // console.log("Running with extras",extras)
-      const tx = transactor(ethComponentsSettings, ethersContext.signer, props.gasPrice);
-      if (tx && ethersContext?.chainId != null) {
+      const tx = transactor(ethComponentsSettings, ethersAppContext.signer, props.gasPrice);
+      if (tx && ethersAppContext?.chainId != null) {
         const returned = await tx(props.contractFunction(...args, overrides));
         contractReturnValue = tryToDisplay(returned);
       }

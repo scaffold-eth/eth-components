@@ -60,8 +60,8 @@ export interface IAccountProps {
  */
 export const Account: FC<IAccountProps> = (props: IAccountProps) => {
   const blockNumber = useBlockNumberContext();
-  const ethersContext = useEthersAppContext();
-  const showLoadModal = !ethersContext.active;
+  const ethersAppContext = useEthersAppContext();
+  const showLoadModal = !ethersAppContext.active;
   const [connecting, setConnecting] = useState(false);
 
   const isMounted = useIsMounted();
@@ -77,7 +77,7 @@ export const Account: FC<IAccountProps> = (props: IAccountProps) => {
   const address = props.address ?? signerAddress;
   // if hasContextConnect = false, do not use context or context connect/login/logout.  only used passed in address
   const [resolvedAddress] = useDebounce<string | undefined>(
-    props.hasContextConnect ? ethersContext.account : address,
+    props.hasContextConnect ? ethersAppContext.account : address,
     200,
     {
       trailing: true,
@@ -85,7 +85,7 @@ export const Account: FC<IAccountProps> = (props: IAccountProps) => {
   );
 
   const [resolvedSigner] = useDebounce<Signer | undefined>(
-    props.hasContextConnect ? ethersContext.signer : props.signer,
+    props.hasContextConnect ? ethersAppContext.signer : props.signer,
     200,
     {
       trailing: true,
@@ -99,7 +99,7 @@ export const Account: FC<IAccountProps> = (props: IAccountProps) => {
         invariant.log('openModal: no longer mounted');
       } else if (connector) {
         setConnecting(true);
-        ethersContext.openModal(connector, props.loginOnError);
+        ethersAppContext.openModal(connector, props.loginOnError);
       } else {
         invariant.warn('openModal: A valid EthersModalConnector was not provided');
       }
@@ -130,7 +130,7 @@ export const Account: FC<IAccountProps> = (props: IAccountProps) => {
           style={{ verticalAlign: 'top', marginLeft: 8, marginTop: 4 }}
           shape="round"
           size="large"
-          onClick={(): void => ethersContext.disconnectModal(props.logoutOnSuccess)}>
+          onClick={(): void => ethersAppContext.disconnectModal(props.logoutOnSuccess)}>
           logout
         </Button>
       )}

@@ -30,13 +30,13 @@ interface IGenericContract<GContract extends BaseContract> {
 export const GenericContract = <GContract extends BaseContract>(
   props: PropsWithChildren<IGenericContract<GContract>>
 ): ReturnType<FC<IGenericContract<GContract>>> => {
-  const ethersContext = useEthersAppContext();
+  const ethersAppContext = useEthersAppContext();
   const [contractIsDeployed, updateContractIsDeployed] = useContractExistsAtAddress(props.contract);
   const [refreshRequired, setTriggerRefresh] = useState(false);
 
   useEffect(() => {
     updateContractIsDeployed();
-  }, [ethersContext.chainId, props.mainnetAdaptor?.chainId, ethersContext.signer, updateContractIsDeployed]);
+  }, [ethersAppContext.chainId, props.mainnetAdaptor?.chainId, ethersAppContext.signer, updateContractIsDeployed]);
 
   const displayedContractFunctions = props.contract
     ? Object.values(props.contract.interface.functions).filter(
@@ -47,9 +47,9 @@ export const GenericContract = <GContract extends BaseContract>(
   const contractDisplay = displayedContractFunctions.map((fn, index) => {
     // eslint-disable-next-line @typescript-eslint/no-unsafe-assignment
     const contractFunc: ContractFunction<any> =
-      fn.stateMutability === 'view' || fn.stateMutability === 'pure' || ethersContext.signer == null
+      fn.stateMutability === 'view' || fn.stateMutability === 'pure' || ethersAppContext.signer == null
         ? props.contract?.functions[fn.name]
-        : props.contract?.connect(ethersContext.signer)?.[fn.name];
+        : props.contract?.connect(ethersAppContext.signer)?.[fn.name];
 
     if (typeof contractFunc === 'function') {
       if (isQueryable(fn)) {
@@ -83,7 +83,7 @@ export const GenericContract = <GContract extends BaseContract>(
 
   const isLoadingContract = props.contract != null && props.contract?.provider == null;
 
-  const readonlyText = ethersContext.signer == null ? '  [Read-only]' : '';
+  const readonlyText = ethersAppContext.signer == null ? '  [Read-only]' : '';
 
   return (
     <div style={{ margin: 'auto', width: '70vw' }}>
@@ -113,7 +113,7 @@ export const GenericContract = <GContract extends BaseContract>(
         {contractIsDeployed ? (
           contractDisplay
         ) : (
-          <NoContractDisplay showLoading={ethersContext.signer == null || props.contract?.provider == null} />
+          <NoContractDisplay showLoading={ethersAppContext.signer == null || props.contract?.provider == null} />
         )}
       </Card>
     </div>

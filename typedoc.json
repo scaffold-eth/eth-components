@@ -1,6 +1,6 @@
 {
   "defaultCategory": "Misc",
-  "categoryOrder": ["Hooks", "EthersContext", "Helpers", "Models", "*"],
+  "categoryOrder": ["Hooks", "EthersAppContext", "Helpers", "Models", "*"],
   "categorizeByGroup": true,
   "cleanOutputDir": true,
   "readme": "none",
