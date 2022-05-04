@@ -1,6 +1,6 @@
 import { Card, Typography } from 'antd';
 import { useContractExistsAtAddress } from 'eth-hooks';
-import { useEthersContext } from 'eth-hooks/context';
+import { useEthersAppContext } from 'eth-hooks/context';
 import { TEthersAdaptor } from 'eth-hooks/models';
 import { BaseContract, ContractFunction } from 'ethers';
 import { FunctionFragment } from 'ethers/lib/utils';
@@ -30,7 +30,7 @@ interface IGenericContract<GContract extends BaseContract> {
 export const GenericContract = <GContract extends BaseContract>(
   props: PropsWithChildren<IGenericContract<GContract>>
 ): ReturnType<FC<IGenericContract<GContract>>> => {
-  const ethersContext = useEthersContext();
+  const ethersContext = useEthersAppContext();
   const [contractIsDeployed, updateContractIsDeployed] = useContractExistsAtAddress(props.contract);
   const [refreshRequired, setTriggerRefresh] = useState(false);
 

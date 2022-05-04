@@ -1,7 +1,7 @@
 import { StaticJsonRpcProvider } from '@ethersproject/providers';
 import { Button } from 'antd';
 import { useSignerAddress } from 'eth-hooks';
-import { useEthersContext, useBlockNumberContext } from 'eth-hooks/context';
+import { useEthersAppContext, useBlockNumberContext } from 'eth-hooks/context';
 import { TCreateEthersModalConnector } from 'eth-hooks/models';
 import { Signer } from 'ethers';
 import React, { FC, useState } from 'react';
@@ -60,7 +60,7 @@ export interface IAccountProps {
  */
 export const Account: FC<IAccountProps> = (props: IAccountProps) => {
   const blockNumber = useBlockNumberContext();
-  const ethersContext = useEthersContext();
+  const ethersContext = useEthersAppContext();
   const showLoadModal = !ethersContext.active;
   const [connecting, setConnecting] = useState(false);
 

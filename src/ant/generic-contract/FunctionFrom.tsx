@@ -1,7 +1,7 @@
 /* eslint @typescript-eslint/no-unsafe-argument: "warn" */
 import { BigNumber } from '@ethersproject/bignumber';
 import { Button, Col, Divider, Input, Row, Tooltip } from 'antd';
-import { useEthersContext } from 'eth-hooks/context';
+import { useEthersAppContext } from 'eth-hooks/context';
 import { ContractFunction, utils } from 'ethers';
 import { FunctionFragment } from 'ethers/lib/utils';
 import React, { Dispatch, ReactElement, SetStateAction, useState, FC, useContext } from 'react';
@@ -29,7 +29,7 @@ export const FunctionForm: FC<IFunctionForm> = (props) => {
   const [txValue, setTxValue] = useState<string>('');
   const [returnValue, setReturnValue] = useState<string | ReactElement | number | undefined>();
 
-  const ethersContext = useEthersContext();
+  const ethersContext = useEthersAppContext();
   const ethComponentsSettings = useContext(EthComponentsSettingsContext);
 
   const inputs = props.functionFragment.inputs.map((input, inputIndex) => {
