@@ -192,7 +192,7 @@ export const transactor = (
         return result;
       } catch (e: any) {
         const err = e as TRawTxError;
-        invariant.log(!DEBUG, err.message ?? '');
+        invariant.log(err.message ?? '');
 
         const msgTitle = err.reason ?? 'Transaction Error';
 
