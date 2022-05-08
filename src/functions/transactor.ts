@@ -6,6 +6,7 @@ import { parseProviderOrSigner } from 'eth-hooks/functions';
 import { TEthersSigner } from 'eth-hooks/models';
 import { BigNumber, ContractTransaction, ethers } from 'ethers';
 import { Deferrable } from 'ethers/lib/utils';
+import { invariant } from 'ts-invariant';
 
 import { checkBlocknativeAppId, IEthComponentsSettings } from '~~/models/EthComponentsSettings';
 
@@ -26,6 +27,12 @@ export type TRawTxError = Error & {
   data?: {
     message?: string;
   };
+  body?: string;
+  code?: string;
+  reason?: string;
+  transaction?: TransactionRequest;
+  transactionHash?: string;
+  error: Error;
 };
 
 export type TTransactorFunc = (
@@ -184,21 +191,22 @@ export const transactor = (
 
         return result;
       } catch (e: any) {
-        if (DEBUG) console.log(e);
-
         const err = e as TRawTxError;
+        invariant.log(!DEBUG, err.message ?? '');
 
-        const errorContent = err.data ? err.data.message ?? err.message : err.message;
+        const msgTitle = err.reason ?? 'Transaction Error';
 
-        const extractedReason = new RegExp(/reverted with reason string \'(.*?)\'/).exec(errorContent);
+        const msgDescriptionContent = err?.data?.message ?? err.error.message ?? err.message;
 
         let notificationMessage: NotificationMessage = {
-          message: 'Transaction Error',
-          description: err.message,
+          message: msgTitle,
+          description: msgDescriptionContent,
         };
 
-        if (extractedReason && extractedReason.length > 0) {
-          notificationMessage.description = extractedReason[1];
+        const revertedWithReason = new RegExp(/reverted with reason string \'(.*?)\'/).exec(msgDescriptionContent);
+
+        if (revertedWithReason && revertedWithReason.length > 0) {
+          notificationMessage.description = revertedWithReason[1];
         }
 
         if (filterErrorMessage) {
@@ -206,6 +214,9 @@ export const transactor = (
         }
 
         notification.error(notificationMessage);
+        if (err.transaction && err.transactionHash) {
+          invariant.log('Transaction Error', err.transaction, err.transactionHash);
+        }
 
         if (throwOnError)
           throw new TransactorError({ message: notificationMessage.description?.toString(), rawError: err });
