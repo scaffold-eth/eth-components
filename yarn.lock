@@ -6504,7 +6504,7 @@ __metadata:
     eslint-plugin-react-hooks: ^4.5.0
     eslint-plugin-testing-library: ^5.3.1
     eslint-plugin-unused-imports: ^2.0.0
-    eth-hooks: ^4.2.21
+    eth-hooks: ^4.2.22
     ethereum-waffle: ^3.4.4
     ethers: ^5.6.4
     global-jsdom: ^8.4.0
@@ -6583,9 +6583,9 @@ __metadata:
   languageName: node
   linkType: hard
 
-"eth-hooks@npm:^4.2.21":
-  version: 4.2.21
-  resolution: "eth-hooks@npm:4.2.21"
+"eth-hooks@npm:^4.2.22":
+  version: 4.2.22
+  resolution: "eth-hooks@npm:4.2.22"
   dependencies:
     "@ethersproject/abi": ^5.6.1
     "@ethersproject/abstract-provider": ^5.6.0
@@ -6614,7 +6614,7 @@ __metadata:
     "@uniswap/sdk": ^3
     react: ">=17"
     react-dom: ">=17"
-  checksum: 5815a768ec5a590f12f8d16fcfaaefe82ff64b64fbaa4be69cd84ac084187adea8dad6ce18e031ba5e3bd7e3f3a006ff6c9973c86b9bbb4a1488083df7223360
+  checksum: fbede387cd7d96c17b815998cfc930cb6ca2e42e1c223b09c8810bf3c674e8c982c0c2d2763cf7f3da54a08a1383edb9372070244faa5234a9fd003f6b291e65
   languageName: node
   linkType: hard
 
