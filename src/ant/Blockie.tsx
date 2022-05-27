@@ -1,6 +1,5 @@
 import React, { FC } from 'react';
-
-import { Blockies } from '~~/helpers/esm-fixtures';
+import Blockies from 'react-blockies';
 
 // provides a blockie image for the address using "react-blockies" library
 

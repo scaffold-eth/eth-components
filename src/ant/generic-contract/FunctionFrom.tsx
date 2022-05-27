@@ -5,7 +5,7 @@ import { useEthersAppContext } from 'eth-hooks/context';
 import { ContractFunction, utils } from 'ethers';
 import { FunctionFragment } from 'ethers/lib/utils';
 import React, { Dispatch, ReactElement, SetStateAction, useState, FC, useContext } from 'react';
-import { Identicon as Blockies } from 'react-blockies';
+import Blockies from 'react-blockies';
 
 import { tryToDisplay } from './displayUtils';
 

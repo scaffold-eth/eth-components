@@ -5,7 +5,7 @@ import { useResolveEnsAddress } from 'eth-hooks/dapps';
 import { TEthersAdaptor } from 'eth-hooks/models';
 import { ethers } from 'ethers';
 import React, { FC, useCallback, useContext, useState } from 'react';
-import { Identicon as Blockies } from 'react-blockies';
+import Blockies from 'react-blockies';
 
 import { Wallet } from '.';
 
