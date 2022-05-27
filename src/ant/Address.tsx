@@ -1,10 +1,10 @@
+import './Address.css';
 import { StaticJsonRpcProvider } from '@ethersproject/providers';
 import { Skeleton, Typography } from 'antd';
 import { useResolveEnsName } from 'eth-hooks/dapps';
 import React, { FC } from 'react';
-import Blockies from 'react-blockies';
+import { Identicon as Blockies } from 'react-blockies';
 import { useThemeSwitcher } from 'react-css-theme-switcher';
-import './Address.css';
 
 import { PunkBlockie } from '.';
 

@@ -1,6 +1,6 @@
 {
   "compilerOptions": {
-    "target": "es2017",
+    "target": "esnext",
     "module": "esNext",
     "outDir": "lib",
     "lib": ["DOM", "DOM.Iterable", "ESNext"],
@@ -16,7 +16,7 @@
     "forceConsistentCasingInFileNames": true,
     "allowSyntheticDefaultImports": true,
     "downlevelIteration": true,
-    "esModuleInterop": true,
+    "esModuleInterop": false,
     "isolatedModules": true,
     "noImplicitAny": true,
     "skipLibCheck": true,
