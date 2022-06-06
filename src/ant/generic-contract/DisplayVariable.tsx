@@ -2,8 +2,8 @@ import { Col, Divider, Row } from 'antd';
 import { ContractFunction } from 'ethers';
 import { FunctionFragment } from 'ethers/lib/utils';
 import React, { FC, SetStateAction, useCallback, useEffect, useState, Dispatch } from 'react';
-import { useIsMounted } from 'test-usehooks-ts';
 import { invariant } from 'ts-invariant';
+import { useIsMounted } from 'usehooks-ts';
 
 import { tryToDisplay } from './displayUtils';
 
