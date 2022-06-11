@@ -1,12 +1,11 @@
 import React, { FC } from 'react';
 
-import { Blockies } from '~~/helpers/esm-fixtures';
+import { Identicon, IdenticonProps } from '~~/helpers/esm-fixtures/Identicon.cjs';
 
 // provides a blockie image for the address using "react-blockies" library
 
-interface IBlockieProps {
+interface IBlockieProps extends Omit<IdenticonProps, 'seed'> {
   address: string;
-  scale: number;
 }
 
 /**
@@ -18,6 +17,6 @@ export const Blockie: FC<IBlockieProps> = (props) => {
   if (!props.address || typeof props.address.toLowerCase !== 'function') {
     return <span />;
   }
-
-  return <Blockies seed={props.address.toLowerCase()} {...props} />;
+  const { address, ...rest } = props;
+  return <Identicon seed={address} {...rest} />;
 };

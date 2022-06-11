@@ -3,4 +3,5 @@
 import { FC } from 'react';
 import * as cjs from 'react-blockies';
 
-export const Blockies: FC<cjs.IdenticonProps> = (cjs.default as any)?.default ?? cjs.default;
+export const Identicon: FC<cjs.IdenticonProps> = (cjs.default as any)?.default ?? cjs.default;
+export type IdenticonProps = cjs.IdenticonProps;

@@ -3,10 +3,9 @@ import { StaticJsonRpcProvider } from '@ethersproject/providers';
 import { Skeleton, Typography } from 'antd';
 import { useResolveEnsName } from 'eth-hooks/dapps';
 import React, { FC } from 'react';
-import { Identicon as Blockies } from 'react-blockies';
 import { useThemeSwitcher } from 'react-css-theme-switcher';
 
-import { PunkBlockie } from '.';
+import { Blockie, PunkBlockie } from '.';
 
 // changed value={address} to address={address}
 
@@ -131,7 +130,7 @@ export const Address: FC<IAddressProps> = ({ minimized = false, punkBlockie = fa
   } else {
     return (
       <span className="Address" style={{ display: 'inline-flex', alignItems: 'center' }}>
-        <Blockies seed={address.toLowerCase()} size={8} scale={props.fontSize ? props.fontSize / 7 : 4} />
+        <Blockie address={address.toLowerCase()} size={8} scale={props.fontSize ? props.fontSize / 7 : 4} />
         <span
           style={{
             display: 'inline-flex',

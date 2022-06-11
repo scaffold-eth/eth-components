@@ -1,1 +1,1 @@
-export * from './Blockie.cjs';
+export * from './Identicon.cjs';

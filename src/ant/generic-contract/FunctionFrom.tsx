@@ -5,10 +5,10 @@ import { useEthersAppContext } from 'eth-hooks/context';
 import { ContractFunction, utils } from 'ethers';
 import { FunctionFragment } from 'ethers/lib/utils';
 import React, { Dispatch, ReactElement, SetStateAction, useState, FC, useContext } from 'react';
-import { Identicon as Blockies } from 'react-blockies';
 
 import { tryToDisplay } from './displayUtils';
 
+import { Blockie } from '~~/ant/Blockie';
 import { transactor } from '~~/functions';
 import { EthComponentsSettingsContext } from '~~/models';
 
@@ -97,7 +97,7 @@ export const FunctionForm: FC<IFunctionForm> = (props) => {
       if (possibleAddress && possibleAddress.length === 42) {
         buttons = (
           <Tooltip placement="right" title="blockie">
-            <Blockies seed={possibleAddress} scale={3} />
+            <Blockie address={possibleAddress} scale={3} />
           </Tooltip>
         );
       }
