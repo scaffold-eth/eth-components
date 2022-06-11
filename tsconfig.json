@@ -1,6 +1,6 @@
 {
   "compilerOptions": {
-    "target": "es2017",
+    "target": "esnext",
     "module": "esNext",
     "outDir": "lib",
     "lib": ["DOM", "DOM.Iterable", "ESNext"],
@@ -31,8 +31,7 @@
       "~~/*": ["./src/*"]
     }
   },
-  "include": ["src", "test"],
-  "files": ["hardhat.config.ts"],
+  "include": ["src", "test", "hardhat.config.ts", "tsup.config.ts"],
   "exclude": [
     "lib/**/*",
     "node_modules",

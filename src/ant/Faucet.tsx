@@ -5,9 +5,8 @@ import { useResolveEnsAddress } from 'eth-hooks/dapps';
 import { TEthersAdaptor } from 'eth-hooks/models';
 import { ethers } from 'ethers';
 import React, { FC, useCallback, useContext, useState } from 'react';
-import Blockies from 'react-blockies';
 
-import { Wallet } from '.';
+import { Blockie, Wallet } from '.';
 
 import { transactor } from '~~/functions';
 import { EthComponentsSettingsContext } from '~~/models';
@@ -44,7 +43,7 @@ export const Faucet: FC<IFaucetProps> = (props) => {
 
   let blockie;
   if (props.faucetAddress && typeof props.faucetAddress.toLowerCase === 'function') {
-    blockie = <Blockies seed={props.faucetAddress.toLowerCase()} size={8} scale={4} />;
+    blockie = <Blockie address={props.faucetAddress.toLowerCase()} size={8} scale={4} />;
   } else {
     blockie = <div />;
   }
