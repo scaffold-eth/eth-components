@@ -1,1 +1,1 @@
-export * from './Identicon.cjs';
+export * from './Identicon';

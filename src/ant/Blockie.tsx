@@ -1,6 +1,6 @@
 import React, { FC } from 'react';
 
-import { Identicon, IdenticonProps } from '~~/helpers/esm-fixtures/Identicon.cjs';
+import { Identicon, IdenticonProps } from '~~/helpers/esm-fixtures/Identicon';
 
 // provides a blockie image for the address using "react-blockies" library
 
