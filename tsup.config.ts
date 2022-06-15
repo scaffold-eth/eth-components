@@ -17,6 +17,7 @@ export default defineConfig({
   minifySyntax: false,
   minifyIdentifiers: false,
   platform: 'browser',
+  legacyOutput: true,
   target: ['node16', 'esnext'],
   format: ['cjs', 'esm'],
   inject: ['esbuild.shim.js'],
