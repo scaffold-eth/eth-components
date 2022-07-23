@@ -1,7 +1,7 @@
 import { formatEther } from '@ethersproject/units';
 import { useBalance } from 'eth-hooks';
 import { BigNumber } from 'ethers';
-import React, { FC, useState } from 'react';
+import React, { FC, useEffect, useState } from 'react';
 import './Balance.css';
 
 interface IBalanceProps {
@@ -29,23 +29,27 @@ interface IBalanceProps {
 export const Balance: FC<IBalanceProps> = (props) => {
   const [dollarMode, setDollarMode] = useState(true);
   const [balance] = useBalance(props.address);
+  const [value, setValue] = useState('');
 
-  let resolvedBalance = BigNumber.from(balance ?? 0);
-  if (props.balance != null) {
-    resolvedBalance = BigNumber.from(props.balance);
-  }
+  useEffect(() => {
+    let resolvedBalance = BigNumber.from(balance ?? 0);
+    if (props.balance != null) {
+      resolvedBalance = BigNumber.from(props.balance);
+    }
 
-  let floatBalance = parseFloat('0.00');
-  if (resolvedBalance) {
-    const etherBalance = formatEther(resolvedBalance);
-    floatBalance = parseFloat(etherBalance);
-  }
+    let floatBalance = parseFloat('0.00');
+    if (resolvedBalance) {
+      const etherBalance = formatEther(resolvedBalance);
+      floatBalance = parseFloat(etherBalance);
+    }
 
-  let display = floatBalance.toFixed(4);
-  const price = props.price ?? props.dollarMultiplier;
-  if (price && dollarMode) {
-    display = '$' + (floatBalance * price).toFixed(2);
-  }
+    let display = floatBalance.toFixed(4);
+    const price = props.price ?? props.dollarMultiplier;
+    if (price && dollarMode) {
+      display = '$' + (floatBalance * price).toFixed(2);
+    }
+    setValue(display);
+  }, [balance, dollarMode, props.balance, props.dollarMultiplier, props.price]);
 
   return (
     <span
@@ -59,7 +63,7 @@ export const Balance: FC<IBalanceProps> = (props) => {
       onClick={(): void => {
         setDollarMode(!dollarMode);
       }}>
-      {display}
+      {value}
     </span>
   );
 };
