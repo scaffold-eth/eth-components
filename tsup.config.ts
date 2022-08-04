@@ -23,4 +23,5 @@ export default defineConfig({
   inject: ['esbuild.shim.js'],
   skipNodeModulesBundle: true,
   tsconfig: 'tsconfig.build.json',
+  treeshake: true,
 });
