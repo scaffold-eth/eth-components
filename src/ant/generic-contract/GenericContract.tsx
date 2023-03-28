@@ -6,13 +6,14 @@ import { BaseContract, ContractFunction } from 'ethers';
 import { FunctionFragment } from 'ethers/lib/utils';
 import React, { FC, PropsWithChildren, ReactElement, useEffect, useState } from 'react';
 
-import { DisplayVariable } from './DisplayVariable';
-import { FunctionForm } from './FunctionFrom';
-import { NoContractDisplay } from './NoContractDisplay';
+import { DisplayVariable } from '~~/ant/generic-contract';
+import { FunctionForm } from '~~/ant/generic-contract';
+import { NoContractDisplay } from '~~/ant/generic-contract';
 
 const { Text } = Typography;
 
 import { Account } from '~~/ant';
+
 const isQueryable = (fn: FunctionFragment): boolean =>
   (fn.stateMutability === 'view' || fn.stateMutability === 'pure') && fn.inputs.length === 0;
 

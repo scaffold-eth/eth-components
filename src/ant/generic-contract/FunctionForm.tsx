@@ -178,7 +178,7 @@ export const FunctionForm: FC<IFunctionForm> = (props) => {
     const args = props.functionFragment.inputs.map((input, inputIndex) => {
       const key = getFunctionInputKey(props.functionFragment, input, inputIndex);
       let value = form[key];
-      if (input.baseType === 'array') {
+      if (input.baseType === 'array' || input.baseType === 'tuple') {
         value = JSON.parse(value);
       } else if (input.type === 'bool') {
         if (value === 'true' || value === '1' || value === '0x1' || value === '0x01' || value === '0x0001') {
