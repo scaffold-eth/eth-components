@@ -6,9 +6,7 @@ import { BaseContract, ContractFunction } from 'ethers';
 import { FunctionFragment } from 'ethers/lib/utils';
 import React, { FC, PropsWithChildren, ReactElement, useEffect, useState } from 'react';
 
-import { DisplayVariable } from '~~/ant/generic-contract';
-import { FunctionForm } from '~~/ant/generic-contract';
-import { NoContractDisplay } from '~~/ant/generic-contract';
+import { DisplayVariable, FunctionForm, NoContractDisplay } from '~~/ant/generic-contract';
 
 const { Text } = Typography;
 
