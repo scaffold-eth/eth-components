@@ -1,5 +1,5 @@
 export * from './DisplayVariable';
-export * from './FunctionFrom';
+export * from './FunctionForm';
 export * from './GenericContract';
 export * from './NoContractDisplay';
 export * from './displayUtils';

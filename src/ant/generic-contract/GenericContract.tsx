@@ -7,12 +7,13 @@ import { FunctionFragment } from 'ethers/lib/utils';
 import React, { FC, PropsWithChildren, ReactElement, useEffect, useState } from 'react';
 
 import { DisplayVariable } from './DisplayVariable';
-import { FunctionForm } from './FunctionFrom';
+import { FunctionForm } from './FunctionForm';
 import { NoContractDisplay } from './NoContractDisplay';
 
 const { Text } = Typography;
 
 import { Account } from '~~/ant';
+
 const isQueryable = (fn: FunctionFragment): boolean =>
   (fn.stateMutability === 'view' || fn.stateMutability === 'pure') && fn.inputs.length === 0;
 
